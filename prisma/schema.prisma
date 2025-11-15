@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AnswerLetter {
+  A
+  B
+  C
+  D
+}
+
+model Study {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  questions   Question[]
+}
+
+model Question {
+  id        Int      @id @default(autoincrement())
+  content   String
+  studyId   Int
+  answerId  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  study   Study    @relation(fields: [studyId], references: [id])
+  answer  Answer?  @relation(fields: [answerId], references: [id])
+  options Answer[] @relation("QuestionOptions")
+}
+
+model Answer {
+  id         Int          @id @default(autoincrement())
+  content    String
+  letter     AnswerLetter
+  questionId Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  question  Question   @relation("QuestionOptions", fields: [questionId], references: [id])
+  questions Question[]
+}
