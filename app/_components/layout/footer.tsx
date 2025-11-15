@@ -14,7 +14,7 @@ export const Footer = () => {
         </ul>
       </div>
       <Text as="p" className="text-center text-2xl font-bold text-white">
-        Copyright © Bom Diretor | All rights reserved
+        Copyright © ROTUNDÁSPREITA | All rights reserved
       </Text>
     </div>
   );
