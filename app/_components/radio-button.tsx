@@ -9,11 +9,13 @@ interface Props {
   children: ReactNode;
   onClick?: () => void;
   onDelete?: () => void;
+  className?: string;
 }
 
   selected,
   selectable,
   onDelete,
+  className,
 
   return (
     <Radio
@@ -27,7 +29,8 @@ interface Props {
         "bg-white select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
         selectable && "hover:bg-toggle-button-hover! cursor-pointer",
         selected &&
-          "bg-toggle-button-selected! hover:bg-toggle-button-hover-selected!"
+          "bg-toggle-button-selected! hover:bg-toggle-button-hover-selected!",
+        className && className
       )}
     >
       {children}
