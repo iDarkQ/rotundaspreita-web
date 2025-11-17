@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 
 interface Props {
-  as?: "p" | "h1" | "h2" | "h3" | "h4";
+  as?: "p" | "h1" | "h2" | "h3" | "h4" | "label" | "span";
   children: ReactNode;
   className?: string;
 }
@@ -10,6 +10,8 @@ interface Props {
 const baseHeading = "text-primary font-nunito font-[800]";
 const styles = {
   p: "text-neutral text-base paragraph",
+  label: "text-neutral text-base paragraph",
+  span: "text-neutral text-base paragraph",
 
   h1: clsx(
     `text-5xl ${baseHeading}`,
