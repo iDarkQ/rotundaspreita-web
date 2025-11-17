@@ -66,7 +66,7 @@ model DeviceSession {
 // }
 
 model Study {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(cuid())
   title       String
   description String
   createdAt   DateTime   @default(now())
@@ -75,7 +75,7 @@ model Study {
 }
 
 model Question {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   content   String
   studyId   Int
   answerId  Int?
@@ -88,7 +88,7 @@ model Question {
 }
 
 model Answer {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(cuid())
   content    String
   letter     AnswerLetter
   questionId Int
