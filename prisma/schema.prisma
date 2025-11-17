@@ -82,12 +82,13 @@ model Question {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  study   Study    @relation(fields: [studyId], references: [id])
-  answer  Answer?  @relation(fields: [answerId], references: [id])
-  options Answer[] @relation("QuestionOptions")
+  study         Study        @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  options       Option[]     @relation("QuestionOptions")
+
+  // testQuestions TestQuestion[]
 }
 
-model Answer {
+model Option {
   id         String       @id @default(cuid())
   content    String
   letter     OptionLetter
@@ -96,6 +97,7 @@ model Answer {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
-  question  Question   @relation("QuestionOptions", fields: [questionId], references: [id])
-  questions Question[]
+  question Question @relation("QuestionOptions", fields: [questionId], references: [id], onDelete: Cascade)
+
+  // testQuestions TestQuestion[]
 }
