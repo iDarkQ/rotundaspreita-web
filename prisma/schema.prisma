@@ -90,8 +90,9 @@ model Question {
 model Answer {
   id         String       @id @default(cuid())
   content    String
-  letter     AnswerLetter
-  questionId Int
+  letter     OptionLetter
+  answer     Boolean
+  questionId String
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
