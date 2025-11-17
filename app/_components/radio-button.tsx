@@ -1,7 +1,7 @@
 import { useRipple } from "@/app/_hooks/use-ripple";
-import { Radio } from "@headlessui/react";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ReactNode, RefObject } from "react";
+import { MdCheckCircle, MdDelete } from "react-icons/md";
 
 interface Props {
   selected?: boolean;
@@ -12,15 +12,19 @@ interface Props {
   className?: string;
 }
 
+export const RadioButton = ({
   selected,
   selectable,
+  children,
+  onClick,
   onDelete,
   className,
+}: Props) => {
+  const { ref, events, cancel } = useRipple(true, !selectable);
 
   return (
-    <Radio
-      ref={ref}
-      value={value}
+    <div
+      ref={ref as RefObject<HTMLDivElement | null>}
       onPointerDown={events}
       onPointerUp={events}
       onMouseLeave={() => cancel()}
