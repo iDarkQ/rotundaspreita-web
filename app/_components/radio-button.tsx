@@ -4,13 +4,15 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 
 interface Props {
-  value: string;
   selected?: boolean;
+  selectable: boolean;
   children: ReactNode;
   onClick?: () => void;
   onDelete?: () => void;
 }
 
+  selected,
+  selectable,
   onDelete,
 
   return (
@@ -22,13 +24,14 @@ interface Props {
       onMouseLeave={() => cancel()}
       onClick={onClick}
       className={clsx(
-        "bg-white cursor-pointer select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
-        "hover:bg-toggle-button-hover!",
+        "bg-white select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
+        selectable && "hover:bg-toggle-button-hover! cursor-pointer",
         selected &&
           "bg-toggle-button-selected! hover:bg-toggle-button-hover-selected!"
       )}
     >
       {children}
+      {selected && <MdCheckCircle size={20} className="text-primary" />}
       {onDelete && (
         <MdDelete
           size={20}
