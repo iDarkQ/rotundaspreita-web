@@ -77,8 +77,8 @@ model Study {
 model Question {
   id        String   @id @default(cuid())
   content   String
-  studyId   Int
-  answerId  Int?
+  category  String?
+  studyId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
