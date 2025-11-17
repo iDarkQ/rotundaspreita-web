@@ -8,10 +8,10 @@ interface Props {
   selected?: boolean;
   children: ReactNode;
   onClick?: () => void;
+  onDelete?: () => void;
 }
 
-export const RadioButton = ({ value, selected, children, onClick }: Props) => {
-  const { ref, events, cancel } = useRipple(true);
+  onDelete,
 
   return (
     <Radio
@@ -29,6 +29,16 @@ export const RadioButton = ({ value, selected, children, onClick }: Props) => {
       )}
     >
       {children}
-    </Radio>
+      {onDelete && (
+        <MdDelete
+          size={20}
+          className="text-red-400"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+        />
+      )}
+    </div>
   );
 };
