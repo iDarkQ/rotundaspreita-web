@@ -34,12 +34,9 @@ export const Button = ({
       onPointerUp={events}
       onMouseLeave={() => cancel()}
       className={clsx(
-        "min-h-(--btn-height) relative overflow-hidden rounded-sm px-3 py-1 cursor-pointer",
-        disabled && "bg-button-disabled!",
-        variant === "contained" && "bg-primary hover:bg-button-hover",
-        variant === "outlined" && "c-border bg-transparent border-primary",
-        "duration-200 transition-colors",
-        "select-none",
+        `button button-${variant}`,
+        disabled &&
+          "bg-button-disabled! border-button-disabled! cursor-not-allowed!",
         className && className
       )}
     >
