@@ -24,7 +24,7 @@ export const Button = ({
   variant = "contained",
   ...rest
 }: Props) => {
-  const { events, ref, cancel } = useRipple(true);
+  const { events, ref, cancel } = useRipple(true, disabled);
   return (
     <HeadlessUIButton
       {...rest}
