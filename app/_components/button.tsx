@@ -6,12 +6,14 @@ import { Button as HeadlessUIButton } from "@headlessui/react";
 import clsx from "clsx";
 import { HTMLAttributes, ReactNode } from "react";
 
+type ButtonVariant = "contained" | "outlined" | "text" | "warning";
+
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   className?: string;
   disabled?: boolean;
   as?: ReactTag;
-  variant?: "contained" | "outlined" | "text";
+  variant?: ButtonVariant;
 }
 
 export const Button = ({
