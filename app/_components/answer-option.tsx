@@ -17,17 +17,3 @@ export const AnswerOption = ({ option, label, onClick, selected }: Props) => (
     <Label className="text-base text-neutral flex-1">{label}</Label>
   </RadioButton>
 );
-
-/* 
-
-
-export const AnswerOption = ({ option, label, selected }: Props) => (
-  <Field className="flex items-center gap-2 c-border p-3">
-    <Text as="h2">{option}</Text>
-    <Divider orientation="vertical" />
-    <Label className="text-base text-neutral flex-1">{label}</Label>
-  </Field>
-);
-
-
-*/
