@@ -1,7 +1,9 @@
 import { Divider } from "@/app/_components/divider";
+import { Input } from "@/app/_components/input";
 import { RadioButton } from "@/app/_components/radio-button";
 import { Text } from "@/app/_components/text";
 import { Label } from "@headlessui/react";
+import clsx from "clsx";
 
 interface Props {
   option: string;
@@ -11,7 +13,9 @@ interface Props {
   onDelete?: () => void;
   onChange?: (text: string) => void;
   selected?: boolean;
+  selectable?: boolean;
   editable?: boolean;
+  state?: "correct" | "wrong";
 }
 
 export const AnswerOption = ({
@@ -21,8 +25,21 @@ export const AnswerOption = ({
   onClick,
   onDelete,
   onChange,
+  selected,
+  state,
   editable = false,
   selectable = true,
+}: Props) => (
+  <RadioButton
+    selected={selected}
+    selectable={selectable}
+    onClick={onClick}
+    onDelete={onDelete}
+    className={clsx(
+      state === "correct" && "bg-success-bg!",
+      state === "wrong" && "bg-error-bg!"
+    )}
+  >
     <Text as="h2">{option}</Text>
     <Divider orientation="vertical" />
     {editable ? (
