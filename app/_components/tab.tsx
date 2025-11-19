@@ -1,6 +1,10 @@
+"use client";
+
+import { Button } from "@/app/_components/button";
 import { Text } from "@/app/_components/text";
 import { Tab as HeadlessUITab } from "@headlessui/react";
 import clsx from "clsx";
+import { Fragment } from "react/jsx-runtime";
 
 interface Props {
   className?: string;
@@ -8,15 +12,19 @@ interface Props {
 }
 
 export const Tab = ({ className, label }: Props) => (
-  <HeadlessUITab
-    className={clsx(
-      "cursor-pointer group outline-0 shadow-lg bg-white h-(--btn-height) flex-1 c-border border-transparent transition-colors",
-      "data-selected:bg-primary",
-      className && className
+  <HeadlessUITab as={Fragment}>
+    {({ selected }) => (
+      <Button
+        variant={selected ? "contained" : "outlined"}
+        className={clsx(
+          "group outline-0 shadow-lg flex-1",
+          className && className
+        )}
+      >
+        <Text as="p" className="group-data-selected:text-white!">
+          {label}
+        </Text>
+      </Button>
     )}
-  >
-    <Text as="p" className="group-data-selected:text-white!">
-      {label}
-    </Text>
   </HeadlessUITab>
 );
