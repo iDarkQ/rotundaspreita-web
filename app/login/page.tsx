@@ -1,9 +1,25 @@
-import { Button } from "@/app/_components/button";
 import { Section } from "@/app/_components/section";
 import { Text } from "@/app/_components/text";
-import { FaGoogle } from "react-icons/fa";
+import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
+import { LoginButton } from "@/app/login/login-button";
+import { headers } from "next/headers";
+import { redirect, RedirectType } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for");
+  const agent = headersList.get("user-agent");
+
+  const user = await fetchLoggedUser();
+
+  if(user) {
+    redirect("/panel", RedirectType.push);
+  }
+  
+  if (!ip || !agent) {
+    redirect("/");
+  }
+
   return (
     <Section>
       <Text as="h1">Login</Text>
@@ -11,12 +27,7 @@ export default function Login() {
         Create / Login into your Bom Condutor account by clicking the button
         below
       </Text>
-      <Button className="gap-2 flex flex-row items-center justify-center">
-        <Text as="h4" className="text-white">
-          Authenticate with Google{" "}
-        </Text>
-        <FaGoogle className="text-white" size={20} />
-      </Button>
+      <LoginButton ip={ip} agent={agent} />
     </Section>
   );
 }
