@@ -27,22 +27,7 @@ export default function Panel() {
           </Text>
           <Text as="h1">Let&apos;s Practice!</Text>
         </div>
-        <div className="grid grid-cols-2 gap-5">
-          <Card className="gap-2">
-            <Text as="h2" className="font-normal!">
-              Start new 30-minute test
-            </Text>
-            <Text as="p">Choose a mode below</Text>
-            <PanelTabs />
-            <Link link="/test" className="w-full">
-              <Button variant="contained" className="w-full">
-                <Text as="p" className="text-white!">
-                  Start Test
-                </Text>
-              </Button>
-            </Link>
-          </Card>
-        </div>
+        <PageTestMenu />
       </div>
       <div className="grid grid-cols-4 gap-5 w-full">
         <StatisticsCard
