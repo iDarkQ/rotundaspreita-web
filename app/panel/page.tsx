@@ -1,8 +1,8 @@
-"use client";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-import { Button } from "@/app/_components/button";
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 import { Card } from "@/app/_components/card";
-import { Link } from "@/app/_components/link";
 import { Section } from "@/app/_components/section";
 import { StatisticsCard } from "@/app/_components/statistics-card";
 import { Blob1 } from "@/app/_components/svgs/blob-1";
@@ -31,38 +31,55 @@ export default async function Panel() {
       <div className="w-full flex flex-col items-start gap-5">
         <div>
           <Text as="p" className="text-primary!">
-            Welcome back, Łukasz
+            Bem-vindo de volta, {user.name}
           </Text>
-          <Text as="h1">Let&apos;s Practice!</Text>
+          <Text as="h1">Vamos praticar!</Text>
         </div>
         <PageTestMenu />
       </div>
       <div className="grid grid-cols-4 gap-5 w-full">
         <StatisticsCard
-          name="Tests Completed"
+          name="Testes concluídos"
           value="0"
           className="col-span-1"
         />
         <StatisticsCard
-          name="Questions Viewed"
+          name="Perguntas vistas"
           value="0"
           className="col-span-1"
         />
         <StatisticsCard
-          name="Correct Answers"
+          name="Respostas corretas"
           value="0"
           className="col-span-1 w-full"
         />
-        <StatisticsCard name="Wrong Answers" value="0" className="col-span-1" />
+        <StatisticsCard
+          name="Respostas erradas"
+          value="0"
+          className="col-span-1"
+        />
       </div>
       <div className="grid grid-cols-2 gap-5 w-full">
         <Card className="flex items-center justify-center col-span-1">
-          <Text>Chart Placeholder</Text>
+          <Text>Aqui vou adicionar um gráfico circular</Text>
         </Card>
-        <Card className="flex items-center justify-center col-span-1">
-          <Text>Chart Placeholder</Text>
-        </Card>
+        {/* <Card className="flex items-center justify-center col-span-1 h-100">
+          <Pie data={data}/>
+          <Text>Aqui vou adicionar um gráfico circular</Text>
+        </Card> */}
       </div>
     </Section>
   );
 }
+
+export const data = {
+  labels: ["Questions Seen", "Questions Not Answered"],
+  datasets: [
+    {
+      label: "# of Votes",
+      data: [12, 19],
+      backgroundColor: ["#e9c46a", "#dae7f1"],
+      borderWidth: 1,
+    },
+  ],
+};
