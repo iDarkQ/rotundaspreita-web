@@ -1,36 +1,42 @@
-import { AnswerOption } from "@/app/_components/answer-option";
-import { RadioGroup } from "@headlessui/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Section } from "@/app/_components/section";
+import { Blob1 } from "@/app/_components/svgs/blob-1";
+import { Blob4 } from "@/app/_components/svgs/blob-4";
+import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
+import { Text } from "@/app/_components/text";
+import { Divider } from "@/app/_components/divider";
+import { fetchAllStudies } from "@/services/study-service";
+import { QuestionsStudies } from "@/app/questions/[[...studyId]]/components/questions-studies";
+import { QuestionsManage } from "@/app/questions/[[...studyId]]/components/questions-manage";
 
 interface Props {
-  selected: number;
-  setSelected: Dispatch<SetStateAction<number>>;
+  params: Promise<{ studyId: string[] }>;
 }
 
-export const TestOptions = ({ selected, setSelected }: Props) => {
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+export default async function Test({ params }: Props) {
+  const loadedParams = await params;
+  const studyId = loadedParams.studyId?.[0];
+  const studies = await fetchAllStudies();
+
+  const foundStudy = studies.find((s) => s.id === studyId);
+  const selectedStudy = foundStudy ?? studies?.[0] ?? null;
 
   return (
-    <RadioGroup className="flex flex-col gap-2">
-      {data[selected - 1].options.map((option) => (
-        <AnswerOption
-          key={option.option}
-          option={option.option}
-          label={option.label}
-          selected={
-            answers[selected] ? answers[selected] === option.option : false
-          }
-          onClick={() => {
-            if (selected < data.length && !answers[selected]) {
-              setSelected((prev) => prev + 1);
-            }
-            setAnswers((prev) => ({ ...prev, [selected]: option.option }));
-          }}
-        />
-      ))}
-    </RadioGroup>
+    <Section>
+      <PositionedBlob align="left" className="w-100 h-100 top-[90%]">
+        <Blob1 />
+      </PositionedBlob>
+      <PositionedBlob align="right" className="w-100 h-100 top-[10%]">
+        <Blob4 />
+      </PositionedBlob>
+
+      <Text as="h1">Todas as perguntas existentes</Text>
+
+      <QuestionsStudies studies={studies} selectedStudy={selectedStudy} />
+      <Divider orientation="horizontal" />
+      <QuestionsManage studyId={selectedStudy?.id} />
+    </Section>
   );
-};
+}
 
 export const data = [
   {
