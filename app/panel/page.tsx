@@ -9,9 +9,17 @@ import { Blob1 } from "@/app/_components/svgs/blob-1";
 import { Blob4 } from "@/app/_components/svgs/blob-4";
 import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
-import { PanelTabs } from "@/app/panel/panel-tabs";
+import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
+import { notFound } from "next/navigation";
+import { PageTestMenu } from "@/app/panel/page-test-menu";
 
-export default function Panel() {
+export default async function Panel() {
+  const user = await fetchLoggedUser();
+
+  if (!user) {
+    notFound();
+  }
+
   return (
     <Section>
       <PositionedBlob align="left" className="w-100 h-100 top-[90%]">
