@@ -1,0 +1,12 @@
+"use server";
+
+import { Prisma } from "@/app/generated/prisma/browser";
+import prisma from "@/lib/prisma";
+
+export const createUserQuery = async (data: Prisma.UserCreateInput) => {
+    return prisma.user.create({ data });
+}
+
+export const findUserQuery = async (where: Prisma.UserWhereUniqueInput) => {
+    return prisma.user.findUnique({ where });
+}
