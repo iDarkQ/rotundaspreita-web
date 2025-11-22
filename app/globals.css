@@ -9,19 +9,54 @@ body {
 }
 
 @theme inline {
-  --font-nunito: var(--font-nunito);
+  --font-nunito: var(--font-roboto);
 
-  --color-primary: #58A4B0;
-  --color-secondary: #A9BCD0;
+  /* tuscan-sun */
+  --color-tuscan-sun-50: #fcf6e9;
+  --color-tuscan-sun-100: #f8eed3;
+  --color-tuscan-sun-200: #f2dca6;
+  --color-tuscan-sun-300: #ebcb7a;
+  --color-tuscan-sun-400: #e4ba4e;
+  --color-tuscan-sun-500: #dea821;
+  --color-tuscan-sun-600: #b1871b;
+  --color-tuscan-sun-700: #856514;
+  --color-tuscan-sun-800: #59430d;
+  --color-tuscan-sun-900: #2c2207;
+  --color-tuscan-sun-950: #1f1805;
+
+  /* Baltic Blue Color */
+  --color-baltic-blue-50: #edf3f8;
+  --color-baltic-blue-100: #dae7f1;
+  --color-baltic-blue-200: #b6cfe2;
+  --color-baltic-blue-300: #91b7d4;
+  --color-baltic-blue-400: #6c9fc6;
+  --color-baltic-blue-500: #4787b8;
+  --color-baltic-blue-600: #326082;
+  --color-baltic-blue-700: #2b516e;
+  --color-baltic-blue-800: #1d3649;
+  --color-baltic-blue-900: #0e1b25;
+  --color-baltic-blue-950: #0a131a;
+
+  /* Primary, secondary, etc. */
+  --color-primary: var(--color-baltic-blue-600);
+  --color-secondary: #e9c46a;
   --color-background: #f9fafb;
   --color-on-surface: #D8DBE2;
   --color-neutral: rgba(0, 0, 0, 0.54);
   --color-border: rgba(0, 0, 0, 0.12);
+  --color-success: rgb(88, 191, 107);
+  --color-success-bg: rgba(88, 191, 107, 0.15);
+  --color-error: rgb(188, 81, 70);
+  --color-error-bg: rgba(188, 81, 70, 0.15);
 
   /* --color-button-text: rgba(0, 0, 0, 0.04); */
   --color-tab-background: #f3f4f6;
 
-  --color-button-hover: rgb(61, 114, 123);
+  --color-input-focus-visible: var(--color-baltic-blue-400);
+  --color-input: var(--color-baltic-blue-300);
+
+  --color-button-outlined-hover: #F2F2F2;
+  --color-button-hover: var(--color-baltic-blue-700);
   --color-button-disabled: rgba(0, 0, 0, 0.12);
 
   --color-pagination-item-border: rgba(0, 0, 0, 0.23);
@@ -73,6 +108,7 @@ body {
   --spacing-lg: 32px;
 
   --btn-height: 38px;
+  --input-height: 38px;
   --chip-height: 32px;
   --pagination-item-height: 32px;
   --icon-btn-height: 56px;
