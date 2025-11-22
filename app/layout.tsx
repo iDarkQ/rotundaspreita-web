@@ -1,14 +1,15 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Nunito } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { Navbar } from "@/app/_components/layout/navbar";
 import { Footer } from "@/app/_components/layout/footer";
 
-const roboto = Nunito({
+const roboto = Roboto({
   weight: ["200", "300", "800"],
   display: "swap",
-  variable: "--font-nunito",
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -22,12 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${roboto.variable} antialiased bg-background`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
+    >
+      <html lang="en">
+        <body className={`${roboto.variable} antialiased bg-background`}>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </GoogleOAuthProvider>
   );
 }
