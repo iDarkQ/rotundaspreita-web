@@ -1,0 +1,92 @@
+"use client";
+
+import { verifyTestResults } from "@/services/study-service";
+import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
+import { TestAnswers } from "@/types/test-answer";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
+
+interface TestManagerContextProps {
+  questions: QuestionWithOptionsNoAnswer[];
+  answers: { [key: string]: string | undefined };
+  setAnswers: Dispatch<
+    SetStateAction<{
+      [key: string]: string | undefined;
+    }>
+  >;
+  finishTest: () => Promise<void>;
+  finished: boolean;
+  selectedPage: string;
+  correctAnswers: TestAnswers;
+  setFinished: Dispatch<SetStateAction<boolean>>;
+  setSelectedPage: Dispatch<SetStateAction<string>>;
+  setCorrectAnswers: Dispatch<SetStateAction<TestAnswers>>;
+}
+
+interface TestManagerProviderProps {
+  questions: QuestionWithOptionsNoAnswer[];
+
+  children: ReactNode;
+}
+
+const TestManagerContext = createContext<TestManagerContextProps | undefined>(
+  undefined
+);
+
+export const TestManagerProvider = ({
+  children,
+  questions,
+}: TestManagerProviderProps) => {
+  const [finished, setFinished] = useState(false);
+  const [answers, setAnswers] = useState<TestAnswers>(
+    questions.reduce((acc, q) => {
+      acc[q.id] = undefined;
+      return acc;
+    }, {} as TestAnswers)
+  );
+  const [selectedPage, setSelectedPage] = useState<string>(questions[0].id);
+  const [correctAnswers, setCorrectAnswers] = useState<TestAnswers>({});
+
+  const finishTest = async () => {
+    const results = await verifyTestResults(answers);
+
+    setCorrectAnswers(results ?? {});
+    setSelectedPage(questions[0].id);
+    setFinished(true);
+  };
+
+  return (
+    <TestManagerContext.Provider
+      value={{
+        questions,
+        answers,
+        setAnswers,
+        finishTest,
+        setFinished,
+        finished,
+        correctAnswers,
+        setCorrectAnswers,
+        selectedPage,
+        setSelectedPage,
+      }}
+    >
+      {children}
+    </TestManagerContext.Provider>
+  );
+};
+
+export const useTestManager = () => {
+  const context = useContext(TestManagerContext);
+
+  if (!context) {
+    throw Error("useTestManager has to be used within TestManagerProvider");
+  }
+
+  return context;
+};
