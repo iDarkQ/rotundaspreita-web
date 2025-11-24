@@ -1,3 +1,5 @@
+"use client";
+
 import { Divider } from "@/app/_components/divider";
 import { Input } from "@/app/_components/input";
 import { RadioButton } from "@/app/_components/radio-button";
@@ -15,6 +17,8 @@ interface Props {
   selected?: boolean;
   selectable?: boolean;
   editable?: boolean;
+  className?: string;
+  labelClassName?: string;
   state?: "correct" | "wrong";
 }
 
@@ -27,6 +31,8 @@ export const AnswerOption = ({
   onChange,
   selected,
   state,
+  className,
+  labelClassName,
   editable = false,
   selectable = true,
 }: Props) => (
@@ -37,24 +43,32 @@ export const AnswerOption = ({
     onDelete={onDelete}
     className={clsx(
       state === "correct" && "bg-success-bg!",
-      state === "wrong" && "bg-error-bg!"
+      state === "wrong" && "bg-error-bg!",
+      className && className
     )}
   >
     <Text as="h2">{option}</Text>
-    <Divider orientation="vertical" />
+    <Divider orientation="vertical" className=" self-stretch h-auto!" />
     {editable ? (
       <Input
-        className="border-hidden! outline-hidden! w-full"
+        className="border-hidden! outline-hidden! w-full h-auto!"
         onClick={(e) => e.stopPropagation()}
         onFocus={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
         onPointerUp={(e) => e.stopPropagation()}
         onChange={(e) => onChange?.(e.target.value)}
         defaultValue={defaultValue}
-        placeholder="Click and type to write answer..."
+        placeholder="Clique e digite para escrever a resposta..."
       />
     ) : (
-      <Label className="text-base text-neutral flex-1">{label}</Label>
+      <Label
+        className={clsx(
+          "text-base text-neutral flex-1 h-auto!",
+          labelClassName && labelClassName
+        )}
+      >
+        {label}
+      </Label>
     )}
   </RadioButton>
 );
