@@ -10,16 +10,18 @@ interface Props {
   type?: "next" | "previous" | "page";
   page?: number;
   onClick: () => void;
+  className?: string;
 }
 
 export const PaginationItem = ({
   selected,
   disabled,
   onClick,
+  className,
   type = "page",
   page = 1,
 }: Props) => {
-  const { events, cancel, ref } = useRipple(true);
+  const { events, cancel, ref } = useRipple(true, disabled);
 
   return (
     <Button
@@ -36,6 +38,7 @@ export const PaginationItem = ({
         "flex items-center justify-center",
         "h-(--pagination-item-height)! w-(--pagination-item-height)!",
         disabled && "opacity-38 cursor-default!",
+        className && className,
         selected &&
           "bg-pagination-item-selected! hover:bg-pagination-item-hover-selected!"
       )}
