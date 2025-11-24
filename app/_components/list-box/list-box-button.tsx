@@ -1,3 +1,5 @@
+"use client";
+
 import { useRipple } from "@/app/_hooks/use-ripple";
 import {
   ListboxButton as HeadlessUIListBoxButton,
