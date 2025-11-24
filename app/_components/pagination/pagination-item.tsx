@@ -28,9 +28,10 @@ export const PaginationItem = ({
       onPointerUp={events}
       onMouseLeave={cancel}
       onClick={onClick}
+      disabled={disabled}
       className={clsx(
         "relative overflow-hidden",
-        "c-border border-pagination-item-border cursor-pointer rounded-sm bg-white transition-colors duration-200",
+        "c-border border-pagination-item-border cursor-pointer rounded-sm transition-colors duration-200",
         "hover:bg-pagination-item-hover",
         "flex items-center justify-center",
         "h-(--pagination-item-height)! w-(--pagination-item-height)!",
