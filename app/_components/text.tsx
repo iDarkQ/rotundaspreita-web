@@ -7,11 +7,12 @@ interface Props {
   className?: string;
 }
 
-const baseHeading = "text-primary font-nunito font-[800]";
+const baseText = "font-roboto text-neutral text-base paragraph";
+const baseHeading = "text-primary font-roboto font-[800]";
 const styles = {
-  p: "text-neutral text-base paragraph",
-  label: "text-neutral text-base paragraph",
-  span: "text-neutral text-base paragraph",
+  p: baseText,
+  label: baseText,
+  span: baseText,
 
   h1: clsx(
     `text-5xl ${baseHeading}`,
