@@ -9,7 +9,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       {...rest}
       className={clsx(
         "c-border h-(--input-height) p-2 border-input focus-visible:outline-input-focus-visible!",
-        clsx(className && className)
+        className && className
       )}
     />
   )
