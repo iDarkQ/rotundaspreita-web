@@ -7,10 +7,10 @@ interface SectionProps {
 }
 
 export const Section = ({ children, className }: SectionProps) => (
-  <section className="relative min-h-screen w-full flex justify-center bg-background overflow-hidden">
+  <section className="w-full flex justify-center bg-background">
     <div
       className={clsx(
-        "flex flex-col items-center justify-start w-full max-w-full sm:max-w-[90%] md:max-w-[80%] xl:max-w-7xl mx-auto gap-8 my-30",
+        "relative flex flex-col items-center justify-start w-full max-w-full sm:max-w-[90%] md:max-w-[80%] xl:max-w-7xl mx-auto gap-5",
         className && className
       )}
     >
