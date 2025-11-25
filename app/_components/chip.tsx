@@ -22,7 +22,7 @@ export const Chip = ({ children, onClick, clickable, variant = "contained" }: Pr
       onMouseLeave={cancel}
       onClick={onClick}
       className={clsx(
-        "relative overflow-hidden rounded-xl px-3 h-(--chip-height) flex items-center justify-center transition-colors",
+        "relative overflow-hidden rounded-xl px-3 h-(--chip-height) flex items-center justify-center transition-colors gap-1",
         variant === "contained" && "bg-primary",
         variant === "outlined" && "c-border",
         (onClick || clickable) && "cursor-pointer select-none"
