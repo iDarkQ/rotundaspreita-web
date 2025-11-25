@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const StatisticsCard = ({ name, value, className }: Props) => (
-  <Card className={clsx("gap-2", className && className)}>
+  <Card className={clsx(className && className)}>
     <Text as="p">{name}</Text>
     <Text as="h2">{value}</Text>
   </Card>
