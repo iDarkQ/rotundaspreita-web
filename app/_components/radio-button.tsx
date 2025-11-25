@@ -30,19 +30,19 @@ export const RadioButton = ({
       onMouseLeave={() => cancel()}
       onClick={onClick}
       className={clsx(
-        "bg-white select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
+        "select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
         selectable && "hover:bg-toggle-button-hover! cursor-pointer",
-        selected &&
-          "bg-toggle-button-selected! hover:bg-toggle-button-hover-selected!",
+        selected ? "bg-toggle-button-selected" : "bg-white",
+        selected && selectable && "hover:bg-toggle-button-hover-selected!",
         className && className
       )}
     >
       {children}
-      {selected && <MdCheckCircle size={20} className="text-primary" />}
+      {selected && <MdCheckCircle size={20} className="text-primary h-auto" />}
       {onDelete && (
         <MdDelete
           size={20}
-          className="text-red-400"
+          className="text-red-400 h-auto"
           onClick={(e) => {
             e.stopPropagation();
             onDelete();
