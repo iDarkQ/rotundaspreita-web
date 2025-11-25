@@ -17,7 +17,7 @@ export const LoginButton = ({ ip, agent }: Props) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const secret = await registerUser(tokenResponse, ip, agent);
-      saveSecret(secret ?? "");
+      await saveSecret(secret ?? "");
       redirect("/panel");
     },
   });
