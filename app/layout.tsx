@@ -29,7 +29,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${roboto.variable} antialiased bg-background`}>
           <Navbar />
-          <main>{children}</main>
+          <main className="flex flex-col overflow-hidden py-30 gap-30">{children}</main>
           <Footer />
         </body>
       </html>
