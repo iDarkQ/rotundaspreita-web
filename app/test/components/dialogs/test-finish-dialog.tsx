@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/button";
-import { Dialog } from "@/app/_components/dialog";
+import { Dialog } from "@/app/_components/dialog/dialog";
 import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 
