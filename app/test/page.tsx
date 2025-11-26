@@ -13,6 +13,7 @@ import { TestCountdown } from "@/app/test/components/test-countdown";
 import { redirect } from "next/navigation";
 import { TestFinishButton } from "@/app/test/components/test-finish-button";
 import { TestResults } from "@/app/test/components/test-results";
+import { RouteNames } from "@/utils/route-names";
 
 interface Props {
   searchParams?: Promise<{ s?: string; c?: string; d?: string }>;
@@ -33,7 +34,7 @@ export default async function Test({ searchParams }: Props) {
   const questions = await generateTest(selectedStudy, selectedDifficulty);
 
   if (!questions || questions.length < 1) {
-    redirect("/panel");
+    redirect(RouteNames.PANEL);
   }
 
   const firstQuestion = questions[0];
@@ -52,7 +53,7 @@ export default async function Test({ searchParams }: Props) {
         <div className="flex gap-2 items-center justify-center">
           <Chip>
             <Text as="p" className="text-white">
-              Teste de {study?.title}{" "}
+              Teste de {study?.title}
               {firstQuestion.category === selectedCategory
                 ? `(${selectedCategory})`
                 : ""}
