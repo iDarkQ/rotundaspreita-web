@@ -7,21 +7,23 @@ import { useState } from "react";
 
 interface Props {
   selectedStudy: string;
+  categories: string[];
 }
 
-export const QuestionsCreator = ({ selectedStudy }: Props) => {
+export const QuestionsCreator = ({ selectedStudy, categories }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       {open && (
         <QuestionCreatorDialog
+          categories={categories}
           selectedStudy={selectedStudy}
           onClose={() => setOpen(false)}
         />
       )}
       <Button className="w-full" onClick={() => setOpen(true)}>
-        <Text className="text-white!">Create New Question</Text>
+        <Text className="text-white!">Criar Nova Pergunta</Text>
       </Button>
     </>
   );
