@@ -14,14 +14,13 @@ import {
 } from "react";
 
 interface TestMenuContextProps {
+  defaultStudyId: string;
   difficulty: Difficulty;
   setDifficulty: Dispatch<SetStateAction<Difficulty>>;
   studies: Study[];
   selectedStudy?: Study;
-  selectedStudyId: string | undefined;
   selectedCategory: string;
   listedCategories: string[];
-  setSelectedStudyId: Dispatch<SetStateAction<string | undefined>>;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   setListedCategories: Dispatch<SetStateAction<string[]>>;
 }
@@ -29,7 +28,7 @@ interface TestMenuContextProps {
 interface TestMenuProviderProps {
   studies: Study[];
   categories: string[];
-  defaultStudyId?: string;
+  defaultStudyId: string;
 
   children: ReactNode;
 }
@@ -44,22 +43,17 @@ export const TestMenuProvider = ({
   categories,
   defaultStudyId,
 }: TestMenuProviderProps) => {
-  const [difficulty, setDifficulty] = useState<Difficulty>(0);
+  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.all);
 
-  const [selectedStudyId, setSelectedStudyId] = useState<string | undefined>(
-    defaultStudyId
-  );
   const [selectedCategory, setSelectedCategory] = useState("");
   const [listedCategories, setListedCategories] =
     useState<string[]>(categories);
 
-  const selectedStudy = studies.find((s) => s.id === selectedStudyId);
+  const selectedStudy = studies.find((s) => s.id === defaultStudyId);
 
   useEffect(() => {
-    if (!selectedStudyId) return;
-
     const fetchNewCategories = async () => {
-      const newCategories = await fetchAllStudyCategories(selectedStudyId);
+      const newCategories = await fetchAllStudyCategories(defaultStudyId);
       if (newCategories.length > 0) {
         setListedCategories(["Todos", ...newCategories]);
         setSelectedCategory("Todos");
@@ -70,19 +64,18 @@ export const TestMenuProvider = ({
     };
 
     fetchNewCategories();
-  }, [selectedStudyId]);
+  }, [defaultStudyId]);
 
   return (
     <TestMenuContext.Provider
       value={{
+        defaultStudyId,
         setDifficulty,
         difficulty,
         studies,
         selectedStudy,
-        selectedStudyId,
         selectedCategory,
         listedCategories,
-        setSelectedStudyId,
         setSelectedCategory,
         setListedCategories,
       }}

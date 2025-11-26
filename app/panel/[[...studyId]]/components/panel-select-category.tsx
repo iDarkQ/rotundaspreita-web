@@ -4,7 +4,7 @@ import { ListBoxButton } from "@/app/_components/list-box/list-box-button";
 import { ListBoxOption } from "@/app/_components/list-box/list-box-option";
 import { ListBoxOptions } from "@/app/_components/list-box/list-box-options";
 import { Text } from "@/app/_components/text";
-import { useTestMenu } from "@/app/panel/providers/test-menu";
+import { useTestMenu } from "@/app/panel/[[...studyId]]/providers/test-menu";
 import { Listbox } from "@headlessui/react";
 import { MdArrowForward } from "react-icons/md";
 

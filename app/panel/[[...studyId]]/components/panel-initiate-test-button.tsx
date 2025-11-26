@@ -3,7 +3,7 @@
 import { Button } from "@/app/_components/button";
 import { Link } from "@/app/_components/link";
 import { Text } from "@/app/_components/text";
-import { useTestMenu } from "@/app/panel/providers/test-menu";
+import { useTestMenu } from "@/app/panel/[[...studyId]]/providers/test-menu";
 
 export const PanelInitiateTestButton = () => {
   const { selectedStudy, selectedCategory, difficulty } = useTestMenu();
@@ -20,10 +20,7 @@ export const PanelInitiateTestButton = () => {
   const href = `/test?${params.toString()}`;
 
   return (
-    <Link
-      link={href}
-      className="w-full"
-    >
+    <Link link={href} className="w-full">
       <Button variant="contained" className="w-full">
         <Text as="p" className="text-white!">
           Iniciar teste
