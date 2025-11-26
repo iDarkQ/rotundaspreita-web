@@ -1,8 +1,12 @@
 "use server";
 
-import { Prisma, Question } from "@/app/generated/prisma/client";
+import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
+import { Difficulty } from "@/types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
+import { shuffle } from "@/utils/shuffle";
+
+const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH) ?? 30;
 
 export const createQuestionQuery = async (data: Prisma.QuestionCreateInput) =>
     prisma.question.create({ data, include: { options: true } })
@@ -18,31 +22,97 @@ export const deleteQuestionQuery = async (where: Prisma.QuestionWhereUniqueInput
 export const findManyQuestionsQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.findMany({ where, include: { options: true } });
 export const findQuestionQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.findFirst({ where, include: { options: true } });
 
-const shuffle = <T>(arr: T[]): T[] => {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
+export const countQuestionsQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.count({ where });
 
 export const findRandomQuestions = async (
     studyId: string,
+    userId: string,
+    difficulty: Difficulty,
     category?: string
 ): Promise<QuestionWithOptionsNoAnswer[]> => {
     const where: Prisma.QuestionWhereInput = { studyId };
     if (category) where.category = category;
 
-    const idsResult = await prisma.question.findMany({
-        where,
-        select: { id: true },
-    });
+    const fetchRandomIds = async (): Promise<string[]> => {
+        const basicIdsResult = (await prisma.question.findMany({
+            where,
+            select: { id: true },
+        })).map((b) => b.id);
 
-    const allIds = idsResult.map((r) => r.id);
+        if (difficulty === "all") {
+            return basicIdsResult;
+        }
+
+        if (difficulty === "new") {
+            const idsResult = (await prisma.question.findMany({
+                where: {
+                    ...where,
+                    testResults: {
+                        none: {
+                            userId: userId,
+                        },
+                    },
+                },
+                select: {
+                    id: true,
+                },
+            })).map((r) => r.id);
+
+            console.log({ firstResult: idsResult })
+
+            if (idsResult.length < testLength) {
+                // We filter this to prevent repeated questions
+                const filteredBasicIdsResult = basicIdsResult.filter(b => !idsResult.includes(b));
+                idsResult.push(...shuffle(filteredBasicIdsResult).slice(0, testLength - idsResult.length));
+            }
+
+            return idsResult;
+        }
+
+        if (difficulty === "difficult") {
+            const results = await prisma.testResult.findMany({
+                where: { studyId, question: { category } },
+                select: {
+                    questionId: true,
+                    option: {
+                        select: { answer: true },
+                    },
+                },
+            });
+
+            const stats = results.reduce<{ [key: string]: { wrong: number, total: number } }>((acc, tr) => {
+                const qid = tr.questionId;
+                if (!acc[qid]) acc[qid] = { total: 0, wrong: 0 };
+                acc[qid].total++;
+                if (!tr.option.answer) acc[qid].wrong++;
+                return acc;
+            }, {});
+
+            const hardest = Object.entries(stats)
+                .map(([questionId, { total, wrong }]) => ({
+                    questionId,
+                    wrongRatio: (wrong / total) * 100,
+                }))
+                .sort((a, b) => b.wrongRatio - a.wrongRatio);
+
+            const idsResult = hardest.map((h) => h.questionId);
+
+            if (hardest.length < testLength) {
+                // We filter this to prevent repeated questions
+                const filteredBasicIdsResult = basicIdsResult.filter(b => !idsResult.includes(b));
+                idsResult.push(...shuffle(filteredBasicIdsResult).slice(0, testLength - idsResult.length));
+            }
+
+            return idsResult;
+        }
+
+        return basicIdsResult;
+    }
+
+    const allIds = await fetchRandomIds();
     if (allIds.length === 0) return [];
 
-    const selectedIds = shuffle(allIds).slice(0, 30);
+    const selectedIds = shuffle(allIds).slice(0, testLength);
 
     const questions = await prisma.question.findMany({
         where: { id: { in: selectedIds } },
