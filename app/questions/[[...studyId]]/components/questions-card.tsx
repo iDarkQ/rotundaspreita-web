@@ -53,16 +53,22 @@ export const QuestionsCard = ({
           <Text as="h2">{question.content}</Text>
         </div>
       </Card>
-      {isOpen && (
-        <QuestionCreatorDialog
-          // question={question}
-          selectedStudy={selectedStudy}
-          question={question}
-          onClose={() => {
-            setIsOpen(false);
-          }}
-        />
-      )}
+      {isOpen &&
+        (user.admin ? (
+          <QuestionCreatorDialog
+            categories={categories}
+            selectedStudy={selectedStudy}
+            question={question}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+          />
+        ) : (
+          <QuestionViewerDialog
+            onClose={() => setIsOpen(false)}
+            question={question}
+          />
+        ))}
     </>
   );
 };
