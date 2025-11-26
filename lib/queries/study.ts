@@ -12,15 +12,19 @@ export const updateStudyQuery = async (
 ) =>
     prisma.study.update({ where, data });
 
+export const deleteStudyQuery = async (where: Prisma.StudyWhereUniqueInput) => prisma.study.delete({ where });
+
 export const fetchStudiesQuery = async (where?: Prisma.StudyWhereInput) => prisma.study.findMany({ where });
 
 export const fetchFirstStudyQuery = async (where?: Prisma.StudyWhereInput) => prisma.study.findFirst({ where });
 
-export const fetchStudyQuery = async (where: Prisma.StudyWhereUniqueInput) => prisma.study.findUnique({ where }); export const fetchStudyWithQuestionsQuery = async (
-    where: Prisma.StudyWhereUniqueInput,
+export const fetchStudyQuery = async (where: Prisma.StudyWhereUniqueInput) => prisma.study.findUnique({ where });
+
+export const fetchStudyWithQuestionsQuery = async (
+    where: Prisma.StudyWhereInput,
     whereQuestion?: Prisma.QuestionWhereInput,
 ) => {
-    return prisma.study.findUnique({
+    return prisma.study.findFirst({
         where,
         include: {
             questions: whereQuestion
