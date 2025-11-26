@@ -2,11 +2,10 @@
 
 import { AnswerOption } from "@/app/_components/answer-option";
 import { Divider } from "@/app/_components/divider";
-import { QuestionsPagination } from "@/app/_components/questions-pagination";
+import { QuestionsPagination } from "@/app/test/components/questions-pagination";
 import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 import { RadioGroup } from "@headlessui/react";
-import { useState } from "react";
 
 export const TestOptions = () => {
   const {
@@ -26,7 +25,7 @@ export const TestOptions = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full min-h-[50vh] gap-8 items-center">
+      <div className="flex flex-col w-full min-h-[50vh] gap-5 items-center">
         <Text as="h3">{question?.content}</Text>
         <Divider orientation="horizontal" />
         <div className="flex flex-col w-full gap-2">
@@ -35,7 +34,6 @@ export const TestOptions = () => {
               const userAnswer = answers[selectedPage]; // what the user selected (might be undefined)
               const correctAnswerId = correctAnswers[selectedPage]; // the correct option id
 
-              console.log({ userAnswer, correctAnswerId });
               let state: "correct" | "wrong" | undefined = undefined;
 
               if (finished) {
@@ -86,11 +84,7 @@ export const TestOptions = () => {
         </div>
       </div>
       <QuestionsPagination
-        count={questions.length}
         page={currentPage}
-        onChange={(index) => {
-          setSelectedPage(questions[index - 1]?.id);
-        }}
       />
     </>
   );
