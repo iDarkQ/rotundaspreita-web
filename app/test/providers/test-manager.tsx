@@ -54,7 +54,9 @@ export const TestManagerProvider = ({
   const [correctAnswers, setCorrectAnswers] = useState<TestAnswers>({});
 
   const finishTest = async () => {
-    const results = await verifyTestResults(answers);
+    if(!questions[0]) return;
+    
+    const results = await verifyTestResults(questions[0].studyId, answers);
 
     setCorrectAnswers(results ?? {});
     setSelectedPage(questions[0].id);
