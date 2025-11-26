@@ -1,4 +1,4 @@
-import { Dialog } from "@/app/_components/dialog";
+import { Dialog } from "@/app/_components/dialog/dialog";
 import { Text } from "@/app/_components/text";
 import { Option } from "@/app/generated/prisma/browser";
 
