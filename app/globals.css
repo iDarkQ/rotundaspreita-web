@@ -9,7 +9,7 @@ body {
 }
 
 @theme inline {
-  --font-nunito: var(--font-roboto);
+  --font-roboto: var(--font-roboto);
 
   /* tuscan-sun */
   --color-tuscan-sun-50: #fcf6e9;
