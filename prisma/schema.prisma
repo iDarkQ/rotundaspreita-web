@@ -27,8 +27,7 @@ model User {
   createdAt DateTime @default(now())
 
   deviceSessions DeviceSession[]
-  // testSession    TestSession?    @relation(fields: [testSessionId], references: [id], onDelete: Cascade)
-  // testSessionId  String?         @unique
+  testResults    TestResult[]
 }
 
 model DeviceSession {
@@ -44,33 +43,31 @@ model DeviceSession {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// model TestSession {
-//   id String @id @default(cuid())
+model TestResult {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
 
-//   testQuestions TestQuestion[]
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
-//   user      User?
-// }
+  optionId String
+  option   Option @relation(fields: [optionId], references: [id], onDelete: Cascade)
 
-// model TestQuestion {
-//   id String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-//   questionId String
-//   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-//   optionId   String?
-//   option     Option?   @relation(fields: [optionId], references: [id], onDelete: Cascade)
-
-//   testSession   TestSession? @relation(fields: [testSessionId], references: [id])
-//   testSessionId String?
-// }
+  studyId   String
+  study     Study  @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  testRunId String @unique
+}
 
 model Study {
-  id          String     @id @default(cuid())
+  id          String       @id @default(cuid())
   title       String
-  description String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   questions   Question[]
+  testResults TestResult[]
 }
 
 model Question {
@@ -81,10 +78,10 @@ model Question {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  study         Study        @relation(fields: [studyId], references: [id], onDelete: Cascade)
-  options       Option[]     @relation("QuestionOptions")
+  study   Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  options Option[] @relation("QuestionOptions")
 
-  // testQuestions TestQuestion[]
+  testResults TestResult[]
 }
 
 model Option {
@@ -98,5 +95,5 @@ model Option {
 
   question Question @relation("QuestionOptions", fields: [questionId], references: [id], onDelete: Cascade)
 
-  // testQuestions TestQuestion[]
+  testResults TestResult[]
 }
