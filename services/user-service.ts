@@ -1,15 +1,19 @@
 "use server";
 
+import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
 import { GoogleAccountDto } from "@/lib/dtos/user/google-account,dto";
 import { createUserQuery, findUserQuery } from "@/lib/queries/user";
 import { createDeviceSession } from "@/services/device-session-service";
+import { fetchUserSubscription } from "@/services/server/subscription";
 import { TokenResponse } from "@react-oauth/google";
 import axios from "axios";
-import { verify } from "crypto";
 import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { cache } from "react";
 
+const defaultAdmin = process.env.DEFAULT_ADMIN;
 const secret = process.env.JWT_SECRET;
 
 export const registerUser = async (data: Omit<TokenResponse, "error" | "error_description" | "error_uri">
@@ -36,6 +40,7 @@ export const registerUser = async (data: Omit<TokenResponse, "error" | "error_de
         email: googleData.email,
         googleId: googleData.sub,
         name: googleData.name,
+        admin: defaultAdmin === googleData.email
     });
 
     const signedUser = await signUser(newUser);
@@ -77,6 +82,32 @@ export const authenticate = async (
 
     return user;
 }
+
+export const verifySession = cache(async () => {
+    const user = await fetchLoggedUser();
+
+    if (!user) {
+        redirect('/login')
+    }
+
+    return user;
+});
+
+export const verifySessionSubscription = cache(async () => {
+    const session = await verifySession();
+    const subscription = await fetchUserSubscription(session.id);
+
+    if (!session || (!subscription && !session.usedFreeTest)) return;
+
+    return session;
+})
+
+export const verifyAdminPermissions = cache(async () => {
+    const session = await verifySession();
+    if (!session || !session.admin) return;
+
+    return session;
+})
 
 export const fetchGoogleAccountInfo = async (token: string) => {
     const req = await axios("https://openidconnect.googleapis.com/v1/userinfo", {
