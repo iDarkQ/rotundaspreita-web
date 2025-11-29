@@ -26,6 +26,7 @@ export const POST = async (req: NextRequest) => {
             const session = event.data.object as Stripe.Checkout.Session;
             const userId = session.metadata?.userId;
             const subscriptionId = session.subscription as string;
+
             if (!userId) return;
 
             await startSubscription(userId, subscriptionId);
@@ -33,4 +34,6 @@ export const POST = async (req: NextRequest) => {
         default:
             break;
     }
+
+    return new NextResponse();
 }
