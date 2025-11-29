@@ -39,6 +39,9 @@ model Subscription {
 
   stripeSubId String   @unique
   createdAt   DateTime @default(now())
+  expiresAt   DateTime @default(dbgenerated("now() + interval '30 days'"))
+
+  cancelled Boolean @default(false)
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
@@ -59,6 +62,8 @@ model DeviceSession {
 model TestResult {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
+
+  markAsNew Boolean @default(false)
 
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
