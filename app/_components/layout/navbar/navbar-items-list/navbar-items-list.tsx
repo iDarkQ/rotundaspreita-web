@@ -1,0 +1,35 @@
+"use client";
+
+import { NavbarSettingsItem } from "@/app/_components/layout/navbar/navbar-items-list/navbar-settings-item";
+import { NavbarItem } from "@/app/_components/layout/navbar/navbar-items-list/navbar-item";
+import { useNavbarManager } from "@/app/_components/layout/navbar/providers/navbar-manager";
+import { RouteNames } from "@/utils/route-names";
+import clsx from "clsx";
+
+interface Props {
+  className?: string;
+}
+
+export const NavbarItemsList = ({ className }: Props) => {
+  const { user } = useNavbarManager();
+  return (
+    <ul
+      className={clsx(
+        "flex flex-row gap-2 h-full items-center max-lg:hidden",
+        className && className
+      )}
+    >
+      <NavbarItem path={RouteNames.HOME} name="Início" />
+      <NavbarItem path={RouteNames.FAQ} name="Ajuda" />
+      {user ? (
+        <>
+          <NavbarItem path={RouteNames.QUESTIONS} name="Biblioteca" />
+          <NavbarItem path={RouteNames.PANEL} name="Perfil" contained />
+          <NavbarSettingsItem />
+        </>
+      ) : (
+        <NavbarItem path={RouteNames.LOGIN} name="Entrar" contained />
+      )}
+    </ul>
+  );
+};

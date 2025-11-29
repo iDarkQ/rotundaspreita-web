@@ -1,4 +1,5 @@
 import { Button } from "@/app/_components/button";
+import { useNavbarManager } from "@/app/_components/layout/navbar/providers/navbar-manager";
 import { Link } from "@/app/_components/link";
 import clsx from "clsx";
 
@@ -8,9 +9,11 @@ interface Props {
   contained?: boolean;
 }
 
-export const NavbarItem = ({ path, name, contained = false }: Props) => (
-  <nav>
-    <Button as="li" variant={contained ? "contained" : "text"}>
+export const NavbarItem = ({ path, name, contained = false }: Props) => {
+  const { setExpanded } = useNavbarManager();
+
+  return (
+    <li>
       <Link
         link={path}
         className={clsx(
@@ -20,8 +23,10 @@ export const NavbarItem = ({ path, name, contained = false }: Props) => (
         )}
         hideStyles
       >
-        {name}
+        <Button as="nav" variant={contained ? "contained" : "text"} onClick={() => setExpanded(false)}>
+          {name}
+        </Button>
       </Link>
-    </Button>
-  </nav>
-);
+    </li>
+  );
+};
