@@ -7,6 +7,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
 import { redirect } from "next/navigation";
 import { saveSecret } from "@/app/login/save-secret";
+import { RouteNames } from "@/utils/route-names";
 
 interface Props {
   ip: string;
@@ -18,7 +19,7 @@ export const LoginButton = ({ ip, agent }: Props) => {
     onSuccess: async (tokenResponse) => {
       const secret = await registerUser(tokenResponse, ip, agent);
       await saveSecret(secret ?? "");
-      redirect("/panel");
+      redirect(RouteNames.PANEL);
     },
   });
 
@@ -28,7 +29,7 @@ export const LoginButton = ({ ip, agent }: Props) => {
       onClick={() => login()}
     >
       <Text as="h4" className="text-white">
-        Authenticate with Google{" "}
+        Autenticar com o Google
       </Text>
       <FaGoogle className="text-white" size={20} />
     </Button>
