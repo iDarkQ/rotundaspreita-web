@@ -50,6 +50,7 @@ body {
   --color-error-bg: rgba(188, 81, 70, 0.15);
 
   /* --color-button-text: rgba(0, 0, 0, 0.04); */
+  --color-card-secondary: #f3f4f6;
   --color-tab-background: #f3f4f6;
 
   --color-input-focus-visible: var(--color-baltic-blue-400);
@@ -107,6 +108,7 @@ body {
   --spacing-xxl: 48px;
   --spacing-lg: 32px;
 
+  --navbar-height: 6.25rem;
   --btn-height: 38px;
   --input-height: 38px;
   --chip-height: 32px;
@@ -114,7 +116,12 @@ body {
   --icon-btn-height: 56px;
   --chip-container-height: 32px;
 
-  --breakpoint-xs: 22rem;
+  --breakpoint-sm: 375px;
+  --breakpoint-md: 425px;
+  --breakpoint-lg: 768px;
+  --breakpoint-xl: 1024px;
+  --breakpoint-2xl: 1280px;
+  --breakpoint-3xl: 1440px;
 
   --mio-theme-v2-headline-s-font-size: 24px;
 

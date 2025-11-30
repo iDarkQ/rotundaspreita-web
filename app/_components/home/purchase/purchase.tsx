@@ -5,7 +5,7 @@ import { Text } from "@/app/_components/text";
 
 export const HomePurchase = () => (
   <Section>
-    <div className="relative flex flex-col gap-2 w-full items-center justify-center min-h-[50vh]">
+    <div id="purchase" className="relative flex flex-col gap-2 w-full items-center justify-center min-h-[50vh]">
       <div className="h-200 w-200 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-50">
         <Blob1 />
       </div>

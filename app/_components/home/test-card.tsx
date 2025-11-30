@@ -1,4 +1,5 @@
 import { AnswerOption } from "@/app/_components/answer-option";
+import { ProgressBar } from "@/app/_components/progress-bar";
 import { Blob3 } from "@/app/_components/svgs/blob-3";
 import { Blob4 } from "@/app/_components/svgs/blob-4";
 import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
@@ -29,18 +30,7 @@ export const TestCard = () => (
         />
       </RadioGroup>
 
-      <div className="rounded-md p-4">
-        <div className="flex items-center justify-between text-sm">
-          <Text>Progresso</Text>
-          <Text>12/30</Text>
-        </div>
-        <div className="w-full bg-black/10 h-2 rounded-full mt-3 overflow-hidden">
-          <div
-            className="h-2 rounded-full bg-primary"
-            style={{ width: "40%" }}
-          ></div>
-        </div>
-      </div>
+      <ProgressBar value={12} max={30} label="Progresso" />
     </div>
     <PositionedBlob className="w-80 h-80 top-[0%] opacity-50" align="right">
       <Blob3 />

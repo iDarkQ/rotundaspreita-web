@@ -7,9 +7,9 @@ import { Text } from "@/app/_components/text";
 export default async function FAQ() {
   return (
     <Section>
-      <Text as="h1">Perguntas Frequentes</Text>
+      <Text as="h1" center>Perguntas Frequentes</Text>
 
-      <div className="w-[50%] flex flex-col gap-4 mt-6">
+      <div className="2xl:w-[50%] max-2xl:w-[80%] max-xl:w-full flex flex-col gap-4 mt-6">
         {/* O que é a ROTUNDASPREITA? */}
         <Disclosure defaultOpen={true}>
           <DisclosureButton>O que é a ROTUNDASPREITA?</DisclosureButton>

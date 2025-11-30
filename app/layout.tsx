@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { Roboto } from "next/font/google";
-import { Navbar } from "@/app/_components/layout/navbar";
+import { Navbar } from "@/app/_components/layout/navbar/navbar";
 import { Footer } from "@/app/_components/layout/footer";
 
 const roboto = Roboto({
@@ -27,9 +27,11 @@ export default function RootLayout({
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
     >
       <html lang="en">
-        <body className={`${roboto.variable} antialiased bg-background`}>
+        <body className={`relative ${roboto.variable} antialiased bg-background`}>
           <Navbar />
-          <main className="flex flex-col overflow-hidden py-30 gap-30">{children}</main>
+          <main className="flex flex-col overflow-hidden py-30 gap-30 min-h-screen">
+            {children}
+          </main>
           <Footer />
         </body>
       </html>
