@@ -1,4 +1,8 @@
-  import { OptionLetter } from "@/app/generated/prisma/enums";
+"use server";
+
+import { Prisma } from "@/app/generated/prisma/client";
+import { OptionLetter } from "@/app/generated/prisma/enums";
+import { SearchResults } from "@/lib/dtos/question/search-results";
 import { UpdateQuestionDto } from "@/lib/dtos/question/update-question-option.dto";
 import { countQuestionsQuery, createQuestionQuery, deleteQuestionQuery, findManyQuestionsQuery, findQuestionQuery, updateQuestionQuery } from "@/lib/queries/question";
 import { fetchTestResultsQuery } from "@/lib/queries/test-results";
@@ -9,6 +13,8 @@ interface OptionProp {
     content: string;
     answer: boolean;
 }
+
+const take = 4;
 
 export const createQuestion = async (studyId: string, content: string, category: string, options: OptionProp[]) => {
     const session = await verifyAdminPermissions();
@@ -62,11 +68,28 @@ export const deleteQuestion = async (id: string) => {
     return deleteQuestionQuery({ id });
 }
 
-export const findStudyQuestions = async (studyId: string) => {
+export const searchForQuestions = async (studyId: string, searchText?: string, page?: number): Promise<SearchResults | undefined> => {
     const session = await verifySession();
-    if (!session) return [];
 
-    return findManyQuestionsQuery({ studyId });
+    if (!session) return;
+
+    const where: Prisma.QuestionWhereInput = {
+        studyId,
+        ...(searchText
+            ? {
+                content: {
+                    contains: searchText,
+                    mode: "insensitive",
+                },
+            }
+            : {}),
+    };
+
+    const totalCount = await countQuestionsQuery(where);
+
+    const maxPages = take ? Math.ceil(totalCount / take) : 1;
+
+    return { questions: (await findManyQuestionsQuery(where, take, page && page * take)), maxPages };
 }
 
 export const countQuestions = async (studyId?: string, category?: string) => {
