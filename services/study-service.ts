@@ -3,7 +3,7 @@
 import { findManyQuestionsQuery, findRandomQuestions } from "@/lib/queries/question";
 import { createStudyQuery, deleteStudyQuery, fetchFirstStudyQuery, fetchStudiesQuery, fetchStudyWithQuestionsQuery, updateStudyQuery } from "@/lib/queries/study"
 import { createTestResults } from "@/services/test-results-service";
-import { verifySession, verifyAdminPermissions, verifySessionSubscription } from "@/services/user-service";
+import { verifySession, verifyAdminPermissions, verifySessionSubscription, beginFreeTest } from "@/services/user-service";
 import { Difficulty } from "@/types/difficulty";
 import { TestAnswers } from "@/types/test-answer";
 
@@ -50,7 +50,7 @@ export const fetchAllStudyCategories = async (studyId: string) => {
 
 export const generateTest = async (studyId?: string, difficulty?: Difficulty, category?: string) => {
     const session = await verifySessionSubscription();
-    if (!session) return;
+    if (!session) return [];
 
     const study = await fetchFirstStudyQuery({ id: studyId });
     const finalDifficulty = difficulty ?? Difficulty.all;
@@ -91,6 +91,8 @@ export const verifyTestResults = async (studyId: string, answers: TestAnswers) =
 
         await createTestResults(question.id, question.studyId, session.id, option.id);
     });
+
+    await beginFreeTest(session.id);
 
     return correctAnswers;
 }
