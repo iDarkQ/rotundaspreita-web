@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+public/questions/director-direito-rodoviario.json
+public/questions/director-psipopdagoia.json
