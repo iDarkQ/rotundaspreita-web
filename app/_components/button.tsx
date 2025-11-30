@@ -38,7 +38,6 @@ export const Button = ({
 
     if (result instanceof Promise) {
       setLoading(true);
-      loadingAnimation();
       result.finally(() => setLoading(false));
     }
   };
