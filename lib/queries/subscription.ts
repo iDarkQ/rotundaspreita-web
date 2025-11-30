@@ -3,8 +3,15 @@
 import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
-export const createSubscriptionQuery = async (data: Prisma.SubscriptionCreateInput) =>
-    prisma.subscription.create({ data })
+export const createOrReplaceSubscriptionQuery = async (
+  data: Prisma.SubscriptionCreateInput
+) => {
+  return prisma.subscription.upsert({
+    where: { userId: data.user.connect?.id },
+    update: data,
+    create: data,
+  });
+};
 
 export const deleteSubscriptionQuery = async (where: Prisma.SubscriptionWhereUniqueInput) => prisma.subscription.delete({ where })
 
