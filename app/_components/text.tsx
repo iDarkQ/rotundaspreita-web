@@ -3,8 +3,9 @@ import { ReactNode } from "react";
 
 interface Props {
   as?: "p" | "h1" | "h2" | "h3" | "h4" | "label" | "span";
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
+  center?: boolean;
 }
 
 const baseText = "font-roboto text-neutral text-base paragraph";
@@ -32,10 +33,16 @@ const styles = {
   ),
 };
 
-export const Text = ({ as = "p", children, className }: Props) => {
+export const Text = ({ as = "p", children, center, className }: Props) => {
   const Component = as;
   return (
-    <Component className={clsx(styles[as], className && className)}>
+    <Component
+      className={clsx(
+        styles[as],
+        center && "text-center",
+        className && className
+      )}
+    >
       {children}
     </Component>
   );
