@@ -6,6 +6,7 @@ import { RadioButton } from "@/app/_components/radio-button";
 import { Text } from "@/app/_components/text";
 import { Label } from "@headlessui/react";
 import clsx from "clsx";
+import { ChangeEvent } from "react";
 
 interface Props {
   option: string;
@@ -13,7 +14,8 @@ interface Props {
   defaultValue?: string;
   onClick?: () => void;
   onDelete?: () => void;
-  onChange?: (text: string) => void;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   selected?: boolean;
   selectable?: boolean;
   editable?: boolean;
@@ -33,6 +35,7 @@ export const AnswerOption = ({
   state,
   className,
   labelClassName,
+  value,
   editable = false,
   selectable = true,
 }: Props) => (
@@ -48,7 +51,7 @@ export const AnswerOption = ({
     )}
   >
     <Text as="h2">{option}</Text>
-    <Divider orientation="vertical" className=" self-stretch h-auto!" />
+    <Divider orientation="vertical" className="self-stretch h-auto!" />
     {editable ? (
       <Input
         className="border-hidden! outline-hidden! w-full h-auto!"
@@ -56,8 +59,9 @@ export const AnswerOption = ({
         onFocus={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
         onPointerUp={(e) => e.stopPropagation()}
-        onChange={(e) => onChange?.(e.target.value)}
+        onChange={onChange}
         defaultValue={defaultValue}
+        value={value}
         placeholder="Clique e digite para escrever a resposta..."
       />
     ) : (
