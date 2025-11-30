@@ -28,7 +28,7 @@ export const PageTestMenu = forwardRef<HTMLDivElement, Props>(
             <Text as="h2" className="font-normal!">
               Iniciar novo teste de 30 minutos
             </Text>
-            <Text as="p">Escolha um estudo e categoria de perguntas</Text>
+            <Text as="p">Escolha um estudo e tema</Text>
             <TestMenuProvider
               studies={studies}
               categories={categories}

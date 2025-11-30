@@ -1,9 +1,7 @@
 "use server";
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY!);
+import { stripe } from "@/lib/stripe";
 
 export const createCheckoutSession = async () => {
     const user = await fetchLoggedUser();
