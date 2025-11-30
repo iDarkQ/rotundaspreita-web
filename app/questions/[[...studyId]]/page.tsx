@@ -28,10 +28,10 @@ export default async function Test({ params }: Props) {
   
   return (
     <Section>
-      <PositionedBlob align="left" className="w-100 h-100 top-[90%]">
+      <PositionedBlob align="left" className="w-100 h-100 top-[90vh] opacity-50">
         <Blob1 />
       </PositionedBlob>
-      <PositionedBlob align="right" className="w-100 h-100 top-[10%]">
+      <PositionedBlob align="right" className="w-100 h-100 top-[10vh] opacity-50">
         <Blob4 />
       </PositionedBlob>
 

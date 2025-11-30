@@ -50,7 +50,7 @@ export const QuestionsCard = ({
         )}
 
         <div className="flex flex-col p-5">
-          <Text as="h2">{question.content}</Text>
+          <Text as="h4" className="font-bold text-primary!">{question.content}</Text>
         </div>
       </Card>
       {isOpen &&

@@ -65,17 +65,25 @@ export const QuestionCreatorDialog = ({
           <Text as="label">Pergunta</Text>
           <Input
             type="text"
-            placeholder="Question"
+            placeholder="Pergunta"
             className="w-full"
             value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            onChange={(e) => {
+              const sanitized = e.target.value
+                .replace(/[\t\n\r]/g, " ")
+                .replace(/ {2,}/g, " ")
+                .trim();
+
+              setQuestion(sanitized);
+            }}
           />
         </Field>
 
         <Field>
-          <Text as="label">Categoria</Text>
+          <Text as="label">Tema</Text>
           <Combobox value={category} onChange={(v) => setCategory(v ?? "")}>
             <ComboboxInput
+              placeholder="Tema"
               aria-label="Assignee"
               displayValue={(c) => c}
               onChange={(event) => setCategory(event.target.value)}
@@ -94,21 +102,27 @@ export const QuestionCreatorDialog = ({
       <Divider />
 
       <DialogPart>
-        <RadioGroup className="flex flex-col gap-2">
-          {optionsDto.map((opt, idx) => (
-            <AnswerOption
-              key={opt.id}
-              option={optionLetter(idx)}
-              label={opt.content}
-              selected={selectedAnswerId === opt.id}
-              defaultValue={opt.content}
-              editable
-              onDelete={() => removeAnswer(opt.id)}
-              onClick={() => setCorrectAnswer(opt.id)}
-              onChange={(value) => updateOptionContent(opt.id, value)}
-            />
-          ))}
-        </RadioGroup>
+        {optionsDto.map((opt, idx) => (
+          <AnswerOption
+            key={opt.id}
+            option={optionLetter(idx)}
+            label={opt.content}
+            selected={selectedAnswerId === opt.id}
+            defaultValue={opt.content}
+            editable
+            onDelete={() => removeAnswer(opt.id)}
+            onClick={() => setCorrectAnswer(opt.id)}
+            value={optionsDto.find((o) => o.id === opt.id)?.content ?? ""}
+            onChange={(e) => {
+              const sanitized = e.target.value
+                .replace(/[\t\n\r]/g, " ")
+                .replace(/ {2,}/g, " ")
+                .trim();
+
+              updateOptionContent(opt.id, sanitized);
+            }}
+          />
+        ))}
 
         <Button variant="outlined" onClick={addAnswer} disabled={!canAddMore}>
           <Text>
@@ -123,7 +137,9 @@ export const QuestionCreatorDialog = ({
 
       <DialogPart>
         <Button onClick={handleCreateOrSave} disabled={!canCreate}>
-          <Text className="text-white!">{isEditMode ? "Guardar" : "Criar"}</Text>
+          <Text className="text-white!">
+            {isEditMode ? "Guardar" : "Criar"}
+          </Text>
         </Button>
 
         {isEditMode && (

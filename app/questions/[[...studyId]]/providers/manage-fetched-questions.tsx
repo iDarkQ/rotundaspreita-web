@@ -1,27 +1,46 @@
 "use client";
 
-import { Option, Question, Study } from "@/app/generated/prisma/browser";
+import { searchForQuestions } from "@/services/question-service";
 import { QuestionWithOptions } from "@/types/question-with-options";
 import {
   createContext,
   Dispatch,
   ReactNode,
+  RefObject,
   SetStateAction,
+  useCallback,
   useContext,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 
 interface ManageFetchedQuestionsContextProps {
+  inputRef: RefObject<HTMLInputElement | null>;
+  selectedStudy: string;
   questions: QuestionWithOptions[];
+  setQuestions: Dispatch<SetStateAction<QuestionWithOptions[]>>;
   selectedQuestion?: string;
   setSelectedQuestion: Dispatch<SetStateAction<string | undefined>>;
   updateLocalQuestion: (question: QuestionWithOptions) => void;
   createLocalQuestion: (question: QuestionWithOptions) => void;
   removeLocalQuestion: (id: string) => void;
+
+  maxPagesRef: RefObject<number>;
+
+  page: number;
+  loading: boolean;
+  finish: boolean;
+
+  setPage: Dispatch<SetStateAction<number>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFinish: Dispatch<SetStateAction<boolean>>;
 }
 
 interface ManageFetchedQuestionsProviderProps {
   questions: QuestionWithOptions[];
+  selectedStudy: string;
+  maxPages: number;
   children: ReactNode;
 }
 
@@ -31,13 +50,23 @@ const ManageFetchedQuestionsContext = createContext<
 
 export const ManageFetchedQuestionsProvider = ({
   children,
+  selectedStudy,
+  maxPages,
   questions: baseQuestions,
 }: ManageFetchedQuestionsProviderProps) => {
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [finish, setFinish] = useState(false);
+
   const [questions, setQuestions] =
     useState<QuestionWithOptions[]>(baseQuestions);
   const [selectedQuestion, setSelectedQuestion] = useState<string | undefined>(
     undefined
   );
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const maxPagesRef = useRef(maxPages);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const updateLocalQuestion = (question: QuestionWithOptions) => {
     setQuestions((prev) =>
@@ -55,15 +84,55 @@ export const ManageFetchedQuestionsProvider = ({
     setQuestions((prev) => prev.filter((p) => p.id !== id));
   };
 
+  const fetchSearchResults = useCallback(async () => {
+    const query = inputRef.current?.value || "";
+    const searchResults = await searchForQuestions(selectedStudy, query, 0);
+    if (!searchResults) return;
+
+    maxPagesRef.current = searchResults.maxPages;
+
+    setFinish(searchResults.maxPages <= 1);
+    setPage(1);
+    setQuestions(searchResults?.questions);
+  }, [selectedStudy]);
+
+  useEffect(() => {
+    const handleInputChange = () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      debounceTimer.current = setTimeout(fetchSearchResults, 500);
+    };
+    const inputEl = inputRef.current;
+    if (!inputEl) return;
+
+    inputEl?.addEventListener("input", handleInputChange);
+    return () => {
+      inputEl?.removeEventListener("input", handleInputChange);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [selectedStudy, inputRef, fetchSearchResults]);
+
   return (
     <ManageFetchedQuestionsContext.Provider
       value={{
+        maxPagesRef,
+        selectedStudy,
+        inputRef,
         questions,
+        setQuestions,
         selectedQuestion,
         setSelectedQuestion,
         updateLocalQuestion,
         createLocalQuestion,
         removeLocalQuestion,
+
+        page,
+        setPage,
+        loading,
+        setLoading,
+        finish,
+        setFinish,
       }}
     >
       {children}

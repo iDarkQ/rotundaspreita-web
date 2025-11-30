@@ -124,6 +124,7 @@ export const useQuestionCreatorDialog = ({ onClose, baseQuestion, baseOptions, s
 
             } else {
                 const returnedQuestion = await createQuestion(selectedStudy, payload.question, payload.category, payload.options);
+                if(!returnedQuestion) return;
                 createLocalQuestion(returnedQuestion);
             }
 
