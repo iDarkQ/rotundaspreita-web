@@ -14,12 +14,13 @@ export const Tilt = ({ children, className, angle = "left" }: Props) => {
   const tiltRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (tiltRef.current) {
+    const isXL = window.matchMedia("(min-width: 1024px)").matches;
+
+    if (tiltRef.current && isXL) {
       VanillaTilt.init(tiltRef.current, {
         max: 10,
         speed: 500,
         startX: angle === "left" ? 30 : -30,
-        // startY: 5,
         perspective: 1800,
         glare: true,
         "max-glare": 0.1,
@@ -27,7 +28,7 @@ export const Tilt = ({ children, className, angle = "left" }: Props) => {
         reset: true,
       });
     }
-  }, []);
+  }, [angle]);
 
   return (
     <div ref={tiltRef} className={clsx(className && className)}>
