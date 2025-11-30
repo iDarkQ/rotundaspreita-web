@@ -43,10 +43,10 @@ export default async function Test({ searchParams }: Props) {
   return (
     <TestManagerProvider questions={questions}>
       <Section>
-        <PositionedBlob align="left" className="w-100 h-100 top-[70vh]">
+        <PositionedBlob align="left" className="w-100 h-100 top-[70vh] opacity-50">
           <Blob1 />
         </PositionedBlob>
-        <PositionedBlob align="right" className="w-100 h-100 top-[-10vh]">
+        <PositionedBlob align="right" className="w-100 h-100 top-[-10vh] opacity-50">
           <Blob4 />
         </PositionedBlob>
         <TestResults />
