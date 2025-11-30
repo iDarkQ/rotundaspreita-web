@@ -2,6 +2,7 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
+import { markAllTestResultsAsNew } from "@/services/test-results-service";
 import { Difficulty } from "@/types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
 import { shuffle } from "@/utils/shuffle";
@@ -19,7 +20,19 @@ export const updateQuestionQuery = async (
 
 export const deleteQuestionQuery = async (where: Prisma.QuestionWhereUniqueInput) => prisma.question.delete({ where });
 
-export const findManyQuestionsQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.findMany({ where, include: { options: true } });
+export const findManyQuestionsQuery = async (
+    where: Prisma.QuestionWhereInput,
+    take?: number,
+    skip?: number
+) =>
+    prisma.question.findMany({
+        where,
+        include: { options: true },
+        take,
+        skip,
+        orderBy: { createdAt: "desc" },
+    });
+
 export const findQuestionQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.findFirst({ where, include: { options: true } });
 
 export const countQuestionsQuery = async (where: Prisma.QuestionWhereInput) => prisma.question.count({ where });
