@@ -3,7 +3,7 @@
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
 import { GoogleAccountDto } from "@/lib/dtos/user/google-account,dto";
-import { createUserQuery, findUserQuery } from "@/lib/queries/user";
+import { createUserQuery, findUserQuery, updateUserQuery } from "@/lib/queries/user";
 import { createDeviceSession } from "@/services/device-session-service";
 import { fetchUserSubscription } from "@/services/server/subscription";
 import { TokenResponse } from "@react-oauth/google";
@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import dayjs from "dayjs";
 
 const defaultAdmin = process.env.DEFAULT_ADMIN;
 const secret = process.env.JWT_SECRET;
@@ -95,12 +96,21 @@ export const verifySession = cache(async () => {
 
 export const verifySessionSubscription = cache(async () => {
     const session = await verifySession();
+    if (!session) return;
+
     const subscription = await fetchUserSubscription(session.id);
 
-    if (!session || (!subscription && !session.usedFreeTest)) return;
+    const hasValidSubscription =
+        subscription &&
+        dayjs(subscription.expiresAt).isAfter(dayjs());
 
-    return session;
-})
+    if (hasValidSubscription || !session.usedFreeTest) {
+        return session;
+    }
+
+    return;
+});
+
 
 export const verifyAdminPermissions = cache(async () => {
     const session = await verifySession();
@@ -127,4 +137,8 @@ export const signUser = async (user: User) => {
     if (!secret) return;
 
     return jwt.sign(user, secret);
+}
+
+export const beginFreeTest = async (userId: string) => {
+    return updateUserQuery({ id: userId }, { usedFreeTest: true });
 }
