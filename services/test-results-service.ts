@@ -2,7 +2,7 @@
 
 import { AnalyticsDto } from "@/lib/dtos/test-results/analytics.dto";
 import { findManyQuestionsQuery } from "@/lib/queries/question";
-import { createTestResultQuery, fetchTestResultsQuery } from "@/lib/queries/test-results";
+import { createTestResultQuery, fetchTestResultsQuery, updateManyTestsResultsQuery } from "@/lib/queries/test-results";
 import { countQuestions } from "@/services/question-service";
 import { verifySession } from "@/services/user-service";
 import { createId } from "@paralleldrive/cuid2";
@@ -46,3 +46,5 @@ export const fetchAnalytics = async (studyId: string): Promise<AnalyticsDto | un
 
     return { finishedTests, averageTestResult, visitedQuestions, correctAnswers, wrongAnswers, questionsAnswered, questionsNotAnswered }
 }
+
+export const markAllTestResultsAsNew = async (userId: string) => updateManyTestsResultsQuery({ userId }, { markAsNew: true });
