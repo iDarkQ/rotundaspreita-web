@@ -57,12 +57,13 @@ export const findRandomQuestions = async (
         }
 
         if (difficulty === "new") {
-            const idsResult = (await prisma.question.findMany({
+            const fetchNewQuestions = async () => (await prisma.question.findMany({
                 where: {
                     ...where,
                     testResults: {
                         none: {
                             userId: userId,
+                            markAsNew: true,
                         },
                     },
                 },
@@ -71,7 +72,12 @@ export const findRandomQuestions = async (
                 },
             })).map((r) => r.id);
 
-            console.log({ firstResult: idsResult })
+            let idsResult = await fetchNewQuestions();
+
+            if (idsResult.length < 1) {
+                await markAllTestResultsAsNew(userId);
+                idsResult = await fetchNewQuestions();
+            }
 
             if (idsResult.length < testLength) {
                 // We filter this to prevent repeated questions
