@@ -3,7 +3,6 @@ import { NavbarLogoText } from "@/app/_components/layout/navbar/navbar-logo/navb
 import { Link } from "@/app/_components/link";
 import { RouteNames } from "@/utils/route-names";
 
-
 export const NavbarLogo = () => (
   <Link link={RouteNames.HOME} className="flex items-center gap-2" hideStyles>
     <NavbarLogoImage />
