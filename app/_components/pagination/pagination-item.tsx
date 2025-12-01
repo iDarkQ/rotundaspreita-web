@@ -36,7 +36,7 @@ export const PaginationItem = ({
         "c-border border-pagination-item-border cursor-pointer rounded-sm transition-colors duration-200",
         "hover:bg-pagination-item-hover",
         "flex items-center justify-center",
-        "h-(--pagination-item-height)! w-(--pagination-item-height)!",
+        "h-(--pagination-item-height)! w-(--pagination-item-height)! shrink-0 aspect-square",
         disabled && "opacity-38 cursor-default!",
         className && className,
         selected &&
