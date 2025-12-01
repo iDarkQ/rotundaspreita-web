@@ -19,11 +19,14 @@ export const PanelTestMenuBlock = ({
 }: Props) => {
   const [show, setShow] = useState(true);
 
-  if (!show) return;
+  if (!show) return null;
+
+  const shouldShowMessage =
+    !user.admin && (!subscription || hasExpired);
 
   return (
     <>
-      {(!subscription || (hasExpired && !user.admin)) && (
+      {shouldShowMessage && (
         <div className="p-5 gap-2 flex flex-col items-center justify-center rounded-sm absolute w-full h-full bg-black/70 z-1">
           <Text as="h3" className="text-white!">
             Não tem uma subscrição válida
