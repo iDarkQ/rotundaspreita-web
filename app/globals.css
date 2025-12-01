@@ -10,6 +10,7 @@ body {
 
 @theme inline {
   --font-roboto: var(--font-roboto);
+  --font-code: var(--font-source-code-pro);
 
   /* tuscan-sun */
   --color-tuscan-sun-50: #fcf6e9;
@@ -68,29 +69,6 @@ body {
   --color-toggle-button-selected: rgba(0, 0, 0, 0.08);
   --color-toggle-button-hover: rgba(0, 0, 0, 0.04);
   --color-toggle-button-hover-selected: rgba(0, 0, 0, 0.12);
-
-  /* 
-  --color-light-primary: #6442d6;
-  --color-primary: #9f86ff;
-  --color-tertiary-container: #553f5d;
-  --color-secondary-container: #45455a;
-  --color-on-surface-variant: #cbc4cc;
-  --color-light-surface-variant: #cbc4cc;
-  --color-on-surface: #1c1b1d;
-  --color-light-on-background: #1c1b1d;
-  --color-light-on-surface-variant: #4d4256;
-  --color-surface-variant: #4d4256;
-  --color-primary-80: #ccbeff;
-  --color-neutral-10: #1c1b1d;
-  --color-neutral-90: #e6e1e3;
-  --color-background: #141314;
-  --color-on-surface: #1f1f1f;
-  --color-on-primary: #1a0056;
-  --color-surface-1: #1c1b1d;
-  --color-surface-2: #211f21;
-  --color-surface-3: #211f21;
-  --color-surface-4: #363436;
-  --color-surface-4: #363436; */
 
   --radius-xxl: 32px;
   --radius-xl: 24px;
