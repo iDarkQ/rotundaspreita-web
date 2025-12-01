@@ -22,13 +22,13 @@ export const SubscriptionCard = ({ active, createdAt, expiresAt }: Props) => {
 
   return (
     <Card variant="secondary" className="gap-5">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between gap-2">
         <div className="flex flex-col">
-          <Text as="h4">Subscription Plan</Text>
-          <Text>2.99€ · monthly</Text>
+          <Text as="h4">Plano de Subscrição</Text>
+          <Text>2.99€ · mensal</Text>
         </div>
         <Chip>
-          <Text className="text-white!">{active ? "Active" : "Inactive"}</Text>
+          <Text className="text-white!">{active ? "Ativo" : "Inativo"}</Text>
         </Chip>
       </div>
       <ProgressBar
@@ -37,15 +37,15 @@ export const SubscriptionCard = ({ active, createdAt, expiresAt }: Props) => {
         info={`${Math.round((progressValue / totalDays) * 100)}%`}
         label="Progresso"
       />
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col">
-          <Text>Purchased</Text>
+          <Text>Comprado</Text>
           <Text className="text-primary! font-bold">
             {start.format("D MMMM YYYY")}
           </Text>
         </div>
         <div className="flex flex-col">
-          <Text>Next Payment</Text>
+          <Text>Próximo pagamento</Text>
           <Text className="text-primary! font-bold">
             {end.format("D MMMM YYYY")}
           </Text>
