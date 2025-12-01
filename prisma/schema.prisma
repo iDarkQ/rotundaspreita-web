@@ -68,15 +68,15 @@ model TestResult {
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
-  optionId String
-  option   Option @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  optionId String?
+  option   Option? @relation(fields: [optionId], references: [id], onDelete: Cascade)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   studyId   String
   study     Study  @relation(fields: [studyId], references: [id], onDelete: Cascade)
-  testRunId String @unique
+  testRunId String
 }
 
 model Study {
