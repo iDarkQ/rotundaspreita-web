@@ -8,17 +8,15 @@ import { useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 
 interface Props {
-  study: Study;
+  study?: Study;
 }
 
-export const QuestionsEditStudy = ({ study }: Props) => {
+export const QuestionsStudiesEdit = ({ study }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {isOpen && (
-        <StudyDialog onClose={() => setIsOpen(false)} study={study} />
-      )}
+      {isOpen && <StudyDialog onClose={() => setIsOpen(false)} study={study} />}
       <Chip variant="outlined" onClick={() => setIsOpen(true)}>
         <Text as="p">Editar Estudo Selecionado</Text>
         <MdModeEdit className="text-neutral" />

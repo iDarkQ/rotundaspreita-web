@@ -12,24 +12,23 @@ import { Field } from "@/app/_components/field";
 import { Input } from "@/app/_components/input";
 import { Text } from "@/app/_components/text";
 import { useQuestionCreatorDialog } from "@/app/questions/[[...studyId]]/hooks/use-question-creator-dialog";
+import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 import { QuestionWithOptions } from "@/types/question-with-options";
-import { Combobox, RadioGroup } from "@headlessui/react";
+import { Combobox } from "@headlessui/react";
 
 interface Props {
   onClose: () => void;
   question?: QuestionWithOptions;
-  selectedStudy: string;
-  categories: string[];
 }
 
 const MAX_ANSWERS = 5;
 
-export const QuestionCreatorDialog = ({
+export const QuestionManagerDialog = ({
   onClose,
   question: baseQuestion,
-  selectedStudy,
-  categories,
 }: Props) => {
+  const { categories } = useManageSelectedStudy();
+
   const { options: baseOptions } = baseQuestion ?? {};
   const {
     canCreate,
@@ -52,7 +51,6 @@ export const QuestionCreatorDialog = ({
     baseQuestion,
     baseOptions,
     onClose,
-    selectedStudy,
   });
 
   return (
@@ -71,8 +69,7 @@ export const QuestionCreatorDialog = ({
             onChange={(e) => {
               const sanitized = e.target.value
                 .replace(/[\t\n\r]/g, " ")
-                .replace(/ {2,}/g, " ")
-                .trim();
+                .replace(/ {2,}/g, " ");
 
               setQuestion(sanitized);
             }}
@@ -108,7 +105,6 @@ export const QuestionCreatorDialog = ({
             option={optionLetter(idx)}
             label={opt.content}
             selected={selectedAnswerId === opt.id}
-            defaultValue={opt.content}
             editable
             onDelete={() => removeAnswer(opt.id)}
             onClick={() => setCorrectAnswer(opt.id)}
@@ -116,8 +112,7 @@ export const QuestionCreatorDialog = ({
             onChange={(e) => {
               const sanitized = e.target.value
                 .replace(/[\t\n\r]/g, " ")
-                .replace(/ {2,}/g, " ")
-                .trim();
+                .replace(/ {2,}/g, " ");
 
               updateOptionContent(opt.id, sanitized);
             }}

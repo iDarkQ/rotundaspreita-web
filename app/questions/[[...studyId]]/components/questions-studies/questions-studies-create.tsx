@@ -6,7 +6,7 @@ import { StudyDialog } from "@/app/questions/[[...studyId]]/components/dialogs/s
 import { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-export const QuestionsCreateStudy = () => {
+export const QuestionsStudiesCreate = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

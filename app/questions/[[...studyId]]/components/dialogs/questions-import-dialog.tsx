@@ -10,28 +10,20 @@ import { ProgressBar } from "@/app/_components/progress-bar";
 import { Text } from "@/app/_components/text";
 import { createQuestion } from "@/services/question-service";
 import { OptionLetter } from "@/app/generated/prisma/enums";
+import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 
 interface Props {
   onClose: () => void;
-  selectedStudy: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function validateQuestion(obj: any) {
-  if (!obj.question || typeof obj.question !== "string") return false;
-  if (!obj.category || typeof obj.category !== "string") return false;
-  if (!obj.answers || typeof obj.answers !== "object") return false;
-  if (!obj.correctAnswer || typeof obj.correctAnswer !== "string") return false;
-  return true;
-}
+export const QuestionsImportDialog = ({ onClose }: Props) => {
+  const { study: selectedStudy } = useManageSelectedStudy();
 
-export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
   const [progress, setProgress] = useState(0);
   const [max, setMax] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>();
   const [loading, setLoading] = useState(false);
 
-  // 👉 Ref to the hidden input
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +64,7 @@ export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
 
         try {
           await createQuestion(
-            selectedStudy,
+            selectedStudy.id,
             payload.question,
             payload.category,
             payload.options
@@ -102,7 +94,10 @@ export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
           (a chave da resposta correta).
         </Text>
         <Text>Exemplo de formato esperado:</Text>
-        <pre className="bg-black/5 p-2 rounded text-xs overflow-x-auto">
+        <Text
+          as="pre"
+          className="bg-black/5 p-2 rounded text-xs overflow-x-auto"
+        >
           {`[
   {
     "question": "What is the capital of Portugal?",
@@ -116,13 +111,12 @@ export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
     "correctAnswer": "A"
   }
 ]`}
-        </pre>
+        </Text>
       </DialogPart>
 
       <Divider />
 
       <DialogPart className="flex flex-col gap-4">
-        {/* Hidden input */}
         <input
           ref={fileInputRef}
           type="file"
@@ -131,7 +125,6 @@ export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
           className="hidden"
         />
 
-        {/* Button triggers input click */}
         <Button
           className="flex gap-1 items-center justify-center"
           onClick={() => fileInputRef.current?.click()}
@@ -153,4 +146,13 @@ export const QuestionsImportDialog = ({ selectedStudy, onClose }: Props) => {
       </DialogPart>
     </Dialog>
   );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validateQuestion = (obj: any) => {
+  if (!obj.question || typeof obj.question !== "string") return false;
+  if (!obj.category || typeof obj.category !== "string") return false;
+  if (!obj.answers || typeof obj.answers !== "object") return false;
+  if (!obj.correctAnswer || typeof obj.correctAnswer !== "string") return false;
+  return true;
 };

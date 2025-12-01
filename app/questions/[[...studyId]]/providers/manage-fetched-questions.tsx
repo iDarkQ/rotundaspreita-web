@@ -1,5 +1,7 @@
 "use client";
 
+import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
+import { SearchResults } from "@/lib/dtos/question/search-results";
 import { searchForQuestions } from "@/services/question-service";
 import { QuestionWithOptions } from "@/types/question-with-options";
 import {
@@ -17,7 +19,6 @@ import {
 
 interface ManageFetchedQuestionsContextProps {
   inputRef: RefObject<HTMLInputElement | null>;
-  selectedStudy: string;
   questions: QuestionWithOptions[];
   setQuestions: Dispatch<SetStateAction<QuestionWithOptions[]>>;
   selectedQuestion?: string;
@@ -35,11 +36,12 @@ interface ManageFetchedQuestionsContextProps {
   setPage: Dispatch<SetStateAction<number>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFinish: Dispatch<SetStateAction<boolean>>;
+
+  fetchSearchResults: (page?: number) => Promise<SearchResults | undefined>;
 }
 
 interface ManageFetchedQuestionsProviderProps {
   questions: QuestionWithOptions[];
-  selectedStudy: string;
   maxPages: number;
   children: ReactNode;
 }
@@ -50,10 +52,10 @@ const ManageFetchedQuestionsContext = createContext<
 
 export const ManageFetchedQuestionsProvider = ({
   children,
-  selectedStudy,
   maxPages,
   questions: baseQuestions,
 }: ManageFetchedQuestionsProviderProps) => {
+  const { study: selectedStudy } = useManageSelectedStudy();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -77,23 +79,19 @@ export const ManageFetchedQuestionsProvider = ({
   };
 
   const createLocalQuestion = (question: QuestionWithOptions) => {
-    setQuestions((prev) => [...prev, question]);
+    setQuestions((prev) => [question, ...prev]);
   };
 
   const removeLocalQuestion = (id: string) => {
     setQuestions((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const fetchSearchResults = useCallback(async () => {
+  const fetchSearchResults = useCallback(async (page: number = 0) => {
     const query = inputRef.current?.value || "";
-    const searchResults = await searchForQuestions(selectedStudy, query, 0);
-    if (!searchResults) return;
+    const searchResults = await searchForQuestions(selectedStudy.id, query, page);
+    if (searchResults) maxPagesRef.current = searchResults.maxPages;
 
-    maxPagesRef.current = searchResults.maxPages;
-
-    setFinish(searchResults.maxPages <= 1);
-    setPage(1);
-    setQuestions(searchResults?.questions);
+    return searchResults;
   }, [selectedStudy]);
 
   useEffect(() => {
@@ -101,7 +99,14 @@ export const ManageFetchedQuestionsProvider = ({
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);
       }
-      debounceTimer.current = setTimeout(fetchSearchResults, 500);
+      debounceTimer.current = setTimeout(async () => {
+        const searchResults = await fetchSearchResults();
+        if (!searchResults) return;
+
+        setFinish(searchResults.maxPages <= 1);
+        setPage(1);
+        setQuestions(searchResults?.questions);
+      }, 500);
     };
     const inputEl = inputRef.current;
     if (!inputEl) return;
@@ -117,7 +122,6 @@ export const ManageFetchedQuestionsProvider = ({
     <ManageFetchedQuestionsContext.Provider
       value={{
         maxPagesRef,
-        selectedStudy,
         inputRef,
         questions,
         setQuestions,
@@ -133,6 +137,8 @@ export const ManageFetchedQuestionsProvider = ({
         setLoading,
         finish,
         setFinish,
+
+        fetchSearchResults,
       }}
     >
       {children}

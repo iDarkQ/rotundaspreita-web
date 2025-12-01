@@ -4,23 +4,19 @@ import { Card } from "@/app/_components/card";
 import { Text } from "@/app/_components/text";
 import { useRipple } from "@/app/_hooks/use-ripple";
 import { User } from "@/app/generated/prisma/browser";
-import { QuestionCreatorDialog } from "@/app/questions/[[...studyId]]/components/dialogs/question-creator-dialog";
+import { QuestionManagerDialog } from "@/app/questions/[[...studyId]]/components/dialogs/question-manager-dialog";
 import { QuestionViewerDialog } from "@/app/questions/[[...studyId]]/components/dialogs/question-viewer-dialog";
 import { QuestionWithOptions } from "@/types/question-with-options";
 import { RefObject, useState } from "react";
 
 interface Props {
-  selectedStudy: string;
   question: QuestionWithOptions;
   answeredCount?: number;
-  categories: string[];
   user: User;
 }
 
 export const QuestionsCard = ({
   question,
-  selectedStudy,
-  categories,
   user,
   answeredCount = 0,
 }: Props) => {
@@ -50,14 +46,14 @@ export const QuestionsCard = ({
         )}
 
         <div className="flex flex-col p-5">
-          <Text as="h4" className="font-bold text-primary!">{question.content}</Text>
+          <Text as="h4" className="font-bold text-primary!">
+            {question.content}
+          </Text>
         </div>
       </Card>
       {isOpen &&
         (user.admin ? (
-          <QuestionCreatorDialog
-            categories={categories}
-            selectedStudy={selectedStudy}
+          <QuestionManagerDialog
             question={question}
             onClose={() => {
               setIsOpen(false);

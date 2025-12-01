@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createId } from "@paralleldrive/cuid2";
 import { Option, Question } from "@/app/generated/prisma/browser";
 import { useManageFetchedQuestions } from "@/app/questions/[[...studyId]]/providers/manage-fetched-questions";
+import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 
 const MAX_ANSWERS = 5;
 
@@ -18,10 +19,10 @@ interface Props {
     onClose: () => void;
     baseQuestion?: Question;
     baseOptions?: Option[];
-    selectedStudy: string;
 }
 
-export const useQuestionCreatorDialog = ({ onClose, baseQuestion, baseOptions, selectedStudy }: Props) => {
+export const useQuestionCreatorDialog = ({ onClose, baseQuestion, baseOptions }: Props) => {
+    const { study: selectedStudy } = useManageSelectedStudy();
     const { updateLocalQuestion, createLocalQuestion, removeLocalQuestion } = useManageFetchedQuestions();
 
     const [selectedAnswerId, setSelectedAnswerId] = useState<string | undefined>(
@@ -58,9 +59,9 @@ export const useQuestionCreatorDialog = ({ onClose, baseQuestion, baseOptions, s
             const correct = mapped.find((o) => o.answer)?.id;
             setSelectedAnswerId(correct);
         } else if (!baseOptions && !baseQuestion) {
-            setSelectedAnswerId(undefined);
+            setSelectedAnswerId(optionsDto[0]?.id);
         }
-    }, [baseQuestion, baseOptions]);
+    }, [baseQuestion, baseOptions, optionsDto, setQuestion, setCategory]);
 
     const optionLetter = useCallback(
         (index: number) => String.fromCharCode(65 + index) as OptionLetter,
@@ -98,40 +99,31 @@ export const useQuestionCreatorDialog = ({ onClose, baseQuestion, baseOptions, s
 
     const handleDelete = async () => {
         if (!baseQuestion?.id) return;
-        try {
-            await deleteQuestion(baseQuestion.id);
-            removeLocalQuestion(baseQuestion.id);
-            onClose();
-        } catch (err) {
-            console.error("Failed to delete question", err);
-        }
+        await deleteQuestion(baseQuestion.id);
+        removeLocalQuestion(baseQuestion.id);
+        onClose();
     };
 
     const handleCreateOrSave = async () => {
         if (!question.trim() || optionsDto.length < 2) return;
         const payload = buildPayload();
 
-        try {
-            if (baseQuestion?.id) {
-                const returnedQuestion = await updateQuestion(
-                    baseQuestion.id,
-                    payload.question,
-                    payload.category,
-                    payload.options
-                );
-                if (!returnedQuestion) return;
-                updateLocalQuestion(returnedQuestion);
-
-            } else {
-                const returnedQuestion = await createQuestion(selectedStudy, payload.question, payload.category, payload.options);
-                if(!returnedQuestion) return;
-                createLocalQuestion(returnedQuestion);
-            }
-
-            onClose();
-        } catch (err) {
-            console.error("Failed to save question", err);
+        if (baseQuestion?.id) {
+            const returnedQuestion = await updateQuestion(
+                baseQuestion.id,
+                payload.question,
+                payload.category,
+                payload.options
+            );
+            if (!returnedQuestion) return;
+            updateLocalQuestion(returnedQuestion);
+        } else {
+            const returnedQuestion = await createQuestion(selectedStudy.id, payload.question, payload.category, payload.options);
+            if (!returnedQuestion) return;
+            createLocalQuestion(returnedQuestion);
         }
+
+        onClose();
     };
 
     const canAddMore = optionsDto.length < MAX_ANSWERS;

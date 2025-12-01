@@ -3,43 +3,55 @@ import { Blob1 } from "@/app/_components/svgs/blob-1";
 import { Blob4 } from "@/app/_components/svgs/blob-4";
 import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
-import { fetchAllStudies } from "@/services/study-service";
-import { QuestionsStudies } from "@/app/questions/[[...studyId]]/components/questions-studies";
-import { QuestionsManage } from "@/app/questions/[[...studyId]]/components/questions-manage";
-import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
-import { notFound } from "next/navigation";
+import { QuestionsStudies } from "@/app/questions/[[...studyId]]/components/questions-studies/questions-studies";
+import { QuestionsManage } from "@/app/questions/[[...studyId]]/components/questions-manage/questions-manage";
+import {
+  fetchAllStudyCategories,
+  fetchStudyByIdOrReturnFirst,
+} from "@/services/study-service";
+import { ManageSelectedStudyProvider } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
+import { Divider } from "@/app/_components/divider";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
 }
 
-export default async function Test({ params }: Props) {
+export default async function Questions({ params }: Props) {
   const loadedParams = await params;
   const studyId = loadedParams.studyId?.[0];
-  const studies = await fetchAllStudies();
-  const user = await fetchLoggedUser();
 
-  const foundStudy = studies?.find((s) => s.id === studyId);
-  const selectedStudy = foundStudy ?? studies?.[0] ?? null;
+  const selectedStudy = await fetchStudyByIdOrReturnFirst(studyId);
+  const categories = selectedStudy
+    ? await fetchAllStudyCategories(selectedStudy.id)
+    : [];
 
-  if(!user) {
-    notFound();
-  }
-  
   return (
     <Section>
-      <PositionedBlob align="left" className="w-100 h-100 top-[90vh] opacity-50">
+      <PositionedBlob
+        align="left"
+        className="w-100 h-100 top-[90vh] opacity-50"
+      >
         <Blob1 />
       </PositionedBlob>
-      <PositionedBlob align="right" className="w-100 h-100 top-[10vh] opacity-50">
+      <PositionedBlob
+        align="right"
+        className="w-100 h-100 top-[10vh] opacity-50"
+      >
         <Blob4 />
       </PositionedBlob>
 
-      <Text as="h1">Todas as perguntas existentes</Text>
+      <Text as="h1" className="z-1" center>Todas as perguntas existentes</Text>
 
-      <QuestionsStudies studies={studies ?? []} selectedStudy={selectedStudy ?? undefined} />
-      
-      <QuestionsManage studyId={selectedStudy?.id} user={user}/>
+      <QuestionsStudies study={selectedStudy} />
+      {selectedStudy && (
+        <ManageSelectedStudyProvider
+          study={selectedStudy}
+          categories={categories}
+        >
+          <Divider orientation="horizontal" />
+          <QuestionsManage study={selectedStudy} />
+        </ManageSelectedStudyProvider>
+      )}
     </Section>
   );
 }
