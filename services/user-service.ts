@@ -14,7 +14,7 @@ import { serverFetchUserSubscription } from "@/services/server/subscription-serv
 import { serverCreateDeviceSession } from "@/services/server/device-session-service";
 import { RouteNames } from "@/utils/route-names";
 
-const defaultAdmin = process.env.DEFAULT_ADMIN;
+const defaultAdmins = process.env.DEFAULT_ADMINS;
 const secret = process.env.JWT_SECRET;
 
 export const registerUser = async (data: Omit<TokenResponse, "error" | "error_description" | "error_uri">
@@ -37,11 +37,13 @@ export const registerUser = async (data: Omit<TokenResponse, "error" | "error_de
         return signedUser;
     }
 
+    const admins = defaultAdmins?.split(",");
+
     const newUser = await createUserQuery({
         email: googleData.email,
         googleId: googleData.sub,
         name: googleData.name,
-        admin: defaultAdmin === googleData.email
+        admin: admins?.includes(googleData.email)
     });
 
     const signedUser = await serverSignUser(newUser);

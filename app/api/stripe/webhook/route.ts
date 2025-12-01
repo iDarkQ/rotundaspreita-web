@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     switch (event.type) {
-        case "checkout.session.completed":
+        case "checkout.session.completed": {
             const session = event.data.object as Stripe.Checkout.Session;
             const userId = session.metadata?.userId;
             const subscriptionId = session.subscription as string;
@@ -31,6 +31,17 @@ export const POST = async (req: NextRequest) => {
 
             await serverStartSubscription(userId, subscriptionId);
             break;
+        }
+        // case "invoice.payment_succeeded": {
+        //     const invoice = event.data.object as Stripe.Invoice;
+        //     const userId = session.metadata?.userId;
+        //     const subscriptionId = invoice. as string;
+
+        //     if (!userId) return;
+
+        //     await serverStartSubscription(userId, subscriptionId);
+        //     break;
+        // }
         default:
             break;
     }
