@@ -92,6 +92,10 @@ export const verifySessionSubscription = cache(async () => {
     const session = await verifySession();
     if (!session) return;
 
+    if(session.admin) {
+        return session;
+    }
+
     const subscription = await serverFetchUserSubscription(session.id);
 
     const hasValidSubscription =
