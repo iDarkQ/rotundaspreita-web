@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 
 interface Props {
-  as?: "p" | "h1" | "h2" | "h3" | "h4" | "label" | "span";
+  as?: "p" | "h1" | "h2" | "h3" | "h4" | "label" | "span" | "pre";
   children?: ReactNode;
   className?: string;
   center?: boolean;
@@ -14,6 +14,7 @@ const styles = {
   p: baseText,
   label: baseText,
   span: baseText,
+  pre: clsx(baseText, "bg-black/5 p-2 rounded-sm font-code! overflow-x-auto"),
 
   h1: clsx(
     `text-5xl ${baseHeading}`,
