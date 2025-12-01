@@ -14,12 +14,8 @@ import {
 
 interface TestManagerContextProps {
   questions: QuestionWithOptionsNoAnswer[];
-  answers: { [key: string]: string | undefined };
-  setAnswers: Dispatch<
-    SetStateAction<{
-      [key: string]: string | undefined;
-    }>
-  >;
+  answers: TestAnswers;
+  setAnswers: Dispatch<SetStateAction<TestAnswers>>;
   finishTest: () => Promise<void>;
   finished: boolean;
   selectedPage: string;
@@ -46,7 +42,7 @@ export const TestManagerProvider = ({
   const [finished, setFinished] = useState(false);
   const [answers, setAnswers] = useState<TestAnswers>(
     questions.reduce((acc, q) => {
-      acc[q.id] = undefined;
+      acc[q.id] = null;
       return acc;
     }, {} as TestAnswers)
   );
@@ -54,8 +50,8 @@ export const TestManagerProvider = ({
   const [correctAnswers, setCorrectAnswers] = useState<TestAnswers>({});
 
   const finishTest = async () => {
-    if(!questions[0]) return;
-    
+    if (!questions) return;
+
     const results = await verifyTestResults(questions[0].studyId, answers);
 
     setCorrectAnswers(results ?? {});

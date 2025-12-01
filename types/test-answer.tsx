@@ -1,3 +1,3 @@
 export interface TestAnswers {
-    [key: string]: string | undefined;
+    [key: string]: string | null;
 }
