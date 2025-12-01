@@ -2,10 +2,24 @@
 
 import { findManyQuestionsQuery, findRandomQuestions } from "@/lib/queries/question";
 import { createStudyQuery, deleteStudyQuery, fetchFirstStudyQuery, fetchStudiesQuery, fetchStudyWithQuestionsQuery, updateStudyQuery } from "@/lib/queries/study"
-import { createTestResults } from "@/services/test-results-service";
-import { verifySession, verifyAdminPermissions, verifySessionSubscription, beginFreeTest } from "@/services/user-service";
+import { serverCreateTestResults } from "@/services/server/test-results-service";
+import { serverBeginFreeTest } from "@/services/server/user-service";
+import { verifySession, verifyAdminPermissions, verifySessionSubscription } from "@/services/user-service";
 import { Difficulty } from "@/types/difficulty";
 import { TestAnswers } from "@/types/test-answer";
+import { createId } from "@paralleldrive/cuid2";
+
+export const fetchStudyByIdOrReturnFirst = async (id: string) => {
+    await verifySession();
+
+    let study = await fetchFirstStudyQuery({ id });
+
+    if (!study) {
+        study = await fetchFirstStudyQuery();
+    }
+
+    return study ?? undefined;
+}
 
 export const createStudy = async (title: string) => {
     const session = await verifyAdminPermissions();
@@ -81,18 +95,19 @@ export const verifyTestResults = async (studyId: string, answers: TestAnswers) =
     const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
 
     const correctAnswers = questions.reduce<TestAnswers>((acc, q) => {
-        acc[q.id] = q.options.find((o) => o.answer)?.id;
+        acc[q.id] = q.options.find((o) => o.answer)?.id ?? null;
         return acc;
     }, {});
 
+    const testRunId = createId();
+
     questions.map(async (question) => {
         const option = question.options.find((o) => o.id === answers[question.id]);
-        if (!option) return;
 
-        await createTestResults(question.id, question.studyId, session.id, option.id);
+        await serverCreateTestResults(question.id, question.studyId, session.id, testRunId, option?.id);
     });
 
-    await beginFreeTest(session.id);
+    await serverBeginFreeTest(session.id);
 
     return correctAnswers;
 }

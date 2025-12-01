@@ -2,17 +2,17 @@
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
-import { GoogleAccountDto } from "@/lib/dtos/user/google-account,dto";
-import { createUserQuery, findUserQuery, updateUserQuery } from "@/lib/queries/user";
-import { createDeviceSession } from "@/services/device-session-service";
-import { fetchUserSubscription } from "@/services/server/subscription";
+import { createUserQuery } from "@/lib/queries/user";
 import { TokenResponse } from "@react-oauth/google";
-import axios from "axios";
 import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import dayjs from "dayjs";
+import { serverFetchGoogleAccountInfo, serverFindUserByEmail, serverFindUserById, serverSignUser } from "@/services/server/user-service";
+import { serverFetchUserSubscription } from "@/services/server/subscription-service";
+import { serverCreateDeviceSession } from "@/services/server/device-session-service";
+import { RouteNames } from "@/utils/route-names";
 
 const defaultAdmin = process.env.DEFAULT_ADMIN;
 const secret = process.env.JWT_SECRET;
@@ -21,17 +21,17 @@ export const registerUser = async (data: Omit<TokenResponse, "error" | "error_de
     , ipAddress: string, userAgent: string) => {
     if (!secret) return;
 
-    const googleData = await fetchGoogleAccountInfo(data.access_token);
+    const googleData = await serverFetchGoogleAccountInfo(data.access_token);
 
     if (!googleData) return;
 
-    const existingUser = await findUserByEmail(googleData.email);
+    const existingUser = await serverFindUserByEmail(googleData.email);
 
     if (existingUser) {
-        const signedUser = await signUser(existingUser);
+        const signedUser = await serverSignUser(existingUser);
         if (!signedUser) return;
 
-        const session = await createDeviceSession(existingUser.id, ipAddress, userAgent, signedUser);
+        const session = await serverCreateDeviceSession(existingUser.id, ipAddress, userAgent, signedUser);
         if (!session) return;
 
         return signedUser;
@@ -44,19 +44,11 @@ export const registerUser = async (data: Omit<TokenResponse, "error" | "error_de
         admin: defaultAdmin === googleData.email
     });
 
-    const signedUser = await signUser(newUser);
+    const signedUser = await serverSignUser(newUser);
     if (!signedUser) return;
 
-    await createDeviceSession(newUser.id, ipAddress, userAgent, signedUser);
+    await serverCreateDeviceSession(newUser.id, ipAddress, userAgent, signedUser);
     return signedUser;
-}
-
-export const findUserById = async (id: string) => {
-    return findUserQuery({ id });
-}
-
-export const findUserByEmail = async (email: string) => {
-    return findUserQuery({ email });
 }
 
 export const authenticate = async (
@@ -73,11 +65,11 @@ export const authenticate = async (
 
     if (!userId || !ip || !agent) return;
 
-    const user = await findUserById(userId);
+    const user = await serverFindUserById(userId);
 
     if (!user) return;
 
-    const session = await createDeviceSession(userId, ip, agent, jwtToken);
+    const session = await serverCreateDeviceSession(userId, ip, agent, jwtToken);
 
     if (!session) return;
 
@@ -88,7 +80,7 @@ export const verifySession = cache(async () => {
     const user = await fetchLoggedUser();
 
     if (!user) {
-        redirect('/login')
+        redirect(RouteNames.LOGIN)
     }
 
     return user;
@@ -98,7 +90,7 @@ export const verifySessionSubscription = cache(async () => {
     const session = await verifySession();
     if (!session) return;
 
-    const subscription = await fetchUserSubscription(session.id);
+    const subscription = await serverFetchUserSubscription(session.id);
 
     const hasValidSubscription =
         subscription &&
@@ -119,26 +111,3 @@ export const verifyAdminPermissions = cache(async () => {
     return session;
 })
 
-export const fetchGoogleAccountInfo = async (token: string) => {
-    const req = await axios("https://openidconnect.googleapis.com/v1/userinfo", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    if (!req.data) return;
-
-    const data = req.data as GoogleAccountDto;
-
-    return data;
-}
-
-export const signUser = async (user: User) => {
-    if (!secret) return;
-
-    return jwt.sign(user, secret);
-}
-
-export const beginFreeTest = async (userId: string) => {
-    return updateUserQuery({ id: userId }, { usedFreeTest: true });
-}

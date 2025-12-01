@@ -1,6 +1,8 @@
+"use server";
+
 import { createDeviceSessionQuery, findDeviceSessionsQuery, updateDeviceSessionQuery } from "@/lib/queries/device-session";
 
-export const createDeviceSession = async (
+export const serverCreateDeviceSession = async (
     userId: string,
     ipAddress: string,
     userAgent: string,

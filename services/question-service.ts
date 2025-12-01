@@ -14,11 +14,11 @@ interface OptionProp {
     answer: boolean;
 }
 
-const take = 4;
+const take = 10;
 
 export const createQuestion = async (studyId: string, content: string, category: string, options: OptionProp[]) => {
     const session = await verifyAdminPermissions();
-    if (!session) return;
+    if (!session || !options.some((o) => o.answer)) return;
 
     return createQuestionQuery({
         content, category, study: {
@@ -34,7 +34,7 @@ export const createQuestion = async (studyId: string, content: string, category:
 
 export const updateQuestion = async (id: string, content: string, category: string, options: UpdateQuestionDto[]) => {
     const session = await verifyAdminPermissions();
-    if (!session) return;
+    if (!session || !options.some((o) => o.answer)) return;
 
     const existingOptions = (await findQuestionQuery({ id }));
 
@@ -69,9 +69,7 @@ export const deleteQuestion = async (id: string) => {
 }
 
 export const searchForQuestions = async (studyId: string, searchText?: string, page?: number): Promise<SearchResults | undefined> => {
-    const session = await verifySession();
-
-    if (!session) return;
+    await verifySession();
 
     const where: Prisma.QuestionWhereInput = {
         studyId,
@@ -93,15 +91,13 @@ export const searchForQuestions = async (studyId: string, searchText?: string, p
 }
 
 export const countQuestions = async (studyId?: string, category?: string) => {
-    const session = await verifySession();
-    if (!session) return 0;
+    await verifySession();
 
     return countQuestionsQuery({ category, studyId });
 }
 
 export const countAnsweredQuestions = async () => {
     const session = await verifySession();
-    if (!session) return {};
 
     const results = await fetchTestResultsQuery({ userId: session.id });
 
