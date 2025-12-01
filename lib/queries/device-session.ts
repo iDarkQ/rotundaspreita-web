@@ -12,5 +12,6 @@ export const findDeviceSessionsQuery = async (where: Prisma.DeviceSessionWhereIn
 }
 
 export const deleteDeviceSessionQuery = async (where: Prisma.DeviceSessionWhereUniqueInput) => prisma.deviceSession.delete({ where })
+export const deleteManyDeviceSessionQuery = async (where: Prisma.DeviceSessionWhereInput) => prisma.deviceSession.deleteMany({ where })
 
 export const updateDeviceSessionQuery = async (where: Prisma.DeviceSessionWhereUniqueInput, data: Prisma.DeviceSessionUpdateInput) => prisma.deviceSession.update({ where, data })

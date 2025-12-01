@@ -18,8 +18,10 @@ export const LoginButton = ({ ip, agent }: Props) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const secret = await registerUser(tokenResponse, ip, agent);
-      await saveSecret(secret ?? "");
-      redirect(RouteNames.PANEL);
+      if (secret) {
+        await saveSecret(secret);
+        redirect(RouteNames.PANEL);
+      }
     },
   });
 

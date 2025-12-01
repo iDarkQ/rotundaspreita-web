@@ -1,6 +1,7 @@
 "use server";
 
-import { createDeviceSessionQuery, findDeviceSessionsQuery, updateDeviceSessionQuery } from "@/lib/queries/device-session";
+import { createDeviceSessionQuery, deleteManyDeviceSessionQuery, findDeviceSessionsQuery, updateDeviceSessionQuery } from "@/lib/queries/device-session";
+
 
 export const serverCreateDeviceSession = async (
     userId: string,
@@ -8,6 +9,14 @@ export const serverCreateDeviceSession = async (
     userAgent: string,
     jwtToken: string
 ) => {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 1);
+
+    await deleteManyDeviceSessionQuery({
+        lastActive: {
+            lt: cutoff,
+        },
+    });
     const existingDeviceSessions = await findDeviceSessionsQuery({ userId });
 
     const existingSession = existingDeviceSessions.find(
