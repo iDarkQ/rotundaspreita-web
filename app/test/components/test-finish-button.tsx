@@ -16,7 +16,7 @@ export const TestFinishButton = () => {
       return;
     }
 
-    const finishedAllQuestions = !Object.values(answers).includes(undefined);
+    const finishedAllQuestions = !Object.values(answers).includes(null);
 
     if (!finishedAllQuestions) {
       setOpen(true);
