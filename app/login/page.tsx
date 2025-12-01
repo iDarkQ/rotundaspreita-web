@@ -5,6 +5,7 @@ import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { LoginButton } from "@/app/login/login-button";
+import { RouteNames } from "@/utils/route-names";
 import { headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 
@@ -16,11 +17,11 @@ export default async function Login() {
   const user = await fetchLoggedUser();
 
   if (user) {
-    redirect("/panel", RedirectType.push);
+    redirect(RouteNames.PANEL, RedirectType.push);
   }
 
   if (!ip || !agent) {
-    redirect("/");
+    redirect(RouteNames.HOME);
   }
 
   return (
