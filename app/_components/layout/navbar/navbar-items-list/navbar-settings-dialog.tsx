@@ -9,12 +9,9 @@ import { Text } from "@/app/_components/text";
 
 import dayjs from "dayjs";
 import { Banner } from "@/app/_components/banner";
-import {
-  cancelSubscription,
-  uncancelSubscription,
-} from "@/services/server/subscription";
 import { logoutUser } from "@/app/_components/layout/navbar/server/logout";
 import { useNavbarManager } from "@/app/_components/layout/navbar/providers/navbar-manager";
+import { cancelSubscription, uncancelSubscription } from "@/services/subscription-service";
 
 interface Props {
   onClose: () => void;
@@ -54,28 +51,29 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
             <Button variant="text" onClick={handleSubscriptionButton}>
               <Text>
                 {hasExpired || subscription?.cancelled
-                  ? "Renew Subscription"
-                  : "Cancel Subscription"}
+                  ? "Renovar Subscrição"
+                  : "Cancelar Subscrição"}
               </Text>
             </Button>
           </>
         ) : (
           <Banner center>
-            <Text>You dont have a valid subscription</Text>
+            <Text>Não tem uma subscrição ativa</Text>
           </Banner>
         )}
         {subscription?.cancelled && !hasExpired && (
           <Text>
-            Your subscription has been cancelled and you wont be charged the
-            following month. You can still use your account until that date. You
-            can renew your subscription any time with the button above.
+            A sua subscrição foi cancelada. Não será cobrado no próximo mês.
+            Pode continuar a utilizar a sua conta até ao fim do período atual de
+            faturação. Se desejar, pode renovar a sua subscrição a qualquer
+            momento através do botão acima.
           </Text>
         )}
       </DialogPart>
       <Divider />
       <DialogPart>
         <Button variant="contained" onClick={logoutUser}>
-          <Text className="text-white!">Logout</Text>
+          <Text className="text-white!">Encerrar Sessão</Text>
         </Button>
       </DialogPart>
     </Dialog>
