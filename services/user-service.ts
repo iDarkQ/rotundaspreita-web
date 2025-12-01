@@ -56,7 +56,7 @@ export const registerUser = async (data: Omit<TokenResponse, "error" | "error_de
 export const authenticate = async (
     jwtToken: string
 ) => {
-    if (!secret) return;
+    if (!secret || jwtToken === "") return;
 
     const headersList = await headers();
     const ip = headersList.get("x-forwarded-for");
