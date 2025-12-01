@@ -3,21 +3,16 @@ import { Blob1 } from "@/app/_components/svgs/blob-1";
 import { Blob4 } from "@/app/_components/svgs/blob-4";
 import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
-import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
-import { notFound, redirect } from "next/navigation";
 import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
 import { PanelStatistics } from "@/app/panel/[[...studyId]]/components/panel-statistics/panel-statistics";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
 } from "@/services/study-service";
-import { RouteNames } from "@/utils/route-names";
-import { Button } from "@/app/_components/button";
-import { createCheckoutSession } from "@/app/panel/[[...studyId]]/server/create-stripe-session";
-import { PanelRenewSubscriptionButton } from "@/app/panel/[[...studyId]]/components/panel-renew-subscription-button";
-import { fetchUserSubscription } from "@/services/server/subscription";
 import dayjs from "dayjs";
 import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block";
+import { fetchLoggedUserSubscription } from "@/services/subscription-service";
+import { verifySession } from "@/services/user-service";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -32,13 +27,9 @@ export default async function Panel({ params }: Props) {
     ? await fetchAllStudyCategories(foundStudy.id)
     : [];
 
-  const user = await fetchLoggedUser();
+  const user = await verifySession();
 
-  if (!user) {
-    redirect(RouteNames.LOGIN);
-  }
-
-  const subscription = await fetchUserSubscription(user.id);
+  const subscription = await fetchLoggedUserSubscription();
 
   const hasExpired = dayjs(subscription?.expiresAt).isBefore(
     subscription?.createdAt
@@ -49,7 +40,10 @@ export default async function Panel({ params }: Props) {
       <PositionedBlob align="left" className="w-100 h-100 top-[90%] opacity-50">
         <Blob1 />
       </PositionedBlob>
-      <PositionedBlob align="right" className="w-100 h-100 top-[10%] opacity-50">
+      <PositionedBlob
+        align="right"
+        className="w-100 h-100 top-[10%] opacity-50"
+      >
         <Blob4 />
       </PositionedBlob>
       <div className="w-full flex flex-col items-start gap-5">

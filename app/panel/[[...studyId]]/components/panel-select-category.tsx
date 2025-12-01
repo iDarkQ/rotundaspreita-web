@@ -6,7 +6,7 @@ import { ListBoxOptions } from "@/app/_components/list-box/list-box-options";
 import { Text } from "@/app/_components/text";
 import { useTestMenu } from "@/app/panel/[[...studyId]]/providers/test-menu";
 import { Listbox } from "@headlessui/react";
-import { MdArrowForward } from "react-icons/md";
+import { MdArrowDownward, MdArrowForward } from "react-icons/md";
 
 export const PanelSelectCategory = () => {
   const { selectedCategory, setSelectedCategory, listedCategories } =
@@ -16,7 +16,9 @@ export const PanelSelectCategory = () => {
 
   return (
     <>
-      <MdArrowForward size={40} />
+      <div className="flex items-center justify-center max-md:hidden">
+        <MdArrowForward size={20} className="text-primary!" />
+      </div>
       <Listbox value={selectedCategory} onChange={setSelectedCategory}>
         <ListBoxButton className="w-full">{selectedCategory}</ListBoxButton>
         <ListBoxOptions anchor="bottom">

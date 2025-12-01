@@ -1,12 +1,10 @@
 "use server";
 
-import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { stripe } from "@/lib/stripe";
+import { verifySession } from "@/services/user-service";
 
 export const createCheckoutSession = async () => {
-    const user = await fetchLoggedUser();
-
-    if (!user) return;
+    const user = await verifySession();
 
     const session = await stripe.checkout.sessions.create({
         line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],

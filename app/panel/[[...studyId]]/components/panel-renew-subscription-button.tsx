@@ -11,9 +11,7 @@ export const PanelRenewSubscriptionButton = () => {
       onClick={async () => {
         const url = await createCheckoutSession();
         if (!url) return;
-
-        console.log({ url });
-
+        
         window.open(url, "_blank");
       }}
     >

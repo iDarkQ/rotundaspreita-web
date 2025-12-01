@@ -1,4 +1,4 @@
-import { startSubscription } from "@/services/server/subscription";
+import { serverStartSubscription } from "@/services/server/subscription-service";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -29,7 +29,7 @@ export const POST = async (req: NextRequest) => {
 
             if (!userId) return;
 
-            await startSubscription(userId, subscriptionId);
+            await serverStartSubscription(userId, subscriptionId);
             break;
         default:
             break;

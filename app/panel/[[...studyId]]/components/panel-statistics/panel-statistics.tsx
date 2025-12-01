@@ -25,7 +25,7 @@ export const PanelStatistics = async ({ defaultStudyId }: Props) => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-5 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
         <StatisticsCard
           name="Testes concluídos"
           value={analytics?.finishedTests.toString() ?? "0"}
@@ -42,7 +42,7 @@ export const PanelStatistics = async ({ defaultStudyId }: Props) => {
           className="col-span-1 w-full"
         />
       </div>
-      <div className="grid grid-cols-2 gap-5 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
         <PanelStatisticsChart
           data={[
             {

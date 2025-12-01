@@ -34,7 +34,7 @@ export const PageTestMenu = forwardRef<HTMLDivElement, Props>(
               categories={categories}
               defaultStudyId={defaultStudyId}
             >
-              <div className="flex gap-2">
+              <div className="flex gap-2 max-md:flex-col">
                 <PanelSelectStudy
                   studies={studies}
                   selectedStudyId={defaultStudyId}
