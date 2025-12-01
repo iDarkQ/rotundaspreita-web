@@ -2,7 +2,7 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
-import { markAllTestResultsAsNew } from "@/services/test-results-service";
+import { serverMarkAllTestResultsAsNew } from "@/services/server/test-results-service";
 import { Difficulty } from "@/types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
 import { shuffle } from "@/utils/shuffle";
@@ -52,30 +52,30 @@ export const findRandomQuestions = async (
             select: { id: true },
         })).map((b) => b.id);
 
+        const fetchNewQuestions = async () => (await prisma.question.findMany({
+            where: {
+                ...where,
+                testResults: {
+                    none: {
+                        userId: userId,
+                        markAsNew: true,
+                    },
+                },
+            },
+            select: {
+                id: true,
+            },
+        })).map((r) => r.id);
+
         if (difficulty === "all") {
             return basicIdsResult;
         }
 
         if (difficulty === "new") {
-            const fetchNewQuestions = async () => (await prisma.question.findMany({
-                where: {
-                    ...where,
-                    testResults: {
-                        none: {
-                            userId: userId,
-                            markAsNew: true,
-                        },
-                    },
-                },
-                select: {
-                    id: true,
-                },
-            })).map((r) => r.id);
-
             let idsResult = await fetchNewQuestions();
 
             if (idsResult.length < 1) {
-                await markAllTestResultsAsNew(userId);
+                await serverMarkAllTestResultsAsNew(userId);
                 idsResult = await fetchNewQuestions();
             }
 
@@ -97,13 +97,14 @@ export const findRandomQuestions = async (
                         select: { answer: true },
                     },
                 },
+                orderBy: { createdAt: "desc" },
             });
 
             const stats = results.reduce<{ [key: string]: { wrong: number, total: number } }>((acc, tr) => {
                 const qid = tr.questionId;
                 if (!acc[qid]) acc[qid] = { total: 0, wrong: 0 };
                 acc[qid].total++;
-                if (!tr.option.answer) acc[qid].wrong++;
+                if (!tr.option || tr.option.answer) acc[qid].wrong++;
                 return acc;
             }, {});
 
@@ -114,12 +115,14 @@ export const findRandomQuestions = async (
                 }))
                 .sort((a, b) => b.wrongRatio - a.wrongRatio);
 
-            const idsResult = hardest.map((h) => h.questionId);
+            // The code belows makes sure we only show hardest questions that user has not finished yet or are not marked with markedAsNew
+            const newQuestions = await fetchNewQuestions();
+            const idsResult = (hardest.map((h) => h.questionId).filter((i) => newQuestions.includes(i)));
 
             if (hardest.length < testLength) {
                 // We filter this to prevent repeated questions
                 const filteredBasicIdsResult = basicIdsResult.filter(b => !idsResult.includes(b));
-                idsResult.push(...shuffle(filteredBasicIdsResult).slice(0, testLength - idsResult.length));
+                idsResult.push(...filteredBasicIdsResult.slice(0, testLength - idsResult.length));
             }
 
             return idsResult;
