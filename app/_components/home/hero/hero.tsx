@@ -30,7 +30,7 @@ export const HomeHero = () => (
           Torne-se Instrutor ou Diretor de Escola de Condução
         </Text>
         <Text>
-          Treine com mini-exames reais: 30 perguntas em 30 minutos. Mais de 600
+          Treine com mini-exames reais: 30 perguntas em 30 minutos. Mais de 900
           questões, análises inteligentes e automações que aceleram o seu
           progresso.
         </Text>
@@ -51,7 +51,7 @@ export const HomeHero = () => (
         <div className="flex flex-wrap gap-2">
           <StatisticsCard
             name="Perguntas"
-            value="600+"
+            value="900+"
             className="max-2xl:flex-1"
           />
           <StatisticsCard
