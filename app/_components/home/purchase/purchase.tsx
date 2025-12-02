@@ -16,7 +16,7 @@ export const HomePurchase = () => (
       <PlanCard
         bulletList={[
           "Acesso a todos os estudos (diretor, instrutor)",
-          "Acesso total a 600+ questões",
+          "Acesso total a 900+ questões",
           "Testes ilimitados de 30 minutos",
           "Estatística modernas e completas",
           "Atualizações automáticas",

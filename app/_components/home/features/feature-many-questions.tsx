@@ -2,17 +2,13 @@ import { AnswerOption } from "@/app/_components/answer-option";
 import { TestFeatureCard } from "@/app/_components/home/test-feature-card";
 import { Tilt } from "@/app/_components/tilt";
 import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
-import {
-  fetchAllStudies,
-  fetchAllStudyCategories,
-} from "@/app/_services/study-service";
 import { RadioGroup } from "@headlessui/react";
 import { IoMdListBox } from "react-icons/io";
 
 export const FeatureManyQuestions = async () => (
   <TestFeatureCard
     prefix={<IoMdListBox size={50} className="text-primary!" />}
-    title="600+ Questões"
+    title="900+ Questões"
     description="Simule o ambiente de prova e melhore a sua gestão de tempo."
     align="right"
   >
