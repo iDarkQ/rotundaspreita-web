@@ -1,8 +1,8 @@
 "use client";
 
-import { verifyTestResults } from "@/services/study-service";
-import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
-import { TestAnswers } from "@/types/test-answer";
+import { verifyTestResults } from "@/app/_services/study-service";
+import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
+import { TestAnswers } from "@/app/_types/test-answer";
 import {
   createContext,
   Dispatch,

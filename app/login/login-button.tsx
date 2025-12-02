@@ -2,12 +2,12 @@
 
 import { Button } from "@/app/_components/button";
 import { Text } from "@/app/_components/text";
-import { registerUser } from "@/services/user-service";
+import { registerUser } from "@/app/_services/user-service";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
 import { redirect } from "next/navigation";
 import { saveSecret } from "@/app/login/save-secret";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import { useState } from "react";
 
 interface Props {

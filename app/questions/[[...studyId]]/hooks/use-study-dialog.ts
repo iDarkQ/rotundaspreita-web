@@ -4,8 +4,8 @@ import {
     updateStudy,
     deleteStudy,
     createStudy,
-} from "@/services/study-service";
-import { RouteNames } from "@/utils/route-names";
+} from "@/app/_services/study-service";
+import { RouteNames } from "@/app/_utils/route-names";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 

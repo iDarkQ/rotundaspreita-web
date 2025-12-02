@@ -8,7 +8,7 @@ import { Divider } from "@/app/_components/divider";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { ProgressBar } from "@/app/_components/progress-bar";
 import { Text } from "@/app/_components/text";
-import { createQuestion } from "@/services/question-service";
+import { createQuestion } from "@/app/_services/question-service";
 import { OptionLetter } from "@/app/generated/prisma/enums";
 import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 

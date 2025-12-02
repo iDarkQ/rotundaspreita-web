@@ -2,7 +2,7 @@ import { Button } from "@/app/_components/button";
 import { Link } from "@/app/_components/link";
 import { Section } from "@/app/_components/section";
 import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 
 export default function NotFound() {
   return (

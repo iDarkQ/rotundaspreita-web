@@ -1,11 +1,11 @@
 "use server";
 
 import { Prisma } from "@/app/generated/prisma/client";
-import prisma from "@/lib/prisma";
-import { serverMarkAllTestResultsAsNew } from "@/services/server/test-results-service";
-import { Difficulty } from "@/types/difficulty";
-import { QuestionWithOptionsNoAnswer } from "@/types/question-with-options-no-answer";
-import { shuffle } from "@/utils/shuffle";
+import prisma from "@/app/_lib/prisma";
+import { serverMarkAllTestResultsAsNew } from "@/app/_services/server/test-results-service";
+import { Difficulty } from "@/app/_types/difficulty";
+import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
+import { shuffle } from "@/app/_utils/shuffle";
 
 const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH) ?? 30;
 

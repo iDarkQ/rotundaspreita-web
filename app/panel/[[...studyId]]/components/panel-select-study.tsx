@@ -3,7 +3,7 @@ import { ListBoxOption } from "@/app/_components/list-box/list-box-option";
 import { ListBoxOptions } from "@/app/_components/list-box/list-box-options";
 import { Text } from "@/app/_components/text";
 import { Study } from "@/app/generated/prisma/browser";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import { Listbox } from "@headlessui/react";
 import { redirect } from "next/navigation";
 
@@ -14,7 +14,7 @@ interface Props {
 
 export const PanelSelectStudy = ({ selectedStudyId, studies }: Props) => {
   const selectedStudy = studies.find((s) => s.id === selectedStudyId);
-  
+
   const handleOnChange = async (value: string) => {
     redirect(RouteNames.PANEL + "/" + value);
   };

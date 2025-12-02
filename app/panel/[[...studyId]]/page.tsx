@@ -8,11 +8,11 @@ import { PanelStatistics } from "@/app/panel/[[...studyId]]/components/panel-sta
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
-} from "@/services/study-service";
+} from "@/app/_services/study-service";
 import dayjs from "dayjs";
 import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block";
-import { fetchLoggedUserSubscription } from "@/services/subscription-service";
-import { verifySession } from "@/services/user-service";
+import { fetchLoggedUserSubscription } from "@/app/_services/subscription-service";
+import { verifySession } from "@/app/_services/user-service";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;

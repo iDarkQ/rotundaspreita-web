@@ -1,7 +1,7 @@
 "use server";
 
-import { stripe } from "@/lib/stripe";
-import { verifySession } from "@/services/user-service";
+import { stripe } from "@/app/_lib/stripe";
+import { verifySession } from "@/app/_services/user-service";
 
 export const createCheckoutSession = async () => {
     const user = await verifySession();

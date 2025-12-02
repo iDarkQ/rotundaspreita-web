@@ -4,7 +4,7 @@ import { AnswerOption } from "@/app/_components/answer-option";
 import { Dialog } from "@/app/_components/dialog/dialog";
 import { DialogPart } from "@/app/_components/dialog/dialog-part";
 import { OptionLetter } from "@/app/generated/prisma/browser";
-import { QuestionWithOptions } from "@/types/question-with-options";
+import { QuestionWithOptions } from "@/app/_types/question-with-options";
 import { RadioGroup } from "@headlessui/react";
 import { useCallback } from "react";
 

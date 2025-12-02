@@ -5,8 +5,8 @@ import { ManageFetchedQuestionsProvider } from "@/app/questions/[[...studyId]]/p
 import {
   countAnsweredQuestions,
   searchForQuestions,
-} from "@/services/question-service";
-import { verifySession } from "@/services/user-service";
+} from "@/app/_services/question-service";
+import { verifySession } from "@/app/_services/user-service";
 import { Study } from "@/app/generated/prisma/browser";
 
 interface Props {
@@ -27,10 +27,7 @@ export const QuestionsManage = async ({ study }: Props) => {
       >
         {session.admin && <QuestionsManageActions />}
         <QuestionsManageSearchInput />
-        <QuestionsList
-          responses={responses}
-          user={session}
-        />
+        <QuestionsList responses={responses} user={session} />
       </ManageFetchedQuestionsProvider>
     </div>
   );

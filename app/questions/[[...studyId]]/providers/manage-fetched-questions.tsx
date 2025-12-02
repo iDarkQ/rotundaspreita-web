@@ -1,9 +1,9 @@
 "use client";
 
 import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
-import { SearchResults } from "@/lib/dtos/question/search-results";
-import { searchForQuestions } from "@/services/question-service";
-import { QuestionWithOptions } from "@/types/question-with-options";
+import { SearchResults } from "@/app/_lib/dtos/question/search-results";
+import { searchForQuestions } from "@/app/_services/question-service";
+import { QuestionWithOptions } from "@/app/_types/question-with-options";
 import {
   createContext,
   Dispatch,
@@ -86,13 +86,20 @@ export const ManageFetchedQuestionsProvider = ({
     setQuestions((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const fetchSearchResults = useCallback(async (page: number = 0) => {
-    const query = inputRef.current?.value || "";
-    const searchResults = await searchForQuestions(selectedStudy.id, query, page);
-    if (searchResults) maxPagesRef.current = searchResults.maxPages;
+  const fetchSearchResults = useCallback(
+    async (page: number = 0) => {
+      const query = inputRef.current?.value || "";
+      const searchResults = await searchForQuestions(
+        selectedStudy.id,
+        query,
+        page
+      );
+      if (searchResults) maxPagesRef.current = searchResults.maxPages;
 
-    return searchResults;
-  }, [selectedStudy]);
+      return searchResults;
+    },
+    [selectedStudy]
+  );
 
   useEffect(() => {
     const handleInputChange = () => {

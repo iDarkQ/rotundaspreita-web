@@ -1,10 +1,10 @@
 "use server";
 
-import { AnalyticsDto } from "@/lib/dtos/test-results/analytics.dto";
-import { findManyQuestionsQuery } from "@/lib/queries/question";
-import { fetchTestResultsQuery } from "@/lib/queries/test-results";
-import { countQuestions } from "@/services/question-service";
-import { verifySession } from "@/services/user-service";
+import { AnalyticsDto } from "@/app/_lib/dtos/test-results/analytics.dto";
+import { findManyQuestionsQuery } from "@/app/_lib/queries/question";
+import { fetchTestResultsQuery } from "@/app/_lib/queries/test-results";
+import { countQuestions } from "@/app/_services/question-service";
+import { verifySession } from "@/app/_services/user-service";
 
 export const fetchAnalytics = async (studyId: string): Promise<AnalyticsDto | undefined> => {
     const session = await verifySession();

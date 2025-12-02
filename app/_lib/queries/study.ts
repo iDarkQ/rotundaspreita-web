@@ -1,7 +1,7 @@
 "use server";
 
 import { Prisma } from "@/app/generated/prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "@/app/_lib/prisma";
 
 export const createStudyQuery = async (data: Prisma.StudyCreateInput) =>
     prisma.study.create({ data })

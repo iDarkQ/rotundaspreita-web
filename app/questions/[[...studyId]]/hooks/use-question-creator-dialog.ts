@@ -1,12 +1,12 @@
 "use client";
 
 import { OptionLetter } from "@/app/generated/prisma/enums";
-import { UpdateQuestionDto } from "@/lib/dtos/question/update-question-option.dto";
+import { UpdateQuestionDto } from "@/app/_lib/dtos/question/update-question-option.dto";
 import {
     createQuestion,
     updateQuestion,
     deleteQuestion,
-} from "@/services/question-service";
+} from "@/app/_services/question-service";
 import { useCallback, useEffect, useState } from "react";
 import { createId } from "@paralleldrive/cuid2";
 import { Option, Question } from "@/app/generated/prisma/browser";

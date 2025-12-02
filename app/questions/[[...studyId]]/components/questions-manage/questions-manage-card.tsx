@@ -6,7 +6,7 @@ import { useRipple } from "@/app/_hooks/use-ripple";
 import { User } from "@/app/generated/prisma/browser";
 import { QuestionManagerDialog } from "@/app/questions/[[...studyId]]/components/dialogs/question-manager-dialog";
 import { QuestionViewerDialog } from "@/app/questions/[[...studyId]]/components/dialogs/question-viewer-dialog";
-import { QuestionWithOptions } from "@/types/question-with-options";
+import { QuestionWithOptions } from "@/app/_types/question-with-options";
 import { RefObject, useState } from "react";
 
 interface Props {
@@ -15,11 +15,7 @@ interface Props {
   user: User;
 }
 
-export const QuestionsCard = ({
-  question,
-  user,
-  answeredCount = 0,
-}: Props) => {
+export const QuestionsCard = ({ question, user, answeredCount = 0 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { ref } = useRipple();
 

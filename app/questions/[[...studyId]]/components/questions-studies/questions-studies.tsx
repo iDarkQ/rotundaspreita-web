@@ -2,8 +2,8 @@ import { Study } from "@/app/generated/prisma/browser";
 import { QuestionsStudiesCreate } from "@/app/questions/[[...studyId]]/components/questions-studies/questions-studies-create";
 import { QuestionsStudiesEdit } from "@/app/questions/[[...studyId]]/components/questions-studies/questions-studies-edit";
 import { QuestionsStudiesList } from "@/app/questions/[[...studyId]]/components/questions-studies/questions-studies-list";
-import { fetchAllStudies } from "@/services/study-service";
-import { verifySession } from "@/services/user-service";
+import { fetchAllStudies } from "@/app/_services/study-service";
+import { verifySession } from "@/app/_services/user-service";
 
 interface Props {
   study?: Study;

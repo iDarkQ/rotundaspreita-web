@@ -2,11 +2,11 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import { OptionLetter } from "@/app/generated/prisma/enums";
-import { SearchResults } from "@/lib/dtos/question/search-results";
-import { UpdateQuestionDto } from "@/lib/dtos/question/update-question-option.dto";
-import { countQuestionsQuery, createQuestionQuery, deleteQuestionQuery, findManyQuestionsQuery, findQuestionQuery, updateQuestionQuery } from "@/lib/queries/question";
-import { fetchTestResultsQuery } from "@/lib/queries/test-results";
-import { verifySession, verifyAdminPermissions } from "@/services/user-service";
+import { SearchResults } from "@/app/_lib/dtos/question/search-results";
+import { UpdateQuestionDto } from "@/app/_lib/dtos/question/update-question-option.dto";
+import { countQuestionsQuery, createQuestionQuery, deleteQuestionQuery, findManyQuestionsQuery, findQuestionQuery, updateQuestionQuery } from "@/app/_lib/queries/question";
+import { fetchTestResultsQuery } from "@/app/_lib/queries/test-results";
+import { verifySession, verifyAdminPermissions } from "@/app/_services/user-service";
 
 interface OptionProp {
     letter: OptionLetter;

@@ -1,6 +1,6 @@
 "use server";
 
-import { createTestResultQuery, updateManyTestsResultsQuery } from "@/lib/queries/test-results";
+import { createTestResultQuery, updateManyTestsResultsQuery } from "@/app/_lib/queries/test-results";
 
 export const serverMarkAllTestResultsAsNew = async (userId: string) => updateManyTestsResultsQuery({ userId }, { markAsNew: true });
 

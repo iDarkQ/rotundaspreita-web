@@ -7,7 +7,7 @@ import { Blob1 } from "@/app/_components/svgs/blob-1";
 import { Blob4 } from "@/app/_components/svgs/blob-4";
 import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 
 export const HomeHero = () => (
   <Section>
@@ -23,7 +23,10 @@ export const HomeHero = () => (
 
     <div className="flex items-center justify-center gap-10 min-h-[65vh] max-xl:flex-col! max-xl:mt-20">
       <div className="w-full flex flex-col gap-5 flex-5">
-        <Text as="h1" className="text-6xl! max-2xl:text-5xl! max-md:text-4xl! max-sm:text-3xl!">
+        <Text
+          as="h1"
+          className="text-6xl! max-2xl:text-5xl! max-md:text-4xl! max-sm:text-3xl!"
+        >
           Torne-se Instrutor ou Diretor de Escola de Condução
         </Text>
         <Text>
@@ -46,9 +49,21 @@ export const HomeHero = () => (
           </Link>
         </div>
         <div className="flex flex-wrap gap-2">
-          <StatisticsCard name="Perguntas" value="600+" className="max-2xl:flex-1"/>
-          <StatisticsCard name="Tempo de teste" value="30m" className="max-2xl:flex-1"/>
-          <StatisticsCard name="Perguntas/Teste" value="30" className="max-2xl:flex-1"/>
+          <StatisticsCard
+            name="Perguntas"
+            value="600+"
+            className="max-2xl:flex-1"
+          />
+          <StatisticsCard
+            name="Tempo de teste"
+            value="30m"
+            className="max-2xl:flex-1"
+          />
+          <StatisticsCard
+            name="Perguntas/Teste"
+            value="30"
+            className="max-2xl:flex-1"
+          />
         </div>
       </div>
       <div className="w-full flex flex-col gap-5 flex-6">

@@ -2,17 +2,17 @@
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
-import { createUserQuery } from "@/lib/queries/user";
+import { createUserQuery } from "@/app/_lib/queries/user";
 import { TokenResponse } from "@react-oauth/google";
 import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import dayjs from "dayjs";
-import { serverFetchGoogleAccountInfo, serverFindUserByEmail, serverFindUserById, serverSignUser } from "@/services/server/user-service";
-import { serverFetchUserSubscription } from "@/services/server/subscription-service";
-import { serverCreateDeviceSession } from "@/services/server/device-session-service";
-import { RouteNames } from "@/utils/route-names";
+import { serverFetchGoogleAccountInfo, serverFindUserByEmail, serverFindUserById, serverSignUser } from "@/app/_services/server/user-service";
+import { serverFetchUserSubscription } from "@/app/_services/server/subscription-service";
+import { serverCreateDeviceSession } from "@/app/_services/server/device-session-service";
+import { RouteNames } from "@/app/_utils/route-names";
 
 const defaultAdmins = process.env.DEFAULT_ADMINS;
 const secret = process.env.JWT_SECRET;
@@ -92,7 +92,7 @@ export const verifySessionSubscription = cache(async () => {
     const session = await verifySession();
     if (!session) return;
 
-    if(session.admin) {
+    if (session.admin) {
         return session;
     }
 

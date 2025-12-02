@@ -2,7 +2,7 @@ import { Button } from "@/app/_components/button";
 import { Card } from "@/app/_components/card";
 import { Link } from "@/app/_components/link";
 import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import { IoMdCheckbox } from "react-icons/io";
 
 interface Props {

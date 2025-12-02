@@ -5,7 +5,7 @@ import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
 import { Text } from "@/app/_components/text";
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { LoginButton } from "@/app/login/login-button";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import { headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 
@@ -39,7 +39,9 @@ export default async function Login() {
         <Blob4 />
       </PositionedBlob>
       <div className="flex flex-col items-center justify-center">
-        <Text as="h1" center>Iniciar sessão</Text>
+        <Text as="h1" center>
+          Iniciar sessão
+        </Text>
         <Text as="p" center>
           Antes de efetuar um pagamento, crie uma conta ou faça login usando o
           botão abaixo.

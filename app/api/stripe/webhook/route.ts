@@ -1,4 +1,4 @@
-import { serverStartSubscription } from "@/services/server/subscription-service";
+import { serverStartSubscription } from "@/app/_services/server/subscription-service";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 

@@ -1,9 +1,9 @@
 "use server";
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
-import { serverFetchUserSubscription } from "@/services/server/subscription-service";
-import { stripe } from "@/lib/stripe";
-import { verifySession } from "@/services/user-service";
+import { serverFetchUserSubscription } from "@/app/_services/server/subscription-service";
+import { stripe } from "@/app/_lib/stripe";
+import { verifySession } from "@/app/_services/user-service";
 
 export const fetchLoggedUserSubscription = async () => {
     const session = await verifySession();

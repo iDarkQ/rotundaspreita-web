@@ -8,7 +8,7 @@ import { QuestionsManage } from "@/app/questions/[[...studyId]]/components/quest
 import {
   fetchAllStudyCategories,
   fetchStudyByIdOrReturnFirst,
-} from "@/services/study-service";
+} from "@/app/_services/study-service";
 import { ManageSelectedStudyProvider } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 import { Divider } from "@/app/_components/divider";
 
@@ -40,7 +40,9 @@ export default async function Questions({ params }: Props) {
         <Blob4 />
       </PositionedBlob>
 
-      <Text as="h1" className="z-1" center>Todas as perguntas existentes</Text>
+      <Text as="h1" className="z-1" center>
+        Todas as perguntas existentes
+      </Text>
 
       <QuestionsStudies study={selectedStudy} />
       {selectedStudy && (

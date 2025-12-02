@@ -6,14 +6,14 @@ import { MdAlarm } from "react-icons/md";
 import { Text } from "@/app/_components/text";
 import { Chip } from "@/app/_components/chip";
 import { TestOptions } from "@/app/test/test-options";
-import { fetchStudyById, generateTest } from "@/services/study-service";
-import { Difficulty } from "@/types/difficulty";
+import { fetchStudyById, generateTest } from "@/app/_services/study-service";
+import { Difficulty } from "@/app/_types/difficulty";
 import { TestManagerProvider } from "@/app/test/providers/test-manager";
 import { TestCountdown } from "@/app/test/components/test-countdown";
 import { redirect } from "next/navigation";
 import { TestFinishButton } from "@/app/test/components/test-finish-button";
 import { TestResults } from "@/app/test/components/test-results";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 
 interface Props {
   searchParams?: Promise<{ s?: string; c?: string; d?: string }>;
@@ -43,10 +43,16 @@ export default async function Test({ searchParams }: Props) {
   return (
     <TestManagerProvider questions={questions}>
       <Section>
-        <PositionedBlob align="left" className="w-100 h-100 top-[70vh] opacity-50">
+        <PositionedBlob
+          align="left"
+          className="w-100 h-100 top-[70vh] opacity-50"
+        >
           <Blob1 />
         </PositionedBlob>
-        <PositionedBlob align="right" className="w-100 h-100 top-[-10vh] opacity-50">
+        <PositionedBlob
+          align="right"
+          className="w-100 h-100 top-[-10vh] opacity-50"
+        >
           <Blob4 />
         </PositionedBlob>
         <TestResults />

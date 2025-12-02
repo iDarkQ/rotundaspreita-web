@@ -1,7 +1,7 @@
 import { Chip } from "@/app/_components/chip";
 import { Link } from "@/app/_components/link";
 import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import clsx from "clsx";
 
 interface Props {

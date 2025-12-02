@@ -3,7 +3,7 @@
 import { NavbarSettingsItem } from "@/app/_components/layout/navbar/navbar-items-list/navbar-settings-item";
 import { NavbarItem } from "@/app/_components/layout/navbar/navbar-items-list/navbar-item";
 import { useNavbarManager } from "@/app/_components/layout/navbar/providers/navbar-manager";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import clsx from "clsx";
 
 interface Props {

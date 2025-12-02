@@ -1,10 +1,10 @@
 "use server";
 
 import { User } from "@/app/generated/prisma/client";
-import { findUserQuery, updateUserQuery } from "@/lib/queries/user";
+import { findUserQuery, updateUserQuery } from "@/app/_lib/queries/user";
 import jwt from "jsonwebtoken";
 import axios from "axios";
-import { GoogleAccountDto } from "@/lib/dtos/user/google-account,dto";
+import { GoogleAccountDto } from "@/app/_lib/dtos/user/google-account,dto";
 
 const secret = process.env.JWT_SECRET;
 

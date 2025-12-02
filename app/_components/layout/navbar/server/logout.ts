@@ -1,6 +1,6 @@
 "use server";
 
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

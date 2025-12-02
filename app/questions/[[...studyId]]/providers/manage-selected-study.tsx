@@ -1,8 +1,8 @@
 "use client";
 
 import { Study } from "@/app/generated/prisma/client";
-import { searchForQuestions } from "@/services/question-service";
-import { QuestionWithOptions } from "@/types/question-with-options";
+import { searchForQuestions } from "@/app/_services/question-service";
+import { QuestionWithOptions } from "@/app/_types/question-with-options";
 import {
   createContext,
   ReactNode,

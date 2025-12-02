@@ -3,7 +3,7 @@ import { NavbarLogo } from "@/app/_components/layout/navbar/navbar-logo/navbar-l
 import { NavbarItemsList } from "@/app/_components/layout/navbar/navbar-items-list/navbar-items-list";
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { NavbarManagerProvider } from "@/app/_components/layout/navbar/providers/navbar-manager";
-import { fetchLoggedUserSubscription } from "@/services/subscription-service";
+import { fetchLoggedUserSubscription } from "@/app/_services/subscription-service";
 
 export const Navbar = async () => {
   const user = await fetchLoggedUser();

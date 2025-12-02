@@ -1,12 +1,12 @@
 "use server";
 
-import { findManyQuestionsQuery, findRandomQuestions } from "@/lib/queries/question";
-import { createStudyQuery, deleteStudyQuery, fetchFirstStudyQuery, fetchStudiesQuery, fetchStudyWithQuestionsQuery, updateStudyQuery } from "@/lib/queries/study"
-import { serverCreateTestResults } from "@/services/server/test-results-service";
-import { serverBeginFreeTest } from "@/services/server/user-service";
-import { verifySession, verifyAdminPermissions, verifySessionSubscription } from "@/services/user-service";
-import { Difficulty } from "@/types/difficulty";
-import { TestAnswers } from "@/types/test-answer";
+import { findManyQuestionsQuery, findRandomQuestions } from "@/app/_lib/queries/question";
+import { createStudyQuery, deleteStudyQuery, fetchFirstStudyQuery, fetchStudiesQuery, fetchStudyWithQuestionsQuery, updateStudyQuery } from "@/app/_lib/queries/study"
+import { serverCreateTestResults } from "@/app/_services/server/test-results-service";
+import { serverBeginFreeTest } from "@/app/_services/server/user-service";
+import { verifySession, verifyAdminPermissions, verifySessionSubscription } from "@/app/_services/user-service";
+import { Difficulty } from "@/app/_types/difficulty";
+import { TestAnswers } from "@/app/_types/test-answer";
 import { createId } from "@paralleldrive/cuid2";
 
 export const fetchStudyByIdOrReturnFirst = async (id: string) => {

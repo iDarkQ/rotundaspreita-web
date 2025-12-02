@@ -4,7 +4,7 @@ import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
-} from "@/services/study-service";
+} from "@/app/_services/study-service";
 import { IoMdCheckbox } from "react-icons/io";
 
 export const FeatureTestMenu = async () => {

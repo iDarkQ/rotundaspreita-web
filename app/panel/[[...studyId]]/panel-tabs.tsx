@@ -3,7 +3,7 @@
 import { Tab } from "@/app/_components/tab";
 import { TabList } from "@/app/_components/tab-list";
 import { useTestMenu } from "@/app/panel/[[...studyId]]/providers/test-menu";
-import { Difficulty } from "@/types/difficulty";
+import { Difficulty } from "@/app/_types/difficulty";
 import { TabGroup } from "@headlessui/react";
 
 export const PanelTabs = () => {

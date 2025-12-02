@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 import { StatisticsCard } from "@/app/_components/statistics-card";
-import { fetchAnalytics } from "@/services/test-results-service";
+import { fetchAnalytics } from "@/app/_services/test-results-service";
 import { PanelStatisticsChart } from "@/app/panel/[[...studyId]]/components/panel-statistics/panel-statistics-chart";
 import { Banner } from "@/app/_components/banner";
 import { Text } from "@/app/_components/text";

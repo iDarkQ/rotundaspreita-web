@@ -13,7 +13,7 @@ import { Input } from "@/app/_components/input";
 import { Text } from "@/app/_components/text";
 import { useQuestionCreatorDialog } from "@/app/questions/[[...studyId]]/hooks/use-question-creator-dialog";
 import { useManageSelectedStudy } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
-import { QuestionWithOptions } from "@/types/question-with-options";
+import { QuestionWithOptions } from "@/app/_types/question-with-options";
 import { Combobox } from "@headlessui/react";
 
 interface Props {

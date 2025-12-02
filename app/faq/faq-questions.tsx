@@ -3,7 +3,7 @@ import { DisclosureButton } from "@/app/_components/disclosure/disclosure-button
 import { DisclosurePanel } from "@/app/_components/disclosure/disclosure-panel";
 import { Link } from "@/app/_components/link";
 import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/utils/route-names";
+import { RouteNames } from "@/app/_utils/route-names";
 
 export const FAQQuestions = () => (
   <div className="2xl:w-[50%] max-2xl:w-[80%] max-xl:w-full flex flex-col gap-4 mt-6">

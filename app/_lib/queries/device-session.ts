@@ -1,7 +1,7 @@
 "use server";
 
 import { Prisma } from "@/app/generated/prisma/browser";
-import prisma from "@/lib/prisma";
+import prisma from "@/app/_lib/prisma";
 
 export const createDeviceSessionQuery = async (data: Prisma.DeviceSessionCreateInput) => {
     return prisma.deviceSession.create({ data });

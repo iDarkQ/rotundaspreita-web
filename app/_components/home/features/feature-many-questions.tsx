@@ -5,7 +5,7 @@ import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
-} from "@/services/study-service";
+} from "@/app/_services/study-service";
 import { RadioGroup } from "@headlessui/react";
 import { IoMdListBox } from "react-icons/io";
 

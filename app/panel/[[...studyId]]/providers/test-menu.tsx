@@ -1,8 +1,8 @@
 "use client";
 
 import { Study } from "@/app/generated/prisma/browser";
-import { fetchAllStudyCategories } from "@/services/study-service";
-import { Difficulty } from "@/types/difficulty";
+import { fetchAllStudyCategories } from "@/app/_services/study-service";
+import { Difficulty } from "@/app/_types/difficulty";
 import {
   createContext,
   Dispatch,

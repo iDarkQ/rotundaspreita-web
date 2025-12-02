@@ -11,7 +11,10 @@ import dayjs from "dayjs";
 import { Banner } from "@/app/_components/banner";
 import { logoutUser } from "@/app/_components/layout/navbar/server/logout";
 import { useNavbarManager } from "@/app/_components/layout/navbar/providers/navbar-manager";
-import { cancelSubscription, uncancelSubscription } from "@/services/subscription-service";
+import {
+  cancelSubscription,
+  uncancelSubscription,
+} from "@/app/_services/subscription-service";
 
 interface Props {
   onClose: () => void;
