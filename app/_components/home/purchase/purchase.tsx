@@ -23,6 +23,7 @@ export const HomePurchase = () => (
         ]}
         title="Plano Único"
         price="2.99€/mês"
+        description="Primeiro pagamento: 4.99€"
       />
     </div>
   </Section>
