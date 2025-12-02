@@ -47,7 +47,7 @@ export default function RootLayout({
     <GoogleOAuthProvider
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
     >
-      <html lang="en">
+      <html lang="pt">
         <body
           className={`relative ${roboto.variable} ${sourceCodePro.variable} antialiased bg-background`}
         >
