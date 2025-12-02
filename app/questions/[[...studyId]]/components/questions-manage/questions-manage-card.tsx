@@ -21,17 +21,13 @@ export const QuestionsCard = ({
   answeredCount = 0,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { events, cancel, ref } = useRipple();
+  const { ref } = useRipple();
 
   return (
     <>
       <Card
         ref={ref as RefObject<HTMLDivElement | null>}
-        onMouseLeave={cancel}
-        onPointerDown={events}
-        onPointerUp={events}
-        onClick={(e) => {
-          events(e);
+        onClick={() => {
           setIsOpen((prev) => !prev);
         }}
         className="cursor-pointer relative c-border flex flex-col gap-2 overflow-hidden"
