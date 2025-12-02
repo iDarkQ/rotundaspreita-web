@@ -8,6 +8,7 @@ import { FaGoogle } from "react-icons/fa";
 import { redirect } from "next/navigation";
 import { saveSecret } from "@/app/login/save-secret";
 import { RouteNames } from "@/utils/route-names";
+import { useState } from "react";
 
 interface Props {
   ip: string;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const LoginButton = ({ ip, agent }: Props) => {
+  const [loading, setLoading] = useState(false);
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const secret = await registerUser(tokenResponse, ip, agent);
@@ -22,13 +24,18 @@ export const LoginButton = ({ ip, agent }: Props) => {
         await saveSecret(secret);
         redirect(RouteNames.PANEL);
       }
+      setLoading(false);
     },
   });
 
   return (
     <Button
       className="gap-2 flex flex-row items-center justify-center"
-      onClick={() => login()}
+      onClick={() => {
+        setLoading(true);
+        login();
+      }}
+      loading={loading}
     >
       <Text as="h4" className="text-white">
         Autenticar com o Google
