@@ -14,7 +14,7 @@ export const QuestionsPagination = ({ page }: Props) => {
   const count = questions.length;
 
   return (
-    <div className="flex flex-row w-full justify-center overflow-hidden gap-1">
+    <div className="flex flex-row w-full justify-center overflow-hidden gap-1 z-1">
       <PaginationItem
         type="previous"
         disabled={page <= 1}
@@ -23,20 +23,23 @@ export const QuestionsPagination = ({ page }: Props) => {
       <Divider orientation="vertical" />
 
       <div className="flex flex-row overflow-auto gap-1">
-        {questions.map((q, index) => (
-          <PaginationItem
-            key={index + 1}
-            page={index + 1}
-            selected={index + 1 === page || (!finished && !!answers[q.id])}
-            onClick={() => setSelectedPage(q.id)}
-            className={clsx(
-              finished &&
-                (answers[q.id] === correctAnswers[q.id]
-                  ? "bg-success-bg"
-                  : "bg-error-bg")
-            )}
-          />
-        ))}
+        {questions.map((q, index) => {
+          const color = finished
+            ? answers[q.id] !== correctAnswers[q.id]
+              ? "error"
+              : "success"
+            : "default";
+            
+          return (
+            <PaginationItem
+              key={index + 1}
+              page={index + 1}
+              selected={index + 1 === page || (!finished && !!answers[q.id])}
+              onClick={() => setSelectedPage(q.id)}
+              color={color}
+            />
+          );
+        })}
       </div>
       <Divider orientation="vertical" />
 

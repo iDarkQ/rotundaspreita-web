@@ -8,6 +8,7 @@ interface Props {
   selected?: boolean;
   disabled?: boolean;
   type?: "next" | "previous" | "page";
+  color?: "success" | "error" | "default";
   page?: number;
   onClick: () => void;
   className?: string;
@@ -19,6 +20,7 @@ export const PaginationItem = ({
   onClick,
   className,
   type = "page",
+  color = "default",
   page = 1,
 }: Props) => {
   const { ref } = useRipple(true, disabled);
@@ -29,15 +31,18 @@ export const PaginationItem = ({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "bg-white/25 relative overflow-hidden",
+        "relative overflow-hidden",
         "c-border border-pagination-item-border cursor-pointer rounded-sm transition-colors duration-200",
-        "hover:bg-pagination-item-hover",
         "flex items-center justify-center",
         "h-(--pagination-item-height)! w-(--pagination-item-height)! shrink-0 aspect-square",
         disabled && "opacity-38 cursor-default!",
-        className && className,
-        selected &&
-          "bg-pagination-item-selected! hover:bg-pagination-item-hover-selected!"
+        "hover:bg-pagination-item-hover",
+        color === "default" && "bg-white/25",
+        color === "error" && "bg-error-bg",
+        color === "success" && "bg-success-bg",
+        selected
+          && "bg-pagination-item-selected! hover:bg-pagination-item-hover-selected",
+        className && className
       )}
     >
       {type === "next" && <MdOutlineNavigateNext size="20px" />}
