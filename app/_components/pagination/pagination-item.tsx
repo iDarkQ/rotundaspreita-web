@@ -21,18 +21,15 @@ export const PaginationItem = ({
   type = "page",
   page = 1,
 }: Props) => {
-  const { events, cancel, ref } = useRipple(true, disabled);
+  const { ref } = useRipple(true, disabled);
 
   return (
     <Button
       ref={ref}
-      onPointerDown={events}
-      onPointerUp={events}
-      onMouseLeave={cancel}
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "relative overflow-hidden",
+        "bg-white/25 relative overflow-hidden",
         "c-border border-pagination-item-border cursor-pointer rounded-sm transition-colors duration-200",
         "hover:bg-pagination-item-hover",
         "flex items-center justify-center",

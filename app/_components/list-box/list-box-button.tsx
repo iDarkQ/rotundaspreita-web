@@ -11,15 +11,12 @@ import { MdOutlineExpandMore } from "react-icons/md";
 import { MdOutlineExpandLess } from "react-icons/md";
 
 export const ListBoxButton = ({ ...rest }: ListboxButtonProps) => {
-  const { events, cancel, ref } = useRipple(true);
+  const { ref } = useRipple(true);
 
   return (
     <HeadlessUIListBoxButton
       {...rest}
       ref={ref as RefObject<HTMLButtonElement | null>}
-      onPointerDown={events}
-      onPointerUp={events}
-      onMouseLeave={cancel}
       className={clsx(
         rest.className,
         "group focus-visible:outline-none text-white flex items-center justify-between p-2",

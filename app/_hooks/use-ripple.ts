@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import clsx from "clsx";
 
 export const useRipple = (
@@ -27,7 +27,7 @@ export const useRipple = (
     }
   };
 
-  const events = (event: React.MouseEvent<HTMLElement>) => {
+  const createRipple = useCallback((event: PointerEvent) => {
     const element = ref.current;
     if (!element || disabledRipple) return;
 
@@ -54,11 +54,7 @@ export const useRipple = (
         ripple.classList.add("[transform:scale(4)]");
       }, 0);
     }
-
-    if (event.type === "pointerup" || event.type === "click") {
-      cancel();
-    }
-  };
+  }, [disabledRipple, filled]);
 
   const loadingAnimation = () => {
     const ripple = document.createElement("span");
@@ -90,5 +86,28 @@ export const useRipple = (
     }, 10);
   }
 
-  return { ref, events, cancel, loadingAnimation };
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || disabledRipple) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      createRipple(event);
+    };
+    const handlePointerUp = () => cancel();
+    const handleMouseLeave = () => cancel();
+
+    element.addEventListener("pointerdown", handlePointerDown);
+    element.addEventListener("pointerup", handlePointerUp);
+    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener("touchend", handlePointerUp);
+
+    return () => {
+      element.removeEventListener("pointerdown", handlePointerDown);
+      element.removeEventListener("pointerup", handlePointerUp);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener("touchend", handlePointerUp);
+    };
+  }, [createRipple, disabledRipple]);
+
+  return { ref, createRipple, cancel, loadingAnimation };
 };

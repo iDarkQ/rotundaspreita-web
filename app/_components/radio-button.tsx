@@ -20,19 +20,16 @@ export const RadioButton = ({
   onDelete,
   className,
 }: Props) => {
-  const { ref, events, cancel } = useRipple(true, !selectable);
+  const { ref } = useRipple(true, !selectable);
 
   return (
     <div
       ref={ref as RefObject<HTMLDivElement | null>}
-      onPointerDown={events}
-      onPointerUp={events}
-      onMouseLeave={() => cancel()}
       onClick={onClick}
       className={clsx(
         "select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
         selectable && "hover:bg-toggle-button-hover! cursor-pointer",
-        selected ? "bg-toggle-button-selected" : "bg-white",
+        selected ? "bg-toggle-button-selected" : "bg-white/25",
         selected && selectable && "hover:bg-toggle-button-hover-selected!",
         className && className
       )}

@@ -11,15 +11,12 @@ import { RefObject } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 
 export const ListBoxOption = ({ ...rest }: ListboxOptionProps) => {
-  const { events, cancel, ref } = useRipple(true);
+  const { ref } = useRipple(true);
 
   return (
     <HeadlessUIListBoxOption
       {...rest}
       ref={ref as RefObject<HTMLButtonElement | null>}
-      onPointerDown={events}
-      onPointerUp={events}
-      onMouseLeave={cancel}
       className={clsx(
         "group button button-outlined",
         "focus-visible:outline-none flex items-center p-2 gap-2 shadow-lg",

@@ -14,7 +14,10 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   as?: ReactTag;
   variant?: ButtonVariant;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
+  onClick?: (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void | Promise<void>;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -24,10 +27,14 @@ export const Button = ({
   onClick,
   as = "button",
   variant = "contained",
+  loading: loadingProp, // external override
   ...rest
 }: Props) => {
-  const [loading, setLoading] = useState(false);
-  const { events, ref, cancel, loadingAnimation } = useRipple(true, disabled || loading);
+  const [internalLoading, setInternalLoading] = useState(false);
+
+  const loading = loadingProp ?? internalLoading;
+
+  const { ref, loadingAnimation } = useRipple(true, disabled || loading);
 
   const handleButtonClick = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -36,9 +43,9 @@ export const Button = ({
 
     const result = onClick(event);
 
-    if (result instanceof Promise) {
-      setLoading(true);
-      result.finally(() => setLoading(false));
+    if (result instanceof Promise && loadingProp === undefined) {
+      setInternalLoading(true);
+      result.finally(() => setInternalLoading(false));
     }
   };
 
@@ -57,9 +64,6 @@ export const Button = ({
       {...rest}
       ref={ref}
       as={as}
-      onPointerDown={events}
-      onPointerUp={events}
-      onMouseLeave={() => cancel()}
       onClick={handleButtonClick}
       className={clsx(
         `button button-${variant}`,
