@@ -13,7 +13,7 @@ export const fetchAnalytics = async (studyId: string): Promise<AnalyticsDto | un
     const results = await fetchTestResultsQuery({ userId: session.id, studyId });
 
     const seenQuestions = [...(new Set([...results.map((r) => r.questionId)]))].length;
-    const totalQuestionsCount = await countQuestions();
+    const totalQuestionsCount = await countQuestions(studyId);
 
     const testResultIds = results.map((r) => r.questionId);
 
