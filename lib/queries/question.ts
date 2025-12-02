@@ -58,7 +58,7 @@ export const findRandomQuestions = async (
                 testResults: {
                     none: {
                         userId: userId,
-                        markAsNew: true,
+                        markAsNew: false,
                     },
                 },
             },
