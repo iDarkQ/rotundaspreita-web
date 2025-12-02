@@ -54,11 +54,13 @@ export default async function Panel({ params }: Props) {
           <Text as="h1">Vamos praticar!</Text>
         </div>
         <div className="relative">
-          <PanelTestMenuBlock
-            user={user}
-            hasExpired={hasExpired}
-            subscription={subscription}
-          />
+          {studies.length > 0 && (
+            <PanelTestMenuBlock
+              user={user}
+              hasExpired={hasExpired}
+              subscription={subscription}
+            />
+          )}
           <PageTestMenu
             studies={studies}
             defaultStudyId={foundStudy?.id}
