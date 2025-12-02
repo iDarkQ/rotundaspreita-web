@@ -5,7 +5,9 @@ import { Text } from "@/app/_components/text";
 export default async function PrivacyPolicy() {
   return (
     <Section className="*:w-full!">
-      <Text as="h1" center>Privacy Policy</Text>
+      <Text as="h1" center>
+        Privacy Policy
+      </Text>
       <Markdown>{markdown}</Markdown>
     </Section>
   );
@@ -13,126 +15,123 @@ export default async function PrivacyPolicy() {
 
 const markdown = `
 
-Thank you for using ROTUNDASPREITA. This Privacy Policy explains what information we collect, how we use it, who we share it with, how long we keep it, and the choices you have. Please read it carefully. If you have questions or want to exercise your rights, contact us at **rotundaspreita@gmail.com**.
+Obrigado por utilizar o ROTUNDASPREITA. Esta Política de Privacidade explica que informação recolhemos, como a utilizamos, com quem a partilhamos, durante quanto tempo a mantemos e as escolhas que tem. Leia atentamente. Se tiver dúvidas ou quiser exercer os seus direitos, contacte-nos em **rotundaspreita@gmail.com**.
 
 ----------
 
-## 1. Controller / Who we are
+## 1. Responsável pelo tratamento / Quem somos
 
-ROTUNDASPREITA (the “Service”, “we”, “our”, or “us”) operates the website and services under the name **ROTUNDASPREITA**. For the purposes of applicable privacy laws we are the data controller for personal data collected through this website.  
-**Contact:** rotundaspreita@gmail.com
-
-----------
-
-## 2. Information we collect
-
-We collect personal information only when you create an account or otherwise provide it voluntarily. We collect **only what is necessary** to provide and improve the Service.
-
-**Account and user-provided data**
-
--   Email address.
-    
--   Account related metadata (account creation date, google account id).
-    
--   Subscription details (plan, billing status, purchase date).
-    
--   Test data and test results you submit or generate through the Service (used for functionality, analytics, and improvement of the Service).
-    
-
-**Automatically collected data**
-
--   Usage and analytics data (e.g., pages visited, features used, timestamps, device/browser information). This data is collected to analyze and improve the Service.
-    
--   Cookies and similar technologies (see “Cookies & Tracking” below).
-    
-
-We do **not** sell your personal data.
+ROTUNDASPREITA (o “Serviço”, “nós”, “nosso” ou “nos”) opera o website e os serviços sob o nome **ROTUNDASPREITA**. Para efeitos das leis de privacidade aplicáveis, somos o responsável pelo tratamento dos dados pessoais recolhidos através deste website.  
+**Contacto:** rotundaspreita@gmail.com
 
 ----------
 
-## 3. How we use your information
+## 2. Informação que recolhemos
 
-We use the information we collect for the following purposes:
+Recolhemos informação pessoal apenas quando cria uma conta ou a fornece voluntariamente. Recolhemos **apenas o que é necessário** para disponibilizar e melhorar o Serviço.
 
--   To provide and operate the Service and maintain your account.
+**Dados de conta e fornecidos pelo utilizador**
+
+- Endereço de email.  
     
--   To process subscriptions, billing, and payment confirmation.
+- Metadados relacionados com a conta (data de criação da conta, ID da conta Google).  
     
--   To store and display test results and related analytics to you.
+- Detalhes da subscrição (plano, estado de faturação, data de compra).  
     
--   To analyze usage and performance for product improvements and internal analytics.
+- Dados de testes e resultados de testes que submete ou gera através do Serviço (utilizados para funcionalidade, análise e melhoria do Serviço).  
     
--   To communicate with you about your account, changes to the Service, support requests, and transactional messages.
+
+**Dados recolhidos automaticamente**
+
+- Dados de utilização e de análise (ex.: páginas visitadas, funcionalidades utilizadas, carimbos temporais, informação do dispositivo/navegador). Estes dados são recolhidos para analisar e melhorar o Serviço.  
     
--   To prevent fraud, abuse, and to comply with legal obligations.
+- Cookies e tecnologias semelhantes (ver “Cookies & Monitorização” abaixo).  
     
+
+Não **vendemos** os seus dados pessoais.
 
 ----------
 
-## 4. Subscriptions & refunds
+## 3. Como utilizamos a sua informação
 
--   Subscription purchases and billing information are used to manage your subscription and access to the Service.
+Utilizamos a informação recolhida para os seguintes fins:
+
+- Fornecer e operar o Serviço e manter a sua conta.  
     
--   **Subscriptions are non-refundable.** By purchasing a subscription you agree that we will not provide refunds except as required by law.
+- Processar subscrições, faturação e confirmação de pagamentos.  
     
--   Payment processing is handled by third-party payment processor Stripe. We do not store full payment card details on our servers.
+- Guardar e apresentar resultados de testes e análises relacionadas.  
+    
+- Analisar utilização e desempenho para melhorias do produto e análises internas.  
+    
+- Comunicar consigo sobre a sua conta, alterações ao Serviço, pedidos de apoio e mensagens transacionais.  
+    
+- Prevenir fraude, abuso e cumprir obrigações legais.  
     
 
 ----------
 
+## 4. Subscrições & reembolsos
 
-## 5. Cookies & tracking
-
-We use cookies and similar technologies to operate the Service and collect usage data. Types of cookies we may use:
-
--   Essential cookies (required for core functionality).
+- As compras de subscrição e informação de faturação são utilizadas para gerir a sua subscrição e acesso ao Serviço.  
     
--   Performance/analytics cookies (to understand use and improve the Service).
+- **As subscrições não são reembolsáveis.** Ao adquirir uma subscrição, aceita que não forneceremos reembolsos exceto quando exigido por lei.  
     
--   Functional cookies (to remember preferences).
+- O processamento de pagamentos é efetuado pelo processador de pagamentos externo Stripe. Não armazenamos os dados completos dos cartões de pagamento nos nossos servidores.  
     
-
-You can manage or block cookies through your browser settings, but doing so may degrade your experience.
 
 ----------
 
+## 5. Cookies & monitorização
 
-## 6. Security
+Utilizamos cookies e tecnologias semelhantes para operar o Serviço e recolher dados de utilização. Tipos de cookies que podemos utilizar:
 
-We take commercially reasonable technical and organizational measures to protect personal data against unauthorized access, alteration, disclosure or destruction. These measures include encryption, access controls, and secure hosting. However, no method of transmission or storage is 100% secure — we cannot guarantee absolute security.
+- Cookies essenciais (necessários para a funcionalidade principal).  
+    
+- Cookies de desempenho/análise (para compreender a utilização e melhorar o Serviço).  
+    
+- Cookies funcionais (para recordar preferências).  
+    
+
+Pode gerir ou bloquear cookies através das definições do seu navegador, mas fazê-lo pode degradar a sua experiência.
 
 ----------
 
+## 6. Segurança
 
-## 8. Your rights
-
-Depending on where you live, you may have certain rights regarding your personal data, including:
-
--   The right to access the personal data we hold about you.
-    
--   The right to correct or update inaccurate personal data.
-    
--   The right to request deletion of your personal data.
-    
--   The right to object to or restrict certain processing (e.g., direct marketing).
-    
--   The right to receive a copy of certain personal data in a portable format.
-    
--   The right to withdraw consent where processing is based on consent.
-    
-
-To exercise these rights, contact us at **rotundaspreita@gmail.com**. We will verify requests as required and respond within a reasonable time (commonly within 30 days where required by law). We may need to retain certain information as required by law or for legitimate business purposes.
+Adotamos medidas técnicas e organizacionais comercialmente razoáveis para proteger os dados pessoais contra acesso, alteração, divulgação ou destruição não autorizados. Estas medidas incluem encriptação, controlos de acesso e alojamento seguro. No entanto, nenhum método de transmissão ou armazenamento é 100% seguro — não podemos garantir segurança absoluta.
 
 ----------
 
-## 9. Children’s privacy
+## 8. Os seus direitos
 
-The Service is not directed to children under 13 (or the minimum age in applicable jurisdiction). We do not knowingly collect personal data from children under that age. If you believe we have collected personal data from a child, contact us and we will take steps to delete it.
+Dependendo do local onde reside, poderá ter determinados direitos relativamente aos seus dados pessoais, incluindo:
+
+- O direito de aceder aos dados pessoais que detemos sobre si.  
+    
+- O direito de corrigir ou atualizar dados pessoais incorretos.  
+    
+- O direito de solicitar a eliminação dos seus dados pessoais.  
+    
+- O direito de se opor ou restringir determinados tratamentos (ex.: marketing direto).  
+    
+- O direito de receber uma cópia de determinados dados pessoais num formato portátil.  
+    
+- O direito de retirar o consentimento quando o tratamento se baseia em consentimento.  
+    
+
+Para exercer estes direitos, contacte-nos em **rotundaspreita@gmail.com**. Iremos verificar os pedidos conforme exigido e responder dentro de um prazo razoável (normalmente até 30 dias, quando exigido por lei). Poderemos necessitar de reter certas informações conforme exigido por lei ou por motivos legítimos de negócio.
 
 ----------
 
-## 10. Contact us
+## 9. Privacidade das crianças
 
-For questions, privacy requests, or other matters related to this policy, contact:  
+O Serviço não se destina a crianças com menos de 13 anos (ou a idade mínima na jurisdição aplicável). Não recolhemos intencionalmente dados pessoais de crianças abaixo dessa idade. Se acredita que recolhemos dados pessoais de uma criança, contacte-nos e tomaremos medidas para os eliminar.
+
+----------
+
+## 10. Contacte-nos
+
+Para questões, pedidos de privacidade ou outros assuntos relacionados com esta política, contacte:  
 **Email:** rotundaspreita@gmail.com
 `;
