@@ -108,6 +108,20 @@ body {
   --animate-float: float 3s ease-in-out infinite;
 }
 
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 6px;
+  }
+}
+
 @layer components {
   .c-border {
     @apply rounded-sm border-(--color-border) border-2;
