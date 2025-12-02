@@ -13,10 +13,12 @@ export const serverCreateDeviceSession = async (
     cutoff.setDate(cutoff.getDate() - 1);
 
     await deleteManyDeviceSessionQuery({
+        userId,
         lastActive: {
             lt: cutoff,
         },
     });
+    
     const existingDeviceSessions = await findDeviceSessionsQuery({ userId });
 
     const existingSession = existingDeviceSessions.find(
@@ -35,9 +37,9 @@ export const serverCreateDeviceSession = async (
         return acc;
     }, [] as string[]);
 
-    // if (distinctSessions.length >= 3) {
-    //     return;
-    // }
+    if (distinctSessions.length >= 4) {
+        return;
+    }
 
     return createDeviceSessionQuery({
         user: { connect: { id: userId } },
