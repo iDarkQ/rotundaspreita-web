@@ -43,15 +43,14 @@ jobs:
             echo "📋 Installing dependencies..."
             npx yarn install
             echo "🗄️ Running database operations..."
-            cd apps/api
             npx yarn prisma generate
             npx yarn prisma migrate deploy
+            echo "🔨 Building application..."
+            npx yarn build
             cd ${{ secrets.APP_DIR }}
             echo "🔄 Stopping services..."
             pm2 stop rotundaspreita-web || true
             pm2 delete rotundaspreita-web || true
-            echo "🔨 Building application..."
-            npx yarn build
             echo "🔄 Starting services..."
             pm2 start ecosystem.config.js --only "rotundaspreita-web"
             pm2 save
