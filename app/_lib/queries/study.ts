@@ -26,11 +26,10 @@ export const fetchStudyQuery = async (where: Prisma.StudyWhereUniqueInput) =>
 export const fetchStudyWithQuestionsQuery = async (
   where: Prisma.StudyWhereInput,
   whereQuestion?: Prisma.QuestionWhereInput,
-) => {
-  return prisma.study.findFirst({
+) =>
+  prisma.study.findFirst({
     where,
     include: {
       questions: whereQuestion ? { where: whereQuestion } : true,
     },
   });
-};

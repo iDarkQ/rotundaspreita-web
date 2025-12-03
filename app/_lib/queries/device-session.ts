@@ -5,15 +5,11 @@ import prisma from "@/app/_lib/prisma";
 
 export const createDeviceSessionQuery = async (
   data: Prisma.DeviceSessionCreateInput,
-) => {
-  return prisma.deviceSession.create({ data });
-};
+) => prisma.deviceSession.create({ data });
 
 export const findDeviceSessionsQuery = async (
   where: Prisma.DeviceSessionWhereInput,
-) => {
-  return prisma.deviceSession.findMany({ where });
-};
+) => prisma.deviceSession.findMany({ where });
 
 export const deleteDeviceSessionQuery = async (
   where: Prisma.DeviceSessionWhereUniqueInput,

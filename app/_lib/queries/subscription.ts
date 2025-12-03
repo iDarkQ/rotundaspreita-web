@@ -5,13 +5,12 @@ import prisma from "@/app/_lib/prisma";
 
 export const createOrReplaceSubscriptionQuery = async (
   data: Prisma.SubscriptionCreateInput,
-) => {
-  return prisma.subscription.upsert({
+) =>
+  prisma.subscription.upsert({
     where: { userId: data.user.connect?.id },
     update: data,
     create: data,
   });
-};
 
 export const deleteSubscriptionQuery = async (
   where: Prisma.SubscriptionWhereUniqueInput,
