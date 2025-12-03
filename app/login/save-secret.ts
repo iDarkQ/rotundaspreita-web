@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export const saveSecret = async (secret: string) => {
-    const cookie = await cookies();
+  const cookie = await cookies();
 
-    cookie.set("secret", secret);
-}
+  cookie.set("secret", secret);
+};

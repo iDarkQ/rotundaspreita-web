@@ -19,11 +19,15 @@ export const NavbarItem = ({ path, name, contained = false }: Props) => {
         className={clsx(
           "text-2xl!",
           !contained && "text-primary! hover:text-black!",
-          contained && "text-white! hover:text-neutral"
+          contained && "hover:text-neutral text-white!",
         )}
         hideStyles
       >
-        <Button as="nav" variant={contained ? "contained" : "text"} onClick={() => setExpanded(false)}>
+        <Button
+          as="nav"
+          variant={contained ? "contained" : "text"}
+          onClick={() => setExpanded(false)}
+        >
           {name}
         </Button>
       </Link>

@@ -5,7 +5,7 @@ import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 import clsx from "clsx";
 import { MdOutlineThumbDownAlt } from "react-icons/md";
-import { MdOutlineThumbUp  } from "react-icons/md";
+import { MdOutlineThumbUp } from "react-icons/md";
 
 export const TestResults = () => {
   const { finished, answers, correctAnswers } = useTestManager();
@@ -19,7 +19,7 @@ export const TestResults = () => {
       }
       return acc;
     },
-    0
+    0,
   );
 
   const percentage =
@@ -28,8 +28,8 @@ export const TestResults = () => {
   return (
     <Banner
       className={clsx(
-        "w-full flex gap-2 items-center justify-between",
-        percentage > 75 ? "border-success!" : "border-error!"
+        "flex w-full items-center justify-between gap-2",
+        percentage > 75 ? "border-success!" : "border-error!",
       )}
     >
       <Text

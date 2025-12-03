@@ -13,11 +13,12 @@ interface Props extends DisclosureButtonProps {
 export const DisclosureButton = ({ children, ...rest }: Props) => (
   <HeadlessUiDisclosureButton
     {...rest}
-    className={clsx("group flex w-full cursor-pointer justify-between", rest.className && rest.className)}
+    className={clsx(
+      "group flex w-full cursor-pointer justify-between",
+      rest.className && rest.className,
+    )}
   >
-    <Text className="text-start text-primary font-bold">
-      {children}
-    </Text>
+    <Text className="text-primary text-start font-bold">{children}</Text>
     <MdOutlineExpandMore
       size={20}
       className="group-data-[headlessui-state~='open']:hidden"

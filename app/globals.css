@@ -42,7 +42,7 @@ body {
   --color-primary: var(--color-baltic-blue-600);
   --color-secondary: #e9c46a;
   --color-background: #f9fafb;
-  --color-on-surface: #D8DBE2;
+  --color-on-surface: #d8dbe2;
   --color-neutral: rgba(0, 0, 0, 0.74);
   --color-border: rgba(0, 0, 0, 0.12);
   --color-success: rgb(88, 191, 107);
@@ -57,7 +57,7 @@ body {
   --color-input-focus-visible: var(--color-baltic-blue-400);
   --color-input: var(--color-baltic-blue-300);
 
-  --color-button-outlined-hover: #F2F2F2;
+  --color-button-outlined-hover: #f2f2f2;
   --color-button-hover: var(--color-baltic-blue-700);
   --color-button-disabled: rgba(0, 0, 0, 0.12);
 
@@ -117,19 +117,19 @@ body {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 6px;
   }
 }
 
 @layer components {
   .c-border {
-    @apply rounded-sm border-(--color-border) border-2;
+    @apply rounded-sm border-2 border-(--color-border);
   }
 
   .button {
-    @apply min-h-[var(--btn-height)] relative overflow-hidden rounded-sm px-3 py-1 cursor-pointer;
-    @apply duration-200 transition-colors select-none;
+    @apply relative min-h-[var(--btn-height)] cursor-pointer overflow-hidden rounded-sm px-3 py-1;
+    @apply transition-colors duration-200 select-none;
   }
 
   .button-contained {
@@ -141,7 +141,7 @@ body {
   }
 
   .button-outlined {
-    @apply rounded-sm bg-white hover:bg-button-outlined-hover;
+    @apply hover:bg-button-outlined-hover rounded-sm bg-white;
   }
 }
 

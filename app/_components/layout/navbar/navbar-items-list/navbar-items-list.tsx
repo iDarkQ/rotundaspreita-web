@@ -15,8 +15,8 @@ export const NavbarItemsList = ({ className }: Props) => {
   return (
     <ul
       className={clsx(
-        "flex flex-row gap-2 h-full items-center max-lg:hidden",
-        className && className
+        "flex h-full flex-row items-center gap-2 max-lg:hidden",
+        className && className,
       )}
     >
       <NavbarItem path={RouteNames.HOME} name="Início" />

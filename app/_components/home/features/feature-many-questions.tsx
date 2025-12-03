@@ -1,7 +1,6 @@
 import { AnswerOption } from "@/app/_components/answer-option";
 import { TestFeatureCard } from "@/app/_components/home/test-feature-card";
 import { Tilt } from "@/app/_components/tilt";
-import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
 import { RadioGroup } from "@headlessui/react";
 import { IoMdListBox } from "react-icons/io";
 
@@ -13,7 +12,7 @@ export const FeatureManyQuestions = async () => (
     align="right"
   >
     <Tilt angle="right" className="w-[80%] max-xl:w-[70%] max-xl:pt-10!">
-      <RadioGroup className="flex flex-col gap-2 relative w-full h-min">
+      <RadioGroup className="relative flex h-min w-full flex-col gap-2">
         <AnswerOption
           label="ROTUNDÁSPREITA tem perguntas apenas para instrutores"
           option="A"
@@ -31,7 +30,7 @@ export const FeatureManyQuestions = async () => (
           option="C"
           selectable={false}
           selected={true}
-          className="absolute! bg-tuscan-sun-100! top-10 right-10 w-full"
+          className="bg-tuscan-sun-100! absolute! top-10 right-10 w-full"
         />
       </RadioGroup>
     </Tilt>

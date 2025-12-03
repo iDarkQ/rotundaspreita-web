@@ -1,17 +1,7 @@
 "use client";
 
 import { Study } from "@/app/generated/prisma/client";
-import { searchForQuestions } from "@/app/_services/question-service";
-import { QuestionWithOptions } from "@/app/_types/question-with-options";
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext } from "react";
 
 interface ManageSelectedStudyContextProps {
   study: Study;
@@ -50,7 +40,7 @@ export const useManageSelectedStudy = () => {
 
   if (!context) {
     throw Error(
-      "useManageSelectedStudy has to be used within ManageSelectedStudyProvider"
+      "useManageSelectedStudy has to be used within ManageSelectedStudyProvider",
     );
   }
 

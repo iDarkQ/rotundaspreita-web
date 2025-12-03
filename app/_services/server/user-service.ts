@@ -9,33 +9,33 @@ import { GoogleAccountDto } from "@/app/_lib/dtos/user/google-account,dto";
 const secret = process.env.JWT_SECRET;
 
 export const serverFindUserById = async (id: string) => {
-    return findUserQuery({ id });
-}
+  return findUserQuery({ id });
+};
 
 export const serverFindUserByEmail = async (email: string) => {
-    return findUserQuery({ email });
-}
+  return findUserQuery({ email });
+};
 
 export const serverBeginFreeTest = async (userId: string) => {
-    return updateUserQuery({ id: userId }, { usedFreeTest: true });
-}
+  return updateUserQuery({ id: userId }, { usedFreeTest: true });
+};
 
 export const serverSignUser = async (user: User) => {
-    if (!secret) return;
+  if (!secret) return;
 
-    return jwt.sign(user, secret);
-}
+  return jwt.sign(user, secret);
+};
 
 export const serverFetchGoogleAccountInfo = async (token: string) => {
-    const req = await axios("https://openidconnect.googleapis.com/v1/userinfo", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+  const req = await axios("https://openidconnect.googleapis.com/v1/userinfo", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    if (!req.data) return;
+  if (!req.data) return;
 
-    const data = req.data as GoogleAccountDto;
+  const data = req.data as GoogleAccountDto;
 
-    return data;
-}
+  return data;
+};

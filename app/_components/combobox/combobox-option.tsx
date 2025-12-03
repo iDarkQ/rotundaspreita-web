@@ -10,8 +10,8 @@ export const ComboboxOption = ({ ...rest }: ComboboxOptionProps) => (
     {...rest}
     className={clsx(
       "group button button-outlined",
-      "focus-visible:outline-none flex items-center p-2 gap-2 shadow-lg",
-      rest.className && rest.className
+      "flex items-center gap-2 p-2 shadow-lg focus-visible:outline-none",
+      rest.className && rest.className,
     )}
   >
     <>

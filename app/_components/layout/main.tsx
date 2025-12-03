@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const Main = ({ children }: Props) => (
-  <main className="flex flex-col overflow-hidden py-30 gap-30 min-h-screen">
+  <main className="flex min-h-screen flex-col gap-30 overflow-hidden py-30">
     {children}
   </main>
 );

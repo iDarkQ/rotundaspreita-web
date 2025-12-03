@@ -20,7 +20,7 @@ export const QuestionsManage = async ({ study }: Props) => {
   const responses = await countAnsweredQuestions();
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex w-full flex-col gap-2">
       <ManageFetchedQuestionsProvider
         questions={searchResults?.questions ?? []}
         maxPages={searchResults?.maxPages ?? -1}

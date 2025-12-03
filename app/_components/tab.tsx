@@ -17,8 +17,8 @@ export const Tab = ({ className, label }: Props) => (
       <Button
         variant={selected ? "contained" : "outlined"}
         className={clsx(
-          "group outline-0 shadow-lg flex-1",
-          className && className
+          "group flex-1 shadow-lg outline-0",
+          className && className,
         )}
       >
         <Text as="p" className="group-data-selected:text-white!">

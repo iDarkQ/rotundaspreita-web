@@ -15,7 +15,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   as?: ReactTag;
   variant?: ButtonVariant;
   onClick?: (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
   loading?: boolean;
 }
@@ -37,7 +37,7 @@ export const Button = ({
   const { ref, loadingAnimation } = useRipple(true, disabled || loading);
 
   const handleButtonClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     if (!onClick || disabled) return;
 
@@ -69,7 +69,7 @@ export const Button = ({
         `button button-${variant}`,
         (disabled || loading) &&
           "bg-button-disabled! border-button-disabled! cursor-not-allowed!",
-        className && className
+        className && className,
       )}
     >
       {children}

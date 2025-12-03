@@ -26,10 +26,10 @@ export const QuestionsCard = ({ question, user, answeredCount = 0 }: Props) => {
         onClick={() => {
           setIsOpen((prev) => !prev);
         }}
-        className="cursor-pointer relative c-border flex flex-col gap-2 overflow-hidden"
+        className="c-border relative flex cursor-pointer flex-col gap-2 overflow-hidden"
       >
         {answeredCount > 0 && (
-          <div className="absolute top-0 left-0 w-full h-5 bg-primary flex items-center justify-center">
+          <div className="bg-primary absolute top-0 left-0 flex h-5 w-full items-center justify-center">
             <Text as="p" className="text-white!">
               Já respondeu{" "}
               {`${answeredCount} ${answeredCount > 1 ? "vezes" : "vez"}`}
@@ -38,7 +38,7 @@ export const QuestionsCard = ({ question, user, answeredCount = 0 }: Props) => {
         )}
 
         <div className="flex flex-col p-5">
-          <Text as="h4" className="font-bold text-primary!">
+          <Text as="h4" className="text-primary! font-bold">
             {question.content}
           </Text>
         </div>

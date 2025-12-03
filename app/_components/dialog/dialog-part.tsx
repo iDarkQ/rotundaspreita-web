@@ -8,7 +8,7 @@ interface Props {
 
 export const DialogPart = ({ children, className }: Props) => (
   <div
-    className={clsx("w-full px-5 flex flex-col gap-2", className && className)}
+    className={clsx("flex w-full flex-col gap-2 px-5", className && className)}
   >
     {children}
   </div>

@@ -30,7 +30,7 @@ export const LoginButton = ({ ip, agent }: Props) => {
 
   return (
     <Button
-      className="gap-2 flex flex-row items-center justify-center"
+      className="flex flex-row items-center justify-center gap-2"
       onClick={() => {
         setLoading(true);
         login();

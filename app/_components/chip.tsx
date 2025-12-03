@@ -24,10 +24,10 @@ export const Chip = ({
       ref={ref as RefObject<HTMLDivElement | null>}
       onClick={onClick}
       className={clsx(
-        "relative overflow-hidden rounded-xl px-3 h-(--chip-height) flex items-center justify-center transition-colors gap-1",
+        "relative flex h-(--chip-height) items-center justify-center gap-1 overflow-hidden rounded-xl px-3 transition-colors",
         variant === "contained" && "bg-primary",
         variant === "outlined" && "c-border",
-        (onClick || clickable) && "cursor-pointer select-none"
+        (onClick || clickable) && "cursor-pointer select-none",
       )}
     >
       {children}

@@ -10,8 +10,8 @@ interface Props {
 export const TabList = ({ children, className }: Props) => (
   <HeadlessUITabList
     className={clsx(
-      "c-border border-transparent bg-tab-background flex flex-row gap-2 p-2 ",
-      className && className
+      "c-border bg-tab-background flex flex-row gap-2 border-transparent p-2",
+      className && className,
     )}
   >
     {children}

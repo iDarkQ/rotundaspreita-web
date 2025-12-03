@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 export const useRipple = (
   filled: boolean = true,
-  disabledRipple: boolean = false
+  disabledRipple: boolean = false,
 ) => {
   const ref = useRef<HTMLElement>(null);
   const rippleRef = useRef<HTMLSpanElement | null>(null);
@@ -27,40 +27,43 @@ export const useRipple = (
     }
   };
 
-  const createRipple = useCallback((event: PointerEvent) => {
-    const element = ref.current;
-    if (!element || disabledRipple) return;
+  const createRipple = useCallback(
+    (event: PointerEvent) => {
+      const element = ref.current;
+      if (!element || disabledRipple) return;
 
-    if (event.type === "pointerdown") {
-      const ripple = document.createElement("span");
-      ripple.className = clsx(
-        "absolute rounded-full [transform:scale(0)] transition-transform duration-1000 pointer-events-none opacity-100 z-1",
-        filled ? "bg-black/10" : "bg-primary"
-      );
+      if (event.type === "pointerdown") {
+        const ripple = document.createElement("span");
+        ripple.className = clsx(
+          "absolute rounded-full [transform:scale(0)] transition-transform duration-1000 pointer-events-none opacity-100 z-1",
+          filled ? "bg-black/10" : "bg-primary",
+        );
 
-      const rect = element.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      ripple.style.width = ripple.style.height = `${size}px`;
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = `${size}px`;
 
-      const x = event.clientX - rect.left - size / 2;
-      const y = event.clientY - rect.top - size / 2;
-      ripple.style.left = `${x}px`;
-      ripple.style.top = `${y}px`;
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
 
-      element.appendChild(ripple);
-      rippleRef.current = ripple;
+        element.appendChild(ripple);
+        rippleRef.current = ripple;
 
-      setTimeout(() => {
-        ripple.classList.add("[transform:scale(4)]");
-      }, 0);
-    }
-  }, [disabledRipple, filled]);
+        setTimeout(() => {
+          ripple.classList.add("[transform:scale(4)]");
+        }, 0);
+      }
+    },
+    [disabledRipple, filled],
+  );
 
   const loadingAnimation = () => {
     const ripple = document.createElement("span");
     ripple.className = clsx(
       "absolute rounded-full [transform:scale(0)] transition-transform duration-1000 pointer-events-none opacity-100 z-1",
-      filled ? "bg-black/10" : "bg-primary"
+      filled ? "bg-black/10" : "bg-primary",
     );
 
     const element = ref.current;
@@ -84,7 +87,7 @@ export const useRipple = (
       ripple.classList.add("[transform:scale(4)]");
       cancel();
     }, 10);
-  }
+  };
 
   useEffect(() => {
     const element = ref.current;

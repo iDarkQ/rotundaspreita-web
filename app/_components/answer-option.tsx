@@ -47,14 +47,14 @@ export const AnswerOption = ({
     className={clsx(
       state === "correct" && "bg-success-bg!",
       state === "wrong" && "bg-error-bg!",
-      className && className
+      className && className,
     )}
   >
     <Text as="h2">{option}</Text>
-    <Divider orientation="vertical" className="self-stretch h-auto!" />
+    <Divider orientation="vertical" className="h-auto! self-stretch" />
     {editable ? (
       <Input
-        className="border-hidden! outline-hidden! w-full h-auto!"
+        className="h-auto! w-full border-hidden! outline-hidden!"
         onClick={(e) => e.stopPropagation()}
         onFocus={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
@@ -67,8 +67,8 @@ export const AnswerOption = ({
     ) : (
       <Label
         className={clsx(
-          "text-base text-neutral flex-1 h-auto!",
-          labelClassName && labelClassName
+          "text-neutral h-auto! flex-1 text-base",
+          labelClassName && labelClassName,
         )}
       >
         {label}

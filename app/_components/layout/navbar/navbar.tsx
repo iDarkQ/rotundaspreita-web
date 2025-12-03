@@ -11,7 +11,7 @@ export const Navbar = async () => {
 
   return (
     <NavbarManagerProvider subscription={subscription} user={user ?? undefined}>
-      <div className="flex flex-row justify-between fixed h-(--navbar-height) w-full bg-transparent z-10 p-5 backdrop-blur-lg">
+      <div className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent p-5 backdrop-blur-lg">
         <NavbarLogo />
 
         <NavbarItemsList />

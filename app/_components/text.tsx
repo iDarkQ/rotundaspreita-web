@@ -18,19 +18,19 @@ const styles = {
 
   h1: clsx(
     `text-5xl ${baseHeading}`,
-    `max-xs:text-2xl max-sm:text-3xl max-lg:text-4xl`
+    `max-xs:text-2xl max-sm:text-3xl max-lg:text-4xl`,
   ),
   h2: clsx(
     `text-4xl ${baseHeading}`,
-    "max-xs:text-xl max-sm:text-2xl max-lg:text-3xl"
+    "max-xs:text-xl max-sm:text-2xl max-lg:text-3xl",
   ),
   h3: clsx(
     `text-3xl ${baseHeading}`,
-    "max-xs:text-lg max-sm:text-xl max-lg:text-2xl"
+    "max-xs:text-lg max-sm:text-xl max-lg:text-2xl",
   ),
   h4: clsx(
     `text-2xl ${baseHeading}`,
-    "max-xs:text-base max-sm:text-lg max-lg:text-xl"
+    "max-xs:text-base max-sm:text-lg max-lg:text-xl",
   ),
 };
 
@@ -41,7 +41,7 @@ export const Text = ({ as = "p", children, center, className }: Props) => {
       className={clsx(
         styles[as],
         center && "text-center",
-        className && className
+        className && className,
       )}
     >
       {children}

@@ -67,9 +67,10 @@ export const QuestionsImportDialog = ({ onClose }: Props) => {
             selectedStudy.id,
             payload.question,
             payload.category,
-            payload.options
+            payload.options,
           );
         } catch (err) {
+          console.error({ err });
           setError(`Erro ao criar pergunta ${i + 1}`);
           break;
         }
@@ -77,6 +78,7 @@ export const QuestionsImportDialog = ({ onClose }: Props) => {
         setProgress(i + 1);
       }
     } catch (err) {
+      console.error({ err });
       setError("Erro ao ler ou analisar o ficheiro JSON.");
     } finally {
       setLoading(false);
@@ -96,7 +98,7 @@ export const QuestionsImportDialog = ({ onClose }: Props) => {
         <Text>Exemplo de formato esperado:</Text>
         <Text
           as="pre"
-          className="bg-black/5 p-2 rounded text-xs overflow-x-auto"
+          className="overflow-x-auto rounded bg-black/5 p-2 text-xs"
         >
           {`[
   {
@@ -126,7 +128,7 @@ export const QuestionsImportDialog = ({ onClose }: Props) => {
         />
 
         <Button
-          className="flex gap-1 items-center justify-center"
+          className="flex items-center justify-center gap-1"
           onClick={() => fileInputRef.current?.click()}
         >
           <Text className="text-white!">Carregar Ficheiro Json</Text>

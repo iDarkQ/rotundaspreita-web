@@ -18,13 +18,13 @@ export const Dialog = ({ children, open, title, onClose }: Props) => (
     onClose={() => onClose()}
     className="relative z-50"
   >
-    <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/30">
-      <DialogPanel className="relative max-w-[691px] w-full rounded-sm bg-white flex flex-col gap-5! py-5">
+    <div className="fixed inset-0 flex w-screen items-center justify-center bg-black/30 p-4">
+      <DialogPanel className="relative flex w-full max-w-[691px] flex-col gap-5! rounded-sm bg-white py-5">
         <DialogPart>
           <Text as="h3">
             <Button
               variant="text"
-              className="aspect-square float-right"
+              className="float-right aspect-square"
               onClick={onClose}
             >
               <IoMdClose size="20px" />

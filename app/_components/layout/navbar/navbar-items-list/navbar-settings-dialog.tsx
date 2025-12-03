@@ -38,7 +38,7 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
   };
 
   const hasExpired = dayjs(subscription?.expiresAt).isBefore(
-    subscription?.createdAt
+    subscription?.createdAt,
   );
 
   return (

@@ -11,11 +11,11 @@ export const NavbarExpandItem = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center right-0 top-0 fixed z-10 p-5 h-(--navbar-height)">
+      <div className="fixed top-0 right-0 z-10 flex h-(--navbar-height) items-center justify-center p-5">
         <Button
           variant="text"
           onClick={() => setExpanded((prev) => !prev)}
-          className="flex justify-center items-center aspect-square h-full lg:hidden"
+          className="flex aspect-square h-full items-center justify-center lg:hidden"
           data-expanded={expanded}
         >
           {expanded ? (
@@ -27,10 +27,10 @@ export const NavbarExpandItem = () => {
       </div>
       <div
         className={clsx(
-          "top-0 left-0 bg-transparent fixed h-screen w-full z-9 backdrop-blur-lg transition-opacity lg:hidden",
+          "fixed top-0 left-0 z-9 h-screen w-full bg-transparent backdrop-blur-lg transition-opacity lg:hidden",
           "flex items-center justify-center",
-          !expanded && "opacity-0 pointer-events-none",
-          "**:text-5xl!"
+          !expanded && "pointer-events-none opacity-0",
+          "**:text-5xl!",
         )}
       >
         <NavbarItemsList className="flex-col! items-center justify-center gap-10 max-lg:flex!" />

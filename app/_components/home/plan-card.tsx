@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const PlanCard = ({ bulletList, title, description, price }: Props) => (
-  <Card className="w-full max-w-120 gap-5 border-primary">
+  <Card className="border-primary w-full max-w-120 gap-5">
     <div className="flex items-center justify-between">
       <div>
         <Text>{title}</Text>

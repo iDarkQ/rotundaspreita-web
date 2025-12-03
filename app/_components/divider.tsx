@@ -13,7 +13,7 @@ export const Divider = ({ className, orientation = "horizontal" }: Props) => {
         orientation === "horizontal"
           ? "h-0 w-full border-t-0!"
           : "h-full border-l-0!",
-        className && className
+        className && className,
       )}
     />
   );

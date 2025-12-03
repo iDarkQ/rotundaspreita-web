@@ -32,7 +32,7 @@ export const PanelStatisticsChart = ({ data }: Props) => {
   };
 
   return (
-    <Card className="flex items-center justify-center col-span-1 h-100">
+    <Card className="col-span-1 flex h-100 items-center justify-center">
       {values.every((v) => v <= 0) ? (
         <Text>Não foram fornecidos dados para exibir o gráfico circular</Text>
       ) : (

@@ -21,17 +21,16 @@ export const PanelTestMenuBlock = ({
 
   if (!show) return null;
 
-  const shouldShowMessage =
-    !user.admin && (!subscription || hasExpired);
+  const shouldShowMessage = !user.admin && (!subscription || hasExpired);
 
   return (
     <>
       {shouldShowMessage && (
-        <div className="p-5 gap-2 flex flex-col items-center justify-center rounded-sm absolute w-full h-full bg-black/70 z-1">
+        <div className="absolute z-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-sm bg-black/70 p-5">
           <Text as="h3" className="text-white!">
             Não tem uma subscrição válida
           </Text>
-          <Text as="p" className="text-white! text-center">
+          <Text as="p" className="text-center text-white!">
             Pode renovar a sua subscrição clicando no botão abaixo. Será
             redirecionado para o nosso provedor de pagamentos para efetuar o
             pagamento.

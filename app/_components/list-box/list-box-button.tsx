@@ -19,8 +19,8 @@ export const ListBoxButton = ({ ...rest }: ListboxButtonProps) => {
       ref={ref as RefObject<HTMLButtonElement | null>}
       className={clsx(
         rest.className,
-        "group focus-visible:outline-none text-white flex items-center justify-between p-2",
-        "button button-contained"
+        "group flex items-center justify-between p-2 text-white focus-visible:outline-none",
+        "button button-contained",
       )}
     >
       <>

@@ -9,11 +9,11 @@ interface Props {
 export const Markdown = ({ children }: Props) => (
   <ReactMarkdown
     components={{
-      h1: ({ node, ...props }) => <Text as="h1" {...props} />,
-      h2: ({ node, ...props }) => <Text as="h2" {...props} />,
-      h3: ({ node, ...props }) => <Text as="h3" {...props} />,
-      h4: ({ node, ...props }) => <Text as="h4" {...props} />,
-      p: ({ node, ...props }) => <Text {...props} />,
+      h1: ({ ...props }) => <Text as="h1" {...props} />,
+      h2: ({ ...props }) => <Text as="h2" {...props} />,
+      h3: ({ ...props }) => <Text as="h3" {...props} />,
+      h4: ({ ...props }) => <Text as="h4" {...props} />,
+      p: ({ ...props }) => <Text {...props} />,
       hr: () => <Divider />,
     }}
   >

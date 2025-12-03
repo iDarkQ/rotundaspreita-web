@@ -14,7 +14,10 @@ interface Props {
 }
 
 export const StudyDialog = ({ onClose, study }: Props) => {
-  const { titleRef, handleButtonClick, handleDeleteStudy } = useStudyDialog({ onClose, study });
+  const { titleRef, handleButtonClick, handleDeleteStudy } = useStudyDialog({
+    onClose,
+    study,
+  });
 
   return (
     <Dialog onClose={onClose} title={study ? "Aterar Estudo" : "Criar Estudo"}>

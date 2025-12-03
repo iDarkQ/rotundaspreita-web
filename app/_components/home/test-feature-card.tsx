@@ -1,4 +1,3 @@
-import { Card } from "@/app/_components/card";
 import { Text } from "@/app/_components/text";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -21,15 +20,15 @@ export const TestFeatureCard = ({
   <div
     className={clsx(
       "flex flex-row gap-10 max-xl:flex-col-reverse max-xl:gap-2!",
-      align === "left" && "flex-row-reverse max-xl:flex-col"
+      align === "left" && "flex-row-reverse max-xl:flex-col",
     )}
   >
-    <div className="flex w-full flex-3 justify-center items-center">
+    <div className="flex w-full flex-3 items-center justify-center">
       {children}
     </div>
     <div
       className={clsx(
-        "flex flex-col w-full flex-2 min-h-[30vh] max-xl:min-h-[20vh]! justify-center items-center p-5"
+        "flex min-h-[30vh] w-full flex-2 flex-col items-center justify-center p-5 max-xl:min-h-[20vh]!",
       )}
     >
       {prefix}

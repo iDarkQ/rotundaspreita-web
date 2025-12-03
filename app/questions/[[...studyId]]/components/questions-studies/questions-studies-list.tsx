@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const QuestionsStudiesList = ({ studies, selectedStudy }: Props) => (
-  <div className="flex flex-wrap gap-2 items-center justify-center w-full">
+  <div className="flex w-full flex-wrap items-center justify-center gap-2">
     {studies.length > 0 ? (
       studies.map((study) => (
         <QuestionsStudiesListItem

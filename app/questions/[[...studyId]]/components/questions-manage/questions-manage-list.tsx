@@ -12,13 +12,12 @@ interface Props {
 }
 
 export const QuestionsList = ({ responses, user }: Props) => {
-  const { questions, bottomRef, finish, loading } =
-    useInfiniteQuestionsList();
+  const { questions, bottomRef, finish, loading } = useInfiniteQuestionsList();
 
   return (
     <>
       {questions.length < 1 && <QuestionsManageListEmpty />}
-      <div className="overflow-auto grid grid-cols-2 gap-2 w-full max-lg:grid-cols-1">
+      <div className="grid w-full grid-cols-2 gap-2 overflow-auto max-lg:grid-cols-1">
         {questions.map((q, index) => (
           <QuestionsCard
             key={q.id ?? index}
@@ -27,7 +26,7 @@ export const QuestionsList = ({ responses, user }: Props) => {
             user={user}
           />
         ))}
-        <div ref={bottomRef} className="h-4 col-span-2 max-lg:col-span-1" />
+        <div ref={bottomRef} className="col-span-2 h-4 max-lg:col-span-1" />
       </div>
 
       {!finish && <QuestionsManageListMore loading={loading} />}

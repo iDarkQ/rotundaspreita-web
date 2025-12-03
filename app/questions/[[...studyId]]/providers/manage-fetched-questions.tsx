@@ -63,7 +63,7 @@ export const ManageFetchedQuestionsProvider = ({
   const [questions, setQuestions] =
     useState<QuestionWithOptions[]>(baseQuestions);
   const [selectedQuestion, setSelectedQuestion] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -73,8 +73,8 @@ export const ManageFetchedQuestionsProvider = ({
   const updateLocalQuestion = (question: QuestionWithOptions) => {
     setQuestions((prev) =>
       prev.map((oldQuestion) =>
-        oldQuestion.id === question.id ? question : oldQuestion
-      )
+        oldQuestion.id === question.id ? question : oldQuestion,
+      ),
     );
   };
 
@@ -92,13 +92,13 @@ export const ManageFetchedQuestionsProvider = ({
       const searchResults = await searchForQuestions(
         selectedStudy.id,
         query,
-        page
+        page,
       );
       if (searchResults) maxPagesRef.current = searchResults.maxPages;
 
       return searchResults;
     },
-    [selectedStudy]
+    [selectedStudy],
   );
 
   useEffect(() => {
@@ -158,7 +158,7 @@ export const useManageFetchedQuestions = () => {
 
   if (!context) {
     throw Error(
-      "useManageFetchedQuestions has to be used within ManageFetchedQuestionsProvider"
+      "useManageFetchedQuestions has to be used within ManageFetchedQuestionsProvider",
     );
   }
 

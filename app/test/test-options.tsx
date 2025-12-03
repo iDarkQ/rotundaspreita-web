@@ -25,10 +25,10 @@ export const TestOptions = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full min-h-[50vh] gap-5 items-center">
+      <div className="flex min-h-[50vh] w-full flex-col items-center gap-5">
         <Text as="h3">{question?.content}</Text>
         <Divider orientation="horizontal" />
-        <div className="flex flex-col w-full gap-2">
+        <div className="flex w-full flex-col gap-2">
           <RadioGroup className="flex flex-col gap-2">
             {question?.options.map((option) => {
               const userAnswer = answers[selectedPage]; // what the user selected (might be undefined)
@@ -83,9 +83,7 @@ export const TestOptions = () => {
           </RadioGroup>
         </div>
       </div>
-      <QuestionsPagination
-        page={currentPage}
-      />
+      <QuestionsPagination page={currentPage} />
     </>
   );
 };

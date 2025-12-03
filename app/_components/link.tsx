@@ -25,9 +25,9 @@ export const Link = ({
     <a
       href={link}
       className={clsx(
-        "text-white underline text-base",
+        "text-base text-white underline",
         className && className,
-        hideStyles && "no-underline!"
+        hideStyles && "no-underline!",
       )}
       target="_blank"
       rel="noopener noreferrer"
@@ -39,9 +39,9 @@ export const Link = ({
     <NextLink
       href={link}
       className={clsx(
-        "text-white underline text-base",
+        "text-base text-white underline",
         className && className,
-        hideStyles && "no-underline!"
+        hideStyles && "no-underline!",
       )}
       onClick={onClick}
     >

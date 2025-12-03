@@ -28,13 +28,13 @@ export default async function Login() {
     <Section className="justify-center!">
       <PositionedBlob
         align="left"
-        className="w-100 h-100 top-[15vh] -left-[5vh]! opacity-50"
+        className="top-[15vh] -left-[5vh]! h-100 w-100 opacity-50"
       >
         <Blob1 />
       </PositionedBlob>
       <PositionedBlob
         align="right"
-        className="w-100 h-100 top-[60vh] -right-[5vh]! opacity-50"
+        className="top-[60vh] -right-[5vh]! h-100 w-100 opacity-50"
       >
         <Blob4 />
       </PositionedBlob>

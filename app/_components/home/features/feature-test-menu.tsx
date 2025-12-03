@@ -25,7 +25,7 @@ export const FeatureTestMenu = async () => {
           studies={studies}
           categories={categories}
           defaultStudyId={studies[0]?.id}
-          className="w-full flex! pointer-events-none"
+          className="pointer-events-none flex! w-full"
         />
       </Tilt>
     </TestFeatureCard>

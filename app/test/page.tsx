@@ -45,18 +45,18 @@ export default async function Test({ searchParams }: Props) {
       <Section>
         <PositionedBlob
           align="left"
-          className="w-100 h-100 top-[70vh] opacity-50"
+          className="top-[70vh] h-100 w-100 opacity-50"
         >
           <Blob1 />
         </PositionedBlob>
         <PositionedBlob
           align="right"
-          className="w-100 h-100 top-[-10vh] opacity-50"
+          className="top-[-10vh] h-100 w-100 opacity-50"
         >
           <Blob4 />
         </PositionedBlob>
         <TestResults />
-        <div className="flex gap-2 items-center justify-center">
+        <div className="flex items-center justify-center gap-2">
           <Chip>
             <Text as="p" className="text-white">
               Teste de {study?.title}

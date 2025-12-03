@@ -1,7 +1,6 @@
 import { Divider } from "@/app/_components/divider";
 import { PaginationItem } from "@/app/_components/pagination/pagination-item";
 import { useTestManager } from "@/app/test/providers/test-manager";
-import clsx from "clsx";
 
 interface Props {
   page: number;
@@ -14,7 +13,7 @@ export const QuestionsPagination = ({ page }: Props) => {
   const count = questions.length;
 
   return (
-    <div className="flex flex-row w-full justify-center overflow-hidden gap-1 z-1">
+    <div className="z-1 flex w-full flex-row justify-center gap-1 overflow-hidden">
       <PaginationItem
         type="previous"
         disabled={page <= 1}
@@ -22,14 +21,14 @@ export const QuestionsPagination = ({ page }: Props) => {
       />
       <Divider orientation="vertical" />
 
-      <div className="flex flex-row overflow-auto gap-1">
+      <div className="flex flex-row gap-1 overflow-auto">
         {questions.map((q, index) => {
           const color = finished
             ? answers[q.id] !== correctAnswers[q.id]
               ? "error"
               : "success"
             : "default";
-            
+
           return (
             <PaginationItem
               key={index + 1}

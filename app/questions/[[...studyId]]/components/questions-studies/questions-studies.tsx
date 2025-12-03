@@ -14,10 +14,10 @@ export const QuestionsStudies = async ({ study }: Props) => {
   const studies = await fetchAllStudies();
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center w-full">
+    <div className="flex w-full flex-col items-center justify-center gap-2">
       <QuestionsStudiesList studies={studies} selectedStudy={study} />
       {user?.admin && (
-        <div className="flex flex-wrap gap-2 items-center justify-center">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <QuestionsStudiesCreate />
           <QuestionsStudiesEdit study={study} />
         </div>

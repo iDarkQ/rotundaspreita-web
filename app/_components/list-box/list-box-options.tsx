@@ -10,9 +10,9 @@ export const ListBoxOptions = ({ ...rest }: ListboxOptionsProps) => (
     transition
     modal={false}
     className={clsx(
-      "transition duration-200! data-leave:data-closed:opacity-0 data-enter:opacity-1",
-      "focus-visible:outline-none c-border border-transparent bg-tab-background! w-(--button-width) flex flex-col p-2 gap-2 [--anchor-gap:--spacing(1)]",
-      rest.className
+      "transition duration-200! data-enter:opacity-1 data-leave:data-closed:opacity-0",
+      "c-border bg-tab-background! flex w-(--button-width) flex-col gap-2 border-transparent p-2 [--anchor-gap:--spacing(1)] focus-visible:outline-none",
+      rest.className,
     )}
   >
     {rest.children}

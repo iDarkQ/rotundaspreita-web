@@ -21,7 +21,7 @@ export const QuestionViewerDialog = ({
 
   const optionLetter = useCallback(
     (index: number) => String.fromCharCode(65 + index) as OptionLetter,
-    []
+    [],
   );
 
   return (

@@ -49,7 +49,7 @@ export default function RootLayout({
     >
       <html lang="pt">
         <body
-          className={`relative ${roboto.variable} ${sourceCodePro.variable} antialiased bg-background`}
+          className={`relative ${roboto.variable} ${sourceCodePro.variable} bg-background antialiased`}
         >
           <Layout>{children}</Layout>
         </body>

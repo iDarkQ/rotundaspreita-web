@@ -11,18 +11,18 @@ import { RouteNames } from "@/app/_utils/route-names";
 
 export const HomeHero = () => (
   <Section>
-    <PositionedBlob align="left" className="w-100 h-100 top-[65vh] opacity-50">
+    <PositionedBlob align="left" className="top-[65vh] h-100 w-100 opacity-50">
       <Blob1 />
     </PositionedBlob>
     <PositionedBlob
       align="right"
-      className="w-100 h-100 top-[-10vh] opacity-50"
+      className="top-[-10vh] h-100 w-100 opacity-50"
     >
       <Blob4 />
     </PositionedBlob>
 
-    <div className="flex items-center justify-center gap-10 min-h-[65vh] max-xl:flex-col! max-xl:mt-20">
-      <div className="w-full flex flex-col gap-5 flex-5">
+    <div className="flex min-h-[65vh] items-center justify-center gap-10 max-xl:mt-20 max-xl:flex-col!">
+      <div className="flex w-full flex-5 flex-col gap-5">
         <Text
           as="h1"
           className="text-6xl! max-2xl:text-5xl! max-md:text-4xl! max-sm:text-3xl!"
@@ -66,7 +66,7 @@ export const HomeHero = () => (
           />
         </div>
       </div>
-      <div className="w-full flex flex-col gap-5 flex-6">
+      <div className="flex w-full flex-6 flex-col gap-5">
         <TestCard />
       </div>
     </div>

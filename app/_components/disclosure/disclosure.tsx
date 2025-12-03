@@ -9,7 +9,12 @@ interface Props extends DisclosureProps {
 }
 
 export const Disclosure = ({ className, ...rest }: Props) => (
-  <div className={clsx("button button-outlined c-border cursor-default p-5", className && className)}>
+  <div
+    className={clsx(
+      "button button-outlined c-border cursor-default p-5",
+      className && className,
+    )}
+  >
     <HeadlessUiDisclosure {...rest}>{rest.children}</HeadlessUiDisclosure>
   </div>
 );

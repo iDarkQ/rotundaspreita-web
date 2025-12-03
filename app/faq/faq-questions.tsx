@@ -6,7 +6,7 @@ import { Text } from "@/app/_components/text";
 import { RouteNames } from "@/app/_utils/route-names";
 
 export const FAQQuestions = () => (
-  <div className="2xl:w-[50%] max-2xl:w-[80%] max-xl:w-full flex flex-col gap-4 mt-6">
+  <div className="mt-6 flex flex-col gap-4 max-2xl:w-[80%] max-xl:w-full 2xl:w-[50%]">
     {/* O que é a ROTUNDASPREITA? */}
     <Disclosure defaultOpen={true}>
       <DisclosureButton>O que é a ROTUNDASPREITA?</DisclosureButton>

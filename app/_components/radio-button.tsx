@@ -27,11 +27,11 @@ export const RadioButton = ({
       ref={ref as RefObject<HTMLDivElement | null>}
       onClick={onClick}
       className={clsx(
-        "select-none relative overflow-hidden flex items-center gap-2 c-border p-3",
+        "c-border relative flex items-center gap-2 overflow-hidden p-3 select-none",
         selectable && "hover:bg-toggle-button-hover! cursor-pointer",
         selected ? "bg-toggle-button-selected" : "bg-white/25",
         selected && selectable && "hover:bg-toggle-button-hover-selected!",
-        className && className
+        className && className,
       )}
     >
       {children}
@@ -39,7 +39,7 @@ export const RadioButton = ({
       {onDelete && (
         <MdDelete
           size={20}
-          className="text-red-400 h-auto"
+          className="h-auto text-red-400"
           onClick={(e) => {
             e.stopPropagation();
             onDelete();

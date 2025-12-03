@@ -6,7 +6,7 @@ import { ListBoxOptions } from "@/app/_components/list-box/list-box-options";
 import { Text } from "@/app/_components/text";
 import { useTestMenu } from "@/app/panel/[[...studyId]]/providers/test-menu";
 import { Listbox } from "@headlessui/react";
-import { MdArrowDownward, MdArrowForward } from "react-icons/md";
+import { MdArrowForward } from "react-icons/md";
 
 export const PanelSelectCategory = () => {
   const { selectedCategory, setSelectedCategory, listedCategories } =

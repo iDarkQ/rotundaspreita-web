@@ -12,8 +12,8 @@ export const FeatureAnalytics = async () => {
       description="Painéis que mostram progresso, tempo por questão e acertos."
     >
       <Tilt className="w-full">
-        <div className="flex gap-2 items-stretch w-full max-xl:flex-col">
-          <div className="flex flex-col gap-2 w-full h-auto">
+        <div className="flex w-full items-stretch gap-2 max-xl:flex-col">
+          <div className="flex h-auto w-full flex-col gap-2">
             <StatisticsCard
               name="Testes concluídos"
               value="11"

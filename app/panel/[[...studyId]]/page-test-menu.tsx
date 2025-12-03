@@ -24,7 +24,7 @@ export const PageTestMenu = forwardRef<HTMLDivElement, Props>(
     return (
       <div ref={ref} {...rest} className={clsx(className && className)}>
         {studies.length > 0 && defaultStudyId ? (
-          <Card className="gap-2 w-full">
+          <Card className="w-full gap-2">
             <Text as="h2" className="font-normal!">
               Iniciar novo teste de 30 minutos
             </Text>
@@ -53,7 +53,7 @@ export const PageTestMenu = forwardRef<HTMLDivElement, Props>(
         )}
       </div>
     );
-  }
+  },
 );
 
 PageTestMenu.displayName = "PageTestMenu";

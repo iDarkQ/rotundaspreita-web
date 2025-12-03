@@ -14,7 +14,7 @@ export const QuestionsManageImportButton = () => {
       {open && <QuestionsImportDialog onClose={() => setOpen(false)} />}
       <Button
         onClick={() => setOpen(true)}
-        className="flex gap-1 items-center justify-center"
+        className="flex items-center justify-center gap-1"
       >
         <Text className="text-white!">Importar Perguntas Do Ficheiro Json</Text>
         <MdOutlineFileUpload size={20} className="text-white!" />

@@ -32,7 +32,7 @@ interface TestManagerProviderProps {
 }
 
 const TestManagerContext = createContext<TestManagerContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const TestManagerProvider = ({
@@ -44,7 +44,7 @@ export const TestManagerProvider = ({
     questions.reduce((acc, q) => {
       acc[q.id] = null;
       return acc;
-    }, {} as TestAnswers)
+    }, {} as TestAnswers),
   );
   const [selectedPage, setSelectedPage] = useState<string>(questions[0].id);
   const [correctAnswers, setCorrectAnswers] = useState<TestAnswers>({});

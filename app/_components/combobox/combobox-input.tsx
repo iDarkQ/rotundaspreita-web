@@ -13,12 +13,15 @@ export const ComboboxInput = ({ ...rest }: ComboboxInputProps) => (
     <HeadlessUIComboboxInput
       {...rest}
       className={clsx(
-        "c-border h-(--input-height) w-full border-input focus-visible:outline-input-focus-visible! p-2",
-        rest.className && rest.className
+        "c-border border-input focus-visible:outline-input-focus-visible! h-(--input-height) w-full p-2",
+        rest.className && rest.className,
       )}
     />
     <ComboboxButton as={Fragment}>
-      <Button className="group absolute inset-y-0 right-0 px-2.5" variant="text">
+      <Button
+        className="group absolute inset-y-0 right-0 px-2.5"
+        variant="text"
+      >
         <MdOutlineExpandMore
           size={20}
           className="group-data-[headlessui-state~='open']:hidden"

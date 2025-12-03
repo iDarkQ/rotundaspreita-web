@@ -14,16 +14,16 @@ export const Card = forwardRef<HTMLDivElement, Props>(
         ref={ref}
         className={clsx(
           "relative flex flex-col p-5",
-          variant === "primary" && "c-border shadow-lg bg-white",
-          variant === "secondary" && "rounded-sm bg-card-secondary",
-          className
+          variant === "primary" && "c-border bg-white shadow-lg",
+          variant === "secondary" && "bg-card-secondary rounded-sm",
+          className,
         )}
         {...rest}
       >
         {children}
       </div>
     );
-  }
+  },
 );
 
 Card.displayName = "Card";

@@ -32,21 +32,21 @@ export default async function Panel({ params }: Props) {
   const subscription = await fetchLoggedUserSubscription();
 
   const hasExpired = dayjs(subscription?.expiresAt).isBefore(
-    subscription?.createdAt
+    subscription?.createdAt,
   );
 
   return (
     <Section>
-      <PositionedBlob align="left" className="w-100 h-100 top-[90%] opacity-50">
+      <PositionedBlob align="left" className="top-[90%] h-100 w-100 opacity-50">
         <Blob1 />
       </PositionedBlob>
       <PositionedBlob
         align="right"
-        className="w-100 h-100 top-[10%] opacity-50"
+        className="top-[10%] h-100 w-100 opacity-50"
       >
         <Blob4 />
       </PositionedBlob>
-      <div className="w-full flex flex-col items-start gap-5">
+      <div className="flex w-full flex-col items-start gap-5">
         <div>
           <Text as="p" className="text-primary!">
             Bem-vindo de volta, {user.name}
@@ -68,7 +68,7 @@ export default async function Panel({ params }: Props) {
           />
         </div>
       </div>
-      <Text as="h2" className="font-normal! text-start! w-full">
+      <Text as="h2" className="w-full text-start! font-normal!">
         Estatísticas do estudo selecionado
       </Text>
       <PanelStatistics defaultStudyId={foundStudy?.id} />
