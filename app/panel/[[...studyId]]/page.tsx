@@ -1,18 +1,18 @@
 import { Section } from "@/app/_components/section";
-import { Blob1 } from "@/app/_components/svgs/blob-1";
-import { Blob4 } from "@/app/_components/svgs/blob-4";
-import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
-import { Text } from "@/app/_components/text";
-import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
+import { PageTestMenu } from "@/app/panel/[[...studyId]]/components/panel-test-menu/page-test-menu";
 import { PanelStatistics } from "@/app/panel/[[...studyId]]/components/panel-statistics/panel-statistics";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
 } from "@/app/_services/study-service";
 import dayjs from "dayjs";
-import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block";
+import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block/panel-test-menu-block";
 import { fetchLoggedUserSubscription } from "@/app/_services/subscription-service";
 import { verifySession } from "@/app/_services/user-service";
+import { PanelBlobs } from "@/app/panel/[[...studyId]]/components/panel-blobs";
+import { PanelTitle } from "@/app/panel/[[...studyId]]/components/panel-title";
+import { PanelWelcomeMessage } from "@/app/panel/[[...studyId]]/components/panel-welcome-message";
+import { PanelStatisticsTitle } from "@/app/panel/[[...studyId]]/components/panel-statistics-title";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -37,21 +37,11 @@ export default async function Panel({ params }: Props) {
 
   return (
     <Section>
-      <PositionedBlob align="left" className="top-[90%] h-100 w-100 opacity-50">
-        <Blob1 />
-      </PositionedBlob>
-      <PositionedBlob
-        align="right"
-        className="top-[10%] h-100 w-100 opacity-50"
-      >
-        <Blob4 />
-      </PositionedBlob>
+      <PanelBlobs />
       <div className="flex w-full flex-col items-start gap-5">
         <div>
-          <Text as="p" className="text-primary!">
-            Bem-vindo de volta, {user.name}
-          </Text>
-          <Text as="h1">Vamos praticar!</Text>
+          <PanelWelcomeMessage name={user.name} />
+          <PanelTitle />
         </div>
         <div className="relative">
           {studies.length > 0 && (
@@ -68,9 +58,7 @@ export default async function Panel({ params }: Props) {
           />
         </div>
       </div>
-      <Text as="h2" className="w-full text-start! font-normal!">
-        Estatísticas do estudo selecionado
-      </Text>
+      <PanelStatisticsTitle />
       <PanelStatistics defaultStudyId={foundStudy?.id} />
     </Section>
   );
