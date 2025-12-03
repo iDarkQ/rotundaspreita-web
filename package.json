@@ -6,7 +6,9 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "preview": "next start --port 3002",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint-check": "eslint-config-prettier app/page.tsx",
+    "prettier": "prettier --write app/"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
