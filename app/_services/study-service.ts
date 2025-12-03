@@ -56,13 +56,11 @@ export const deleteStudy = async (id: string) => {
   return deleteStudyQuery({ id });
 };
 
-export const fetchAllStudies = async () => {
-  return fetchStudiesQuery();
-};
+export const fetchAllStudies = async () => fetchStudiesQuery();
 
 export const fetchStudyById = async (id: string) => {
   const session = await verifySession();
-  if (!session) return undefined;
+  if (!session) return null;
 
   return fetchFirstStudyQuery({ id });
 };

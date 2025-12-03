@@ -38,11 +38,11 @@ export const serverCreateDeviceSession = async (
     );
   }
 
-  const distinctSessions = existingDeviceSessions.reduce((acc, s) => {
-    const key = `${s.ipAddress}:${s.userAgent}`;
-    if (!acc.includes(key)) acc.push(key);
-    return acc;
-  }, [] as string[]);
+  // const distinctSessions = existingDeviceSessions.reduce((acc, s) => {
+  //   const key = `${s.ipAddress}:${s.userAgent}`;
+  //   if (!acc.includes(key)) acc.push(key);
+  //   return acc;
+  // }, [] as string[]);
 
   // if (distinctSessions.length >= 4) {
   //   return;

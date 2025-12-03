@@ -8,17 +8,13 @@ import { GoogleAccountDto } from "@/app/_lib/dtos/user/google-account,dto";
 
 const secret = process.env.JWT_SECRET;
 
-export const serverFindUserById = async (id: string) => {
-  return findUserQuery({ id });
-};
+export const serverFindUserById = async (id: string) => findUserQuery({ id });
 
-export const serverFindUserByEmail = async (email: string) => {
-  return findUserQuery({ email });
-};
+export const serverFindUserByEmail = async (email: string) =>
+  findUserQuery({ email });
 
-export const serverBeginFreeTest = async (userId: string) => {
-  return updateUserQuery({ id: userId }, { usedFreeTest: true });
-};
+export const serverBeginFreeTest = async (userId: string) =>
+  updateUserQuery({ id: userId }, { usedFreeTest: true });
 
 export const serverSignUser = async (user: User) => {
   if (!secret) return;
