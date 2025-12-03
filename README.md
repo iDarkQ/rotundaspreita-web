@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# ROTUNDÁSPREITA
 
-First, run the development server:
+![ROTUNDÁSPREITA HOME PAGE](docs/website-preview.png "ROTUNDÁSPREITA HOME PAGE")  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚗 About
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**ROTUNDÁSPREITA** is a web application built for learners in **Portugal** preparing to become **driving instructors** or **driving school directors**. The platform helps users get ready for official exams by offering a premium subscription to a large, verified question bank and powerful learning tools.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Users with a subscription get access to:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   ✅ **900+ verified questions** tailored for instructor/director exams. Ideal for efficient exam preparation
+    
+-   📊 **Advanced analytics** to track strengths, weaknesses, and performance trends
+    
+-   🧠 **Clean, distraction-free test interface** designed for deep focus and realistic practice
+    
+-   🔄 **Unlimited mock test attempts** for boosted confidence
+    
 
-## Learn More
+Learn more at 🔗 [https://rotundaspreita.com](https://rotundaspreita.com?utm_source=chatgpt.com) [ROTUNDÁSPREITA](https://rotundaspreita.com/)
 
-To learn more about Next.js, take a look at the following resources:
+----------
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📸 Screenshots
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📋 Panel / Dashboard
 
-## Deploy on Vercel
+![ROTUNDÁSPREITA PROFILE PAGE](docs/profile.png "ROTUNDÁSPREITA PROFILE PAGE")  
+### 📃 Test Interface
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![ROTUNDÁSPREITA TEST PAGE](docs/test.png "ROTUNDÁSPREITA TEST PAGE")  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ✅ Finished Test Interface
+
+![ROTUNDÁSPREITA TEST PAGE](docs/test-finished.png "ROTUNDÁSPREITA TEST PAGE")  
+
+### 📚 Library Interface
+
+![ROTUNDÁSPREITA LIBRARY PAGE](docs/library.png "ROTUNDÁSPREITA LIBRARY PAGE")  
+
+----------
+
+## 🛠 Technologies
+
+ROTUNDÁSPREITA is built using modern web technologies to ensure strong performance, scalability, and excellent user experience:
+
+-   **Next.js** – Full-stack React framework
+    
+-   **React** – UI library
+    
+-   **Tailwind CSS** – Utility-first styling
+    
+-   **TypeScript** – Type safety
+    
+-   **Prisma** – ORM for database access
+    
+-   **PostgreSQL** – Relational database
+    
+-   **HeadlessUI** – Accessible UI components
+    
+-   **JWT** – Authentication
+    
+-   **Stripe** – Payments/subscriptions
