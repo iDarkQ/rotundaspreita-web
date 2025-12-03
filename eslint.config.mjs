@@ -7,6 +7,12 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   eslintConfigPrettier,
+  {
+    rules: {
+      // Make sure if arrow function returns only jsx, force concise JSX return style
+      "arrow-body-style": ["error", "as-needed"],
+    },
+  },
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ]);
 
