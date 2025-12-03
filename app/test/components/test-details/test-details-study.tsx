@@ -18,7 +18,7 @@ export const TestDetailsStudy = ({
     <Text as="p" className="text-white">
       Teste de {study?.title}
       {firstQuestion.category === selectedCategory
-        ? `(${selectedCategory})`
+        ? ` (${selectedCategory})`
         : ""}
     </Text>
   </Chip>
