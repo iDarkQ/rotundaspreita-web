@@ -1,8 +1,4 @@
 import { Section } from "@/app/_components/section";
-import { Blob1 } from "@/app/_components/svgs/blob-1";
-import { Blob4 } from "@/app/_components/svgs/blob-4";
-import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
-import { Text } from "@/app/_components/text";
 import { QuestionsStudies } from "@/app/questions/[[...studyId]]/components/questions-studies/questions-studies";
 import { QuestionsManage } from "@/app/questions/[[...studyId]]/components/questions-manage/questions-manage";
 import {
@@ -11,6 +7,8 @@ import {
 } from "@/app/_services/study-service";
 import { ManageSelectedStudyProvider } from "@/app/questions/[[...studyId]]/providers/manage-selected-study";
 import { Divider } from "@/app/_components/divider";
+import { QuestionsBlobs } from "@/app/questions/[[...studyId]]/components/questions-blobs";
+import { QuestionsTitle } from "@/app/questions/[[...studyId]]/components/questions-title";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -27,22 +25,8 @@ export default async function Questions({ params }: Props) {
 
   return (
     <Section>
-      <PositionedBlob
-        align="left"
-        className="top-[90vh] h-100 w-100 opacity-50"
-      >
-        <Blob1 />
-      </PositionedBlob>
-      <PositionedBlob
-        align="right"
-        className="top-[10vh] h-100 w-100 opacity-50"
-      >
-        <Blob4 />
-      </PositionedBlob>
-
-      <Text as="h1" className="z-1" center>
-        Todas as perguntas existentes
-      </Text>
+      <QuestionsBlobs />
+      <QuestionsTitle />
 
       <QuestionsStudies study={selectedStudy} />
       {selectedStudy && (

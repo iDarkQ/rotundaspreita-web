@@ -22,18 +22,16 @@ export const ManageSelectedStudyProvider = ({
   children,
   study,
   categories,
-}: ManageSelectedStudyProviderProps) => {
-  return (
-    <ManageSelectedStudyContext.Provider
-      value={{
-        study,
-        categories,
-      }}
-    >
-      {children}
-    </ManageSelectedStudyContext.Provider>
-  );
-};
+}: ManageSelectedStudyProviderProps) => (
+  <ManageSelectedStudyContext.Provider
+    value={{
+      study,
+      categories,
+    }}
+  >
+    {children}
+  </ManageSelectedStudyContext.Provider>
+);
 
 export const useManageSelectedStudy = () => {
   const context = useContext(ManageSelectedStudyContext);
