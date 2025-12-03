@@ -6,7 +6,7 @@ import { registerUser } from "@/app/_services/user-service";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FaGoogle } from "react-icons/fa";
 import { redirect } from "next/navigation";
-import { saveSecret } from "@/app/login/save-secret";
+import { saveSecret } from "@/app/login/server/save-secret";
 import { RouteNames } from "@/app/_utils/route-names";
 import { useState } from "react";
 
