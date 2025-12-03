@@ -1,13 +1,13 @@
 import { TestFeatureCard } from "@/app/_components/home/test-feature-card";
 import { Tilt } from "@/app/_components/tilt";
-import { PageTestMenu } from "@/app/panel/[[...studyId]]/page-test-menu";
+import { PageTestMenu } from "@/app/panel/[[...studyId]]/components/panel-test-menu/page-test-menu";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
 } from "@/app/_services/study-service";
 import { IoMdCheckbox } from "react-icons/io";
 
-export const FeatureTestMenu = async () => {
+export const AboutFeatureTestMenu = async () => {
   const studies = await fetchAllStudies();
   const foundStudy = studies[0];
   const categories = foundStudy

@@ -4,7 +4,7 @@ import { Tilt } from "@/app/_components/tilt";
 import { RadioGroup } from "@headlessui/react";
 import { IoMdListBox } from "react-icons/io";
 
-export const FeatureManyQuestions = async () => (
+export const AboutFeatureManyQuestions = async () => (
   <TestFeatureCard
     prefix={<IoMdListBox size={50} className="text-primary!" />}
     title="900+ Questões"

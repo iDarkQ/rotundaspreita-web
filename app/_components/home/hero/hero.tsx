@@ -1,70 +1,21 @@
-import { Button } from "@/app/_components/button";
+import { HeroActions } from "@/app/_components/home/hero/hero-actions";
+import { HeroBlobs } from "@/app/_components/home/hero/hero-blobs";
+import { HeroDescription } from "@/app/_components/home/hero/hero-description";
+import { HeroStatistics } from "@/app/_components/home/hero/hero-statistics";
+import { HeroTitle } from "@/app/_components/home/hero/hero-title";
 import { TestCard } from "@/app/_components/home/test-card";
-import { Link } from "@/app/_components/link";
 import { Section } from "@/app/_components/section";
-import { StatisticsCard } from "@/app/_components/statistics-card";
-import { Blob1 } from "@/app/_components/svgs/blob-1";
-import { Blob4 } from "@/app/_components/svgs/blob-4";
-import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
-import { Text } from "@/app/_components/text";
-import { RouteNames } from "@/app/_utils/route-names";
 
 export const HomeHero = () => (
   <Section>
-    <PositionedBlob align="left" className="top-[65vh] h-100 w-100 opacity-50">
-      <Blob1 />
-    </PositionedBlob>
-    <PositionedBlob
-      align="right"
-      className="top-[-10vh] h-100 w-100 opacity-50"
-    >
-      <Blob4 />
-    </PositionedBlob>
+    <HeroBlobs />
 
     <div className="flex min-h-[65vh] items-center justify-center gap-10 max-xl:mt-20 max-xl:flex-col!">
       <div className="flex w-full flex-5 flex-col gap-5">
-        <Text
-          as="h1"
-          className="text-6xl! max-2xl:text-5xl! max-md:text-4xl! max-sm:text-3xl!"
-        >
-          Torne-se Instrutor ou Diretor de Escola de Condução
-        </Text>
-        <Text>
-          Treine com mini-exames reais: 30 perguntas em 30 minutos. Mais de 900
-          questões, análises inteligentes e automações que aceleram o seu
-          progresso.
-        </Text>
-        <div className="flex gap-2">
-          <Link link="#purchase">
-            <Button variant="contained">
-              <Text className="text-white!">Ver Plano</Text>
-            </Button>
-          </Link>
-          <Link link={RouteNames.LOGIN}>
-            <Button variant="outlined">
-              <Text className="text-primary!">
-                Registe-se para um teste gratuito
-              </Text>
-            </Button>
-          </Link>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <StatisticsCard
-            name="Perguntas"
-            value="900+"
-            className="max-2xl:flex-1"
-          />
-          <StatisticsCard
-            name="Tempo de teste"
-            value="30m"
-            className="max-2xl:flex-1"
-          />
-          <StatisticsCard
-            name="Perguntas/Teste"
-            value="30"
-            className="max-2xl:flex-1"
-          />
-        </div>
+        <HeroTitle />
+        <HeroDescription />
+        <HeroActions />
+        <HeroStatistics />
       </div>
       <div className="flex w-full flex-6 flex-col gap-5">
         <TestCard />
