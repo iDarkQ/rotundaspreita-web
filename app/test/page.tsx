@@ -1,19 +1,14 @@
 import { Section } from "@/app/_components/section";
-import { Blob1 } from "@/app/_components/svgs/blob-1";
-import { Blob4 } from "@/app/_components/svgs/blob-4";
-import { PositionedBlob } from "@/app/_components/svgs/positioned-blob";
-import { MdAlarm } from "react-icons/md";
-import { Text } from "@/app/_components/text";
-import { Chip } from "@/app/_components/chip";
-import { TestOptions } from "@/app/test/test-options";
+import { TestOptions } from "@/app/test/components/test-options/test-options";
 import { fetchStudyById, generateTest } from "@/app/_services/study-service";
 import { Difficulty } from "@/app/_types/difficulty";
 import { TestManagerProvider } from "@/app/test/providers/test-manager";
-import { TestCountdown } from "@/app/test/components/test-countdown";
 import { redirect } from "next/navigation";
 import { TestFinishButton } from "@/app/test/components/test-finish-button";
 import { TestResults } from "@/app/test/components/test-results";
 import { RouteNames } from "@/app/_utils/route-names";
+import { TestBlobs } from "@/app/test/components/test-blobs";
+import { TestDetails } from "@/app/test/components/test-details/test-details";
 
 interface Props {
   searchParams?: Promise<{ s?: string; c?: string; d?: string }>;
@@ -31,7 +26,12 @@ export default async function Test({ searchParams }: Props) {
       ? Difficulty[rawDifficulty as keyof typeof Difficulty]
       : undefined;
 
-  const questions = await generateTest(selectedStudy, selectedDifficulty);
+  //TODO: TEST
+  const questions = await generateTest(
+    selectedStudy,
+    selectedDifficulty,
+    selectedCategory,
+  );
 
   if (!questions || questions.length < 1) {
     redirect(RouteNames.PANEL);
@@ -43,33 +43,13 @@ export default async function Test({ searchParams }: Props) {
   return (
     <TestManagerProvider questions={questions}>
       <Section>
-        <PositionedBlob
-          align="left"
-          className="top-[70vh] h-100 w-100 opacity-50"
-        >
-          <Blob1 />
-        </PositionedBlob>
-        <PositionedBlob
-          align="right"
-          className="top-[-10vh] h-100 w-100 opacity-50"
-        >
-          <Blob4 />
-        </PositionedBlob>
+        <TestBlobs />
         <TestResults />
-        <div className="flex items-center justify-center gap-2">
-          <Chip>
-            <Text as="p" className="text-white">
-              Teste de {study?.title}
-              {firstQuestion.category === selectedCategory
-                ? `(${selectedCategory})`
-                : ""}
-            </Text>
-          </Chip>
-          <div className="flex items-center justify-center gap-0.5">
-            <TestCountdown />
-            <MdAlarm className="text-primary" />
-          </div>
-        </div>
+        <TestDetails
+          study={study}
+          firstQuestion={firstQuestion}
+          selectedCategory={selectedCategory}
+        />
 
         <TestOptions />
         <TestFinishButton />

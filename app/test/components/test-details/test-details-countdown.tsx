@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 
-export const TestCountdown = () => {
+export const TestDetailsCountdown = () => {
   const { finished, finishTest } = useTestManager();
 
   const [timeLeft, setTimeLeft] = useState(60 * 30);

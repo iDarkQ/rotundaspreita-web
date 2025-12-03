@@ -6,7 +6,7 @@ interface Props {
   page: number;
 }
 
-export const QuestionsPagination = ({ page }: Props) => {
+export const TestOptionsPagination = ({ page }: Props) => {
   const { questions, setSelectedPage, answers, correctAnswers, finished } =
     useTestManager();
 
