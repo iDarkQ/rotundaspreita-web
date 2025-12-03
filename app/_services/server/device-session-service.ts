@@ -44,9 +44,9 @@ export const serverCreateDeviceSession = async (
     return acc;
   }, [] as string[]);
 
-  if (distinctSessions.length >= 4) {
-    return;
-  }
+  // if (distinctSessions.length >= 4) {
+  //   return;
+  // }
 
   return createDeviceSessionQuery({
     user: { connect: { id: userId } },
