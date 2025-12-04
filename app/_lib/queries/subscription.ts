@@ -19,3 +19,5 @@ export const deleteSubscriptionQuery = async (
 export const fetchSubscriptionQuery = async (
   where: Prisma.SubscriptionWhereInput,
 ) => prisma.subscription.findFirst({ where });
+
+export const updateSubscriptionQuery = async (where: Prisma.SubscriptionWhereUniqueInput, data: Prisma.SubscriptionUpdateInput) => prisma.subscription.update({ where, data });
