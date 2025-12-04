@@ -32,32 +32,23 @@ jobs:
           script_stop: true
           script: |
             set -e
-            echo "🚀 Starting deployment..."
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 22 || nvm use default
-            echo "Using node version: $(node -v)"
+            
+            echo "🚀 Starting Docker deployment..."
             cd ${{ secrets.APP_DIR }}
+
             echo "📦 Pulling latest code..."
             git pull origin main
-            echo "📋 Installing dependencies..."
-            npx yarn install
-            echo "🗄️ Running database operations..."
-            npx yarn prisma generate
-            npx yarn prisma migrate deploy
-            echo "🔨 Building application..."
-            npx yarn build
-            cd ${{ secrets.APP_DIR }}
-            echo "🔄 Stopping services..."
-            pm2 stop rotundaspreita-web || true
-            pm2 delete rotundaspreita-web || true
-            echo "🔄 Starting services..."
-            pm2 start ecosystem.config.js --only "rotundaspreita-web"
-            pm2 save
-            pm2 startup -u $USER --hp $HOME
-            echo "✅ Deployment completed successfully!"
-            echo "📊 PM2 Status:"
-            pm2 status
+
+            echo "🛠 Building Docker image..."
+            yarn docker:build
+
+            echo "⛔ Stopping running containers..."
+            docker compose down || true
+
+            echo "🚀 Starting containers..."
+            yarn docker:compose
+
+            echo "✅ Deployment complete!"
 
       - name: Update Deployment Status (Success)
         if: success()
@@ -75,3 +66,30 @@ jobs:
           token: ${{ github.token }}
           state: failure
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          
+# echo "🚀 Starting deployment..."
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# nvm use 22 || nvm use default
+# echo "Using node version: $(node -v)"
+# cd ${{ secrets.APP_DIR }}
+# echo "📦 Pulling latest code..."
+# git pull origin main
+# echo "📋 Installing dependencies..."
+# npx yarn install
+# echo "🗄️ Running database operations..."
+# npx yarn prisma generate
+# npx yarn prisma migrate deploy
+# echo "🔨 Building application..."
+# npx yarn build
+# cd ${{ secrets.APP_DIR }}
+# echo "🔄 Stopping services..."
+# pm2 stop rotundaspreita-web || true
+# pm2 delete rotundaspreita-web || true
+# echo "🔄 Starting services..."
+# pm2 start ecosystem.config.js --only "rotundaspreita-web"
+# pm2 save
+# pm2 startup -u $USER --hp $HOME
+# echo "✅ Deployment completed successfully!"
+# echo "📊 PM2 Status:"
+# pm2 status

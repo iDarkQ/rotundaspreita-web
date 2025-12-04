@@ -32,6 +32,8 @@ export const POST = async (req: NextRequest) => {
       await serverStartSubscription(userId, subscriptionId);
       break;
     }
+    // Make sure subscriptions with no subscriptionId will be ignored
+
     // case "invoice.payment_succeeded": {
     //     const invoice = event.data.object as Stripe.Invoice;
     //     const userId = session.metadata?.userId;
