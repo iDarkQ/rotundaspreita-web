@@ -10,7 +10,7 @@
     "lint-check": "eslint-config-prettier app/page.tsx",
     "prettier": "prettier --write app/",
     "docker:build": "docker build -t iDarkQ/rotundaspreita-web:latest .",
-    "docker:compose": "docker compose up"
+    "docker:compose": "docker compose up -d --build"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
