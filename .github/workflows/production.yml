@@ -33,7 +33,11 @@ jobs:
           script: |
             set -e
             
-            echo "🚀 Starting Docker deployment..."
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22 || nvm use default
+            echo "Using node version: $(node -v)"
+
             cd ${{ secrets.APP_DIR }}
 
             echo "📦 Pulling latest code..."
