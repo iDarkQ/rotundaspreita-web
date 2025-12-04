@@ -8,7 +8,9 @@
     "preview": "next start --port 3002",
     "lint": "eslint",
     "lint-check": "eslint-config-prettier app/page.tsx",
-    "prettier": "prettier --write app/"
+    "prettier": "prettier --write app/",
+    "docker:build": "docker build -t iDarkQ/rotundaspreita-web:latest .",
+    "docker:compose": "docker compose up"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
