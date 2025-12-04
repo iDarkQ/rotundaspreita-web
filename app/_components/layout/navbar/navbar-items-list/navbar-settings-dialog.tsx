@@ -51,7 +51,11 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
               createdAt={subscription.createdAt}
               expiresAt={subscription.expiresAt}
             />
-            <Button variant="text" onClick={handleSubscriptionButton}>
+            <Button
+              disabled={!subscription.stripeSubId}
+              variant="text"
+              onClick={handleSubscriptionButton}
+            >
               <Text>
                 {hasExpired || subscription?.cancelled
                   ? "Renovar Subscrição"
@@ -64,7 +68,14 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
             <Text>Não tem uma subscrição ativa</Text>
           </Banner>
         )}
-        {subscription?.cancelled && !hasExpired && (
+        {subscription && !subscription?.stripeSubId && (
+          <Text>
+            A sua subscrição foi adicionada manualmente, por isso não pode
+            cancelá-la, renová-la ou alterá-la. Pode iniciar uma nova subscrição
+            no final do período da atual.
+          </Text>
+        )}
+        {subscription?.stripeSubId && subscription?.cancelled && !hasExpired && (
           <Text>
             A sua subscrição foi cancelada. Não será cobrado no próximo mês.
             Pode continuar a utilizar a sua conta até ao fim do período atual de
