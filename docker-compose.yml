@@ -4,11 +4,11 @@ services:
     image: iDarkQ/rotundaspreita-web:latest
     restart: always
     expose:
-      - 3002
+      - 3003
     depends_on:
       - db
     ports:
-      - "3002:3002"
+      - "3003:3003"
   db:
     image: postgres:15
     restart: always
