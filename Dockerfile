@@ -44,6 +44,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3003
+EXPOSE 3002
 
 CMD ["sh", "-c", "node server.js"]
