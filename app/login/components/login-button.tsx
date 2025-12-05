@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { saveSecret } from "@/app/login/server/save-secret";
 import { RouteNames } from "@/app/_utils/route-names";
 import { useState } from "react";
+import { logWebEvent } from "@/app/_lib/firebase";
 
 interface Props {
   ip: string;
@@ -20,10 +21,15 @@ export const LoginButton = ({ ip, agent }: Props) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const secret = await registerUser(tokenResponse, ip, agent);
+
       if (secret) {
+        logWebEvent("login", { method: "Google" });
         await saveSecret(secret);
         redirect(RouteNames.PANEL);
       }
+      setLoading(false);
+    },
+    onError: () => {
       setLoading(false);
     },
   });

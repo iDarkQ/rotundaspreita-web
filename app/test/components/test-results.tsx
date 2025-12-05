@@ -2,28 +2,58 @@
 
 import { Banner } from "@/app/_components/banner";
 import { Text } from "@/app/_components/text";
+import { logWebEvent } from "@/app/_lib/firebase";
+import { Difficulty } from "@/app/_types/difficulty";
 import { useTestManager } from "@/app/test/providers/test-manager";
 import clsx from "clsx";
+import { useEffect } from "react";
 import { MdOutlineThumbDownAlt } from "react-icons/md";
 import { MdOutlineThumbUp } from "react-icons/md";
 
-export const TestResults = () => {
+interface Props {
+  studyTitle?: string;
+  category?: string;
+  difficulty?: Difficulty;
+}
+
+export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
   const { finished, answers, correctAnswers } = useTestManager();
 
-  if (!finished || !answers || !correctAnswers) return;
+  let countCorrectAnswers = 0;
+  let countAllAnswers = 0;
+  let percentage = 0;
 
-  const countCorrectAnswers = Object.entries(answers).reduce(
-    (acc, [questionId, answerId]) => {
-      if (correctAnswers[questionId] === answerId) {
-        return acc + 1;
-      }
-      return acc;
-    },
-    0,
-  );
+  if (finished && answers && correctAnswers) {
+    countCorrectAnswers = Object.entries(answers).reduce(
+      (acc, [questionId, answerId]) => {
+        if (correctAnswers[questionId] === answerId) {
+          return acc + 1;
+        }
+        return acc;
+      },
+      0,
+    );
 
-  const percentage =
-    (countCorrectAnswers / Object.keys(correctAnswers).length) * 100;
+    countAllAnswers = Object.keys(correctAnswers).length;
+
+    percentage =
+      (countCorrectAnswers / Object.keys(correctAnswers).length) * 100;
+  }
+
+  useEffect(() => {
+    if (finished && answers && correctAnswers) {
+      logWebEvent("finish_test", {
+        study: studyTitle,
+        category: category,
+        difficulty: difficulty,
+        correctAnswers: countCorrectAnswers,
+        wrongAnswers: countAllAnswers - countCorrectAnswers,
+        percentage,
+      });
+    }
+  }, [finished, answers, correctAnswers, countCorrectAnswers, countAllAnswers, percentage, studyTitle, category, difficulty]);
+
+  if (!finished || !answers || !correctAnswers) return null;
 
   return (
     <Banner
@@ -36,7 +66,7 @@ export const TestResults = () => {
         as="h2"
         className={percentage > 75 ? "text-success!" : "text-error!"}
       >
-        {countCorrectAnswers}/{Object.keys(correctAnswers).length}
+        {countCorrectAnswers}/{countAllAnswers}
       </Text>
       {percentage > 75 ? (
         <MdOutlineThumbUp size={50} className="text-success!" />

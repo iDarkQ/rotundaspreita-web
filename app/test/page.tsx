@@ -9,6 +9,7 @@ import { TestResults } from "@/app/test/components/test-results";
 import { RouteNames } from "@/app/_utils/route-names";
 import { TestBlobs } from "@/app/test/components/test-blobs";
 import { TestDetails } from "@/app/test/components/test-details/test-details";
+import { LogAnalytics } from "@/app/_components/log-analytics";
 
 interface Props {
   searchParams?: Promise<{ s?: string; c?: string; d?: string }>;
@@ -26,7 +27,6 @@ export default async function Test({ searchParams }: Props) {
       ? Difficulty[rawDifficulty as keyof typeof Difficulty]
       : undefined;
 
-  //TODO: TEST
   const questions = await generateTest(
     selectedStudy,
     selectedDifficulty,
@@ -41,19 +41,33 @@ export default async function Test({ searchParams }: Props) {
   const study = await fetchStudyById(firstQuestion.studyId);
 
   return (
-    <TestManagerProvider questions={questions}>
-      <Section>
-        <TestBlobs />
-        <TestResults />
-        <TestDetails
-          study={study}
-          firstQuestion={firstQuestion}
-          selectedCategory={selectedCategory}
-        />
+    <>
+      <TestManagerProvider questions={questions}>
+        <Section>
+          <TestBlobs />
+          <TestResults
+            studyTitle={study?.title}
+            category={selectedCategory}
+            difficulty={selectedDifficulty}
+          />
+          <TestDetails
+            study={study}
+            firstQuestion={firstQuestion}
+            selectedCategory={selectedCategory}
+          />
 
-        <TestOptions />
-        <TestFinishButton />
-      </Section>
-    </TestManagerProvider>
+          <TestOptions />
+          <TestFinishButton />
+        </Section>
+      </TestManagerProvider>
+      <LogAnalytics
+        eventName="start_new_test"
+        eventParams={{
+          study: study?.title,
+          category: selectedCategory,
+          difficulty: selectedDifficulty,
+        }}
+      />
+    </>
   );
 }

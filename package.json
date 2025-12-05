@@ -21,6 +21,7 @@
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
+    "firebase": "^12.6.0",
     "jsonwebtoken": "^9.0.2",
     "next": "16.0.1",
     "react": "19.2.0",
