@@ -75,14 +75,16 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
             no final do período da atual.
           </Text>
         )}
-        {subscription?.stripeSubId && subscription?.cancelled && !hasExpired && (
-          <Text>
-            A sua subscrição foi cancelada. Não será cobrado no próximo mês.
-            Pode continuar a utilizar a sua conta até ao fim do período atual de
-            faturação. Se desejar, pode renovar a sua subscrição a qualquer
-            momento através do botão acima.
-          </Text>
-        )}
+        {subscription?.stripeSubId &&
+          subscription?.cancelled &&
+          !hasExpired && (
+            <Text>
+              A sua subscrição foi cancelada. Não será cobrado no próximo mês.
+              Pode continuar a utilizar a sua conta até ao fim do período atual
+              de faturação. Se desejar, pode renovar a sua subscrição a qualquer
+              momento através do botão acima.
+            </Text>
+          )}
       </DialogPart>
       <Divider />
       <DialogPart>
