@@ -3,6 +3,8 @@ services:
   rotundaspreita-web:
     image: iDarkQ/rotundaspreita-web:latest
     restart: always
+    expose:
+      - 3002
     depends_on:
       - db
     ports:
