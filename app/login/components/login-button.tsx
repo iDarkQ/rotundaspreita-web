@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { saveSecret } from "@/app/login/server/save-secret";
 import { RouteNames } from "@/app/_utils/route-names";
 import { useState } from "react";
-import { logWebEvent } from "@/app/_lib/firebase";
+import { posthogClient } from "@/app/_lib/instrumentation-client";
 
 interface Props {
   ip: string;
@@ -23,7 +23,7 @@ export const LoginButton = ({ ip, agent }: Props) => {
       const secret = await registerUser(tokenResponse, ip, agent);
 
       if (secret) {
-        logWebEvent("login", { method: "Google" });
+        posthogClient.capture("login", { method: "Google" });
         await saveSecret(secret);
         redirect(RouteNames.PANEL);
       }

@@ -1,26 +1,18 @@
 "use client";
 
+import { posthogClient } from "@/app/_lib/instrumentation-client";
+import { Properties } from "posthog-js";
 import { useEffect } from "react";
-import { EventParams, logEvent } from "firebase/analytics";
-import { analytics, CustomEventName } from "@/app/_lib/firebase";
 
 interface Props {
-  eventName: CustomEventName;
-  eventParams?: {
-    coupon?: EventParams["coupon"];
-    currency?: EventParams["currency"];
-    items?: EventParams["items"];
-    payment_type?: EventParams["payment_type"];
-    value?: EventParams["value"];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-  };
+  eventName: string;
+  eventParams?: Properties | null;
 }
 
 export const LogAnalytics = ({ eventName, eventParams }: Props) => {
   useEffect(() => {
-    if (analytics) {
-      logEvent(analytics, eventName, eventParams);
+    if (posthogClient) {
+      posthogClient.capture(eventName, eventParams);
     }
   }, [eventName, eventParams]);
 

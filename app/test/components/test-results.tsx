@@ -2,7 +2,7 @@
 
 import { Banner } from "@/app/_components/banner";
 import { Text } from "@/app/_components/text";
-import { logWebEvent } from "@/app/_lib/firebase";
+import { posthogClient } from "@/app/_lib/instrumentation-client";
 import { Difficulty } from "@/app/_types/difficulty";
 import { useTestManager } from "@/app/test/providers/test-manager";
 import clsx from "clsx";
@@ -42,7 +42,7 @@ export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
 
   useEffect(() => {
     if (finished && answers && correctAnswers) {
-      logWebEvent("finish_test", {
+      posthogClient.capture("finish_test", {
         study: studyTitle,
         category: category,
         difficulty: difficulty,
@@ -51,7 +51,17 @@ export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
         percentage,
       });
     }
-  }, [finished, answers, correctAnswers, countCorrectAnswers, countAllAnswers, percentage, studyTitle, category, difficulty]);
+  }, [
+    finished,
+    answers,
+    correctAnswers,
+    countCorrectAnswers,
+    countAllAnswers,
+    percentage,
+    studyTitle,
+    category,
+    difficulty,
+  ]);
 
   if (!finished || !answers || !correctAnswers) return null;
 
