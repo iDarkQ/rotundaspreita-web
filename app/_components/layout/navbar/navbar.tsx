@@ -11,11 +11,11 @@ export const Navbar = async () => {
 
   return (
     <NavbarManagerProvider subscription={subscription} user={user ?? undefined}>
-      <div className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent p-5 backdrop-blur-lg">
+      <header className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent p-5 backdrop-blur-lg">
         <NavbarLogo />
 
         <NavbarItemsList />
-      </div>
+      </header>
       <NavbarExpandItem />
     </NavbarManagerProvider>
   );
