@@ -54,8 +54,8 @@ body {
   --color-card-secondary: #f3f4f6;
   --color-tab-background: #f3f4f6;
 
-  --color-input-focus-visible: var(--color-baltic-blue-400);
-  --color-input: var(--color-baltic-blue-300);
+  --color-input-focus-visible: var(--color-baltic-blue-600);
+  --color-input: rgba(0, 0, 0, 0.12);
 
   --color-button-outlined-hover: #f2f2f2;
   --color-button-hover: var(--color-baltic-blue-700);
@@ -89,6 +89,7 @@ body {
   --navbar-height: 6.25rem;
   --btn-height: 38px;
   --input-height: 38px;
+  --checkbox-height: 38px;
   --chip-height: 32px;
   --pagination-item-height: 32px;
   --icon-btn-height: 56px;
