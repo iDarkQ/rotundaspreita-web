@@ -18,7 +18,7 @@ Users with a subscription get access to:
 -   🔄 **Unlimited mock test attempts** for boosted confidence
     
 
-Learn more at 🔗 [https://rotundaspreita.com](https://rotundaspreita.com?utm_source=chatgpt.com) [ROTUNDÁSPREITA](https://rotundaspreita.com/)
+Learn more at 🔗 [https://rotundaspreita.com](https://rotundaspreita.com)
 
 ----------
 
