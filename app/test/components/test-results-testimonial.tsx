@@ -10,7 +10,7 @@ interface Props {
 export const TestResultsTestimonial = ({ finished, percentage }: Props) => {
   const [openTestimonial, setOpenTestimonial] = useState<boolean | undefined>();
 
-  const shouldOpenTestimonial = finished && percentage < 90 && openTestimonial;
+  const shouldOpenTestimonial = finished && percentage > 90 && openTestimonial;
 
   const delayNextTestimonial = async () => {
     if (typeof window !== "undefined") {
