@@ -3,9 +3,9 @@ import { FooterGrid } from "@/app/_components/layout/footer/footer-grid/footer-g
 import { FooterBasic } from "@/app/_components/layout/footer/footer-basic/footer-basic";
 
 export const Footer = () => (
-  <div className="bg-primary relative z-1000 flex h-auto flex-col items-center justify-center">
+  <footer className="bg-primary relative z-8 flex h-auto flex-col items-center justify-center">
     <FooterGrid />
     <Divider />
     <FooterBasic />
-  </div>
+  </footer>
 );
