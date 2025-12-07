@@ -21,7 +21,7 @@ interface TestManagerContextProps {
   selectedPage: string;
   correctAnswers: TestAnswers;
   setFinished: Dispatch<SetStateAction<boolean>>;
-  setSelectedPage: Dispatch<SetStateAction<string>>;
+  updateSelectedQuestion: (value: string) => void;
   setCorrectAnswers: Dispatch<SetStateAction<TestAnswers>>;
 }
 
@@ -55,8 +55,16 @@ export const TestManagerProvider = ({
     const results = await verifyTestResults(questions[0].studyId, answers);
 
     setCorrectAnswers(results ?? {});
-    setSelectedPage(questions[0].id);
+    updateSelectedQuestion(questions[0].id);
     setFinished(true);
+  };
+
+  const updateSelectedQuestion = (value: string) => {
+    setSelectedPage(value);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -71,7 +79,7 @@ export const TestManagerProvider = ({
         correctAnswers,
         setCorrectAnswers,
         selectedPage,
-        setSelectedPage,
+        updateSelectedQuestion,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ export const useTestOptionsListItem = ({ option }: Props) => {
     finished,
     correctAnswers,
     selectedPage,
-    setSelectedPage,
+    updateSelectedQuestion,
   } = useTestManager();
 
   const currentIndex = questions.findIndex((q) => q.id === selectedPage);
@@ -44,7 +44,7 @@ export const useTestOptionsListItem = ({ option }: Props) => {
     if (currentPage < questions.length && !answers[selectedPage]) {
       setTimeout(() => {
         const nextQuestionId = questions[currentIndex + 1];
-        setSelectedPage(nextQuestionId.id);
+        updateSelectedQuestion(nextQuestionId.id);
       }, 500);
     }
 

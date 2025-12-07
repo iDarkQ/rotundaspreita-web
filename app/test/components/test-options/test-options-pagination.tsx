@@ -7,8 +7,13 @@ interface Props {
 }
 
 export const TestOptionsPagination = ({ page }: Props) => {
-  const { questions, setSelectedPage, answers, correctAnswers, finished } =
-    useTestManager();
+  const {
+    questions,
+    updateSelectedQuestion,
+    answers,
+    correctAnswers,
+    finished,
+  } = useTestManager();
 
   const count = questions.length;
 
@@ -17,7 +22,7 @@ export const TestOptionsPagination = ({ page }: Props) => {
       <PaginationItem
         type="previous"
         disabled={page <= 1}
-        onClick={() => setSelectedPage(questions[page - 2]?.id)}
+        onClick={() => updateSelectedQuestion(questions[page - 2]?.id)}
       />
       <Divider orientation="vertical" />
 
@@ -34,7 +39,7 @@ export const TestOptionsPagination = ({ page }: Props) => {
               key={index + 1}
               page={index + 1}
               selected={index + 1 === page || (!finished && !!answers[q.id])}
-              onClick={() => setSelectedPage(q.id)}
+              onClick={() => updateSelectedQuestion(q.id)}
               color={color}
             />
           );
@@ -44,7 +49,7 @@ export const TestOptionsPagination = ({ page }: Props) => {
 
       <PaginationItem
         type="next"
-        onClick={() => setSelectedPage(questions[page]?.id)}
+        onClick={() => updateSelectedQuestion(questions[page]?.id)}
         disabled={page >= count}
       />
     </div>
