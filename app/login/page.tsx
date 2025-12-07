@@ -6,6 +6,13 @@ import { headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 import { LoginBlobs } from "@/app/login/components/login-blobs";
 import { LoginHeading } from "@/app/login/components/login-heading/login-heading";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Entrar na Plataforma | ROTUNDÁSPREITA",
+  description:
+    "Acesse sua conta na ROTUNDÁSPREITA para continuar sua preparação para os exames de instrutor ou diretor de escola de condução.",
+};
 
 export default async function Login() {
   const headersList = await headers();
