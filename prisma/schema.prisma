@@ -32,6 +32,19 @@ model User {
   testResults    TestResult[]
 
   subscription Subscription?
+
+  testimonial Testimonial?
+}
+
+model Testimonial {
+  id String @id @default(cuid())
+
+  anonymous Boolean @default(false)
+
+  message String
+
+  users  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 }
 
 model Subscription {
