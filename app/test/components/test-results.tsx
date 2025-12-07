@@ -4,6 +4,7 @@ import { Banner } from "@/app/_components/banner";
 import { Text } from "@/app/_components/text";
 import { posthogClient } from "@/app/_lib/instrumentation-client";
 import { Difficulty } from "@/app/_types/difficulty";
+import { TestResultsTestimonial } from "@/app/test/components/test-results-testimonial";
 import { useTestManager } from "@/app/test/providers/test-manager";
 import clsx from "clsx";
 import { useEffect } from "react";
@@ -66,23 +67,26 @@ export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
   if (!finished || !answers || !correctAnswers) return null;
 
   return (
-    <Banner
-      className={clsx(
-        "flex w-full items-center justify-between gap-2",
-        percentage > 75 ? "border-success!" : "border-error!",
-      )}
-    >
-      <Text
-        as="h2"
-        className={percentage > 75 ? "text-success!" : "text-error!"}
+    <>
+      <TestResultsTestimonial finished={finished} percentage={percentage}/>
+      <Banner
+        className={clsx(
+          "flex w-full items-center justify-between gap-2",
+          percentage > 75 ? "border-success!" : "border-error!",
+        )}
       >
-        {countCorrectAnswers}/{countAllAnswers}
-      </Text>
-      {percentage > 75 ? (
-        <MdOutlineThumbUp size={50} className="text-success!" />
-      ) : (
-        <MdOutlineThumbDownAlt size={50} className="text-error!" />
-      )}
-    </Banner>
+        <Text
+          as="h2"
+          className={percentage > 75 ? "text-success!" : "text-error!"}
+        >
+          {countCorrectAnswers}/{countAllAnswers}
+        </Text>
+        {percentage > 75 ? (
+          <MdOutlineThumbUp size={50} className="text-success!" />
+        ) : (
+          <MdOutlineThumbDownAlt size={50} className="text-error!" />
+        )}
+      </Banner>
+    </>
   );
 };
