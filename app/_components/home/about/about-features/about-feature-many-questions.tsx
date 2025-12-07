@@ -17,10 +17,11 @@ export const AboutFeatureManyQuestions = async () => (
           label="ROTUNDÁSPREITA tem perguntas apenas para instrutores"
           option="A"
           selectable={false}
-          className="absolute! -top-10 -right-10 w-full"
+          className="absolute! -top-10 -right-10 w-full bg-white!"
         />
         <AnswerOption
           label="ROTUNDÁSPREITA tem perguntas apenas para diretores"
+          className="bg-white!"
           option="B"
           selectable={false}
         />
