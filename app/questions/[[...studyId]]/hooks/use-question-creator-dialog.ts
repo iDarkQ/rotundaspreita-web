@@ -64,9 +64,10 @@ export const useQuestionCreatorDialog = ({
       const correct = mapped.find((o) => o.answer)?.id;
       setSelectedAnswerId(correct);
     } else if (!baseOptions && !baseQuestion) {
+      //TODO: Rewrite this entire question creator dialog
       setSelectedAnswerId(optionsDto[0]?.id);
     }
-  }, [baseQuestion, baseOptions, optionsDto, setQuestion, setCategory]);
+  }, [baseQuestion, baseOptions]);
 
   const optionLetter = useCallback(
     (index: number) => String.fromCharCode(65 + index) as OptionLetter,
