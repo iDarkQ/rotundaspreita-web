@@ -143,6 +143,10 @@ body {
   .button-outlined {
     @apply hover:bg-button-outlined-hover rounded-sm bg-white;
   }
+
+  .section-width {
+    @apply mx-auto w-[90%]! max-w-(--breakpoint-2xl) max-md:w-[95%]!
+  }
 }
 
 @keyframes ripple-animation-hide {
