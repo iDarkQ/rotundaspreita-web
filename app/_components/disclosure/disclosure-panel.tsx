@@ -13,8 +13,8 @@ interface Props extends DisclosurePanelProps {
 export const DisclosurePanel = ({ children, ...rest }: Props) => (
   <HeadlessUiDisclosurePanel
     {...rest}
-    className={clsx("", rest.className && rest.className)}
+    className={clsx(rest.className && rest.className)}
   >
-    <Text>{children}</Text>
+    <Text className="cursor-text px-5 pb-5 select-text">{children}</Text>
   </HeadlessUiDisclosurePanel>
 );

@@ -11,7 +11,7 @@ interface Props extends DisclosureProps {
 export const Disclosure = ({ className, ...rest }: Props) => (
   <div
     className={clsx(
-      "button button-outlined c-border cursor-default p-5",
+      "button button-outlined c-border cursor-default p-0!",
       className && className,
     )}
   >

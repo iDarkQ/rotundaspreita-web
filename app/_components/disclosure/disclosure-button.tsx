@@ -14,7 +14,7 @@ export const DisclosureButton = ({ children, ...rest }: Props) => (
   <HeadlessUiDisclosureButton
     {...rest}
     className={clsx(
-      "group flex w-full cursor-pointer justify-between",
+      "group flex w-full cursor-pointer justify-between p-5",
       rest.className && rest.className,
     )}
   >
