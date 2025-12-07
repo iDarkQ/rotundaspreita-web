@@ -18,7 +18,7 @@ export const Dialog = ({ children, open, title, onClose }: Props) => (
     onClose={() => onClose()}
     className="relative z-50"
   >
-    <div className="fixed inset-0 flex w-screen items-center justify-center bg-black/30 p-4">
+    <div className="fixed inset-0 flex w-screen items-center justify-center overflow-auto bg-black/30 p-4">
       <DialogPanel className="relative flex w-full max-w-[691px] flex-col gap-5! rounded-sm bg-white py-5">
         <DialogPart>
           <Text as="h3">
