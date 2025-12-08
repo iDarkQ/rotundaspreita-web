@@ -8,7 +8,7 @@ export const AboutFeatureManyQuestions = async () => (
   <TestFeatureCard
     prefix={<IoMdListBox size={50} className="text-primary!" />}
     title="900+ Questões"
-    description="Simule o ambiente de prova e melhore a sua gestão de tempo."
+    description="Pratique com centenas de perguntas verificadas e nunca faça o mesmo erro."
     align="right"
   >
     <Tilt angle="right" className="w-[80%] max-xl:w-[70%] max-xl:pt-10!">
