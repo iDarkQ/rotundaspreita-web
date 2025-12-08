@@ -151,6 +151,36 @@ export const findRandomQuestions = async (
       return idsResult;
     }
 
+    if (difficulty === "errados") {
+      const wrongTestResults = await prisma.testResult.findMany({
+        where: {
+          studyId, question: { category },
+          userId,
+          option: {
+            answer: false
+          }
+        },
+        select: {
+          questionId: true,
+        },
+      })
+
+      const idsResult = wrongTestResults
+        .map((h) => h.questionId)
+
+      if (idsResult.length < testLength) {
+        // We filter this to prevent repeated questions
+        const filteredBasicIdsResult = basicIdsResult.filter(
+          (b) => !idsResult.includes(b),
+        );
+        idsResult.push(
+          ...filteredBasicIdsResult.slice(0, testLength - idsResult.length),
+        );
+      }
+
+      return idsResult;
+    }
+
     return basicIdsResult;
   };
 
