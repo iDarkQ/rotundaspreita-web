@@ -131,14 +131,15 @@ export const findRandomQuestions = async (
           wrongRatio: (wrong / total) * 100,
         }))
         .sort((a, b) => b.wrongRatio - a.wrongRatio);
+      const hardestIdsList = hardest
+        .map((h) => h.questionId)
 
       // The code belows makes sure we only show hardest questions that user has not finished yet or are not marked with markedAsNew
       const newQuestions = await fetchNewQuestions();
-      const idsResult = hardest
-        .map((h) => h.questionId)
+      const idsResult = hardestIdsList
         .filter((i) => newQuestions.includes(i));
 
-      if (hardest.length < testLength) {
+      if (idsResult.length < testLength) {
         // We filter this to prevent repeated questions
         const filteredBasicIdsResult = basicIdsResult.filter(
           (b) => !idsResult.includes(b),
@@ -165,8 +166,8 @@ export const findRandomQuestions = async (
         },
       })
 
-      const idsResult = wrongTestResults
-        .map((h) => h.questionId)
+      const idsResult = [...new Set(wrongTestResults
+        .map((h) => h.questionId))];
 
       if (idsResult.length < testLength) {
         // We filter this to prevent repeated questions
@@ -188,7 +189,7 @@ export const findRandomQuestions = async (
   if (allIds.length === 0) return [];
 
   const selectedIds = shuffle(allIds).slice(0, testLength);
-
+  
   const questions = await prisma.question.findMany({
     where: { id: { in: selectedIds } },
     include: {
