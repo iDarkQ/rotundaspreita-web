@@ -9,7 +9,7 @@ import { LoginHeading } from "@/app/login/components/login-heading/login-heading
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Entrar na Plataforma | ROTUNDÁSPREITA",
+  title: "Entrar na Plataforma",
   description:
     "Acesse sua conta na ROTUNDÁSPREITA para continuar sua preparação para os exames de instrutor ou diretor de escola de condução.",
 };
