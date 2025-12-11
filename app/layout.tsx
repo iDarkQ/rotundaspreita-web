@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { Roboto, Source_Code_Pro } from "next/font/google";
 import { Layout } from "@/app/_components/layout/layout";
-import { LogAnalytics } from "@/app/_components/log-analytics";
 import { LogSession } from "@/app/_components/log-session";
 
 const roboto = Roboto({
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | ROTUNDÁSPREITA",
   },
   description:
-    "ROTUNDÁSPREITA - Torne-se Instrutor ou Diretor de Escola de Condução",
+    "Prepare-se com exames práticos de qualidade. São mais de 900 questões, mini-testes de 30 minutos e análises inteligentes para acelerar seu progresso. Fique pronto para ser Instrutor ou Diretor de Escola de Condução com confiança",
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
