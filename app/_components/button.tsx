@@ -27,7 +27,7 @@ export const Button = ({
   onClick,
   as = "button",
   variant = "contained",
-  loading: loadingProp, // external override
+  loading: loadingProp,
   ...rest
 }: Props) => {
   const [internalLoading, setInternalLoading] = useState(false);
