@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     url: "https://rotundaspreita.com/",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
     apple: "/apple-icon.png",
   },
 };
