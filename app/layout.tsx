@@ -5,6 +5,7 @@ import "./globals.css";
 import { Roboto, Source_Code_Pro } from "next/font/google";
 import { Layout } from "@/app/_components/layout/layout";
 import { LogSession } from "@/app/_components/log-session";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
   weight: ["200", "300", "800"],
@@ -52,6 +53,7 @@ export default function RootLayout({
         <body
           className={`relative ${roboto.variable} ${sourceCodePro.variable} bg-background antialiased`}
         >
+          <GoogleAnalytics gaId="AW-17799390098" />
           <Layout>{children}</Layout>
           <LogSession />
         </body>
