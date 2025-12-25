@@ -15,25 +15,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Login() {
-  const headersList = await headers();
-  const ip = headersList.get("x-forwarded-for");
-  const agent = headersList.get("user-agent");
-
   const user = await fetchLoggedUser();
 
   if (user) {
     redirect(RouteNames.PANEL, RedirectType.push);
   }
 
-  if (!ip || !agent) {
-    redirect(RouteNames.HOME);
-  }
-
   return (
     <Section className="justify-center!">
       <LoginBlobs />
       <LoginHeading />
-      <LoginButton ip={ip} agent={agent} />
+      <LoginButton />
     </Section>
   );
 }

@@ -11,16 +11,11 @@ import { RouteNames } from "@/app/_utils/route-names";
 import { useState } from "react";
 import { posthogClient } from "@/app/_lib/instrumentation-client";
 
-interface Props {
-  ip: string;
-  agent: string;
-}
-
-export const LoginButton = ({ ip, agent }: Props) => {
+export const LoginButton = () => {
   const [loading, setLoading] = useState(false);
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const secret = await registerUser(tokenResponse, ip, agent);
+      const secret = await registerUser(tokenResponse);
 
       if (secret) {
         posthogClient.capture("login", { method: "Google" });

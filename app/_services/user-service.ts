@@ -6,7 +6,7 @@ import { createUserQuery } from "@/app/_lib/queries/user";
 import { TokenResponse } from "@react-oauth/google";
 import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { forbidden, redirect } from "next/navigation";
 import { cache } from "react";
 import dayjs from "dayjs";
 import {
@@ -24,9 +24,13 @@ const secret = process.env.JWT_SECRET;
 
 export const registerUser = async (
   data: Omit<TokenResponse, "error" | "error_description" | "error_uri">,
-  ipAddress: string,
-  userAgent: string,
 ) => {
+  console.log("REGISTER USER CALLED");
+  const headersList = await headers();
+  const ipAddress = headersList.get("x-forwarded-for");
+  const userAgent = headersList.get("user-agent");
+
+  if (!ipAddress || !userAgent) return;
   if (!secret) return;
 
   const googleData = await serverFetchGoogleAccountInfo(data.access_token);
