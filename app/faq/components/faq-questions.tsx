@@ -23,7 +23,7 @@ export const FAQQuestions = () => (
     <Disclosure>
       <DisclosureButton>Quantas questões existem?</DisclosureButton>
       <DisclosurePanel>
-        Existem <strong>mais de 900</strong> questões no banco atual. Novas
+        Existem <strong>mais de 1000</strong> questões no banco atual. Novas
         questões são adicionadas periodicamente.
       </DisclosurePanel>
     </Disclosure>

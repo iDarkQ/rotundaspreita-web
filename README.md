@@ -9,7 +9,7 @@
 
 Users with a subscription get access to:
 
--   ✅ **900+ verified questions** tailored for instructor/director exams. Ideal for efficient exam preparation
+-   ✅ **1000+ verified questions** tailored for instructor/director exams. Ideal for efficient exam preparation
     
 -   📊 **Advanced analytics** to track strengths, weaknesses, and performance trends
     

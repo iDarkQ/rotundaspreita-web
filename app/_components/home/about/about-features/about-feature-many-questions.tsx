@@ -7,7 +7,7 @@ import { IoMdListBox } from "react-icons/io";
 export const AboutFeatureManyQuestions = async () => (
   <TestFeatureCard
     prefix={<IoMdListBox size={50} className="text-primary!" />}
-    title="900+ Questões"
+    title="1000+ Questões"
     description="Pratique com centenas de perguntas verificadas e nunca faça o mesmo erro."
     align="right"
   >

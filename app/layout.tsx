@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | ROTUNDÁSPREITA",
   },
   description:
-    "Prepare-se com exames práticos de qualidade. São mais de 900 questões, mini-testes de 30 minutos e análises inteligentes para acelerar seu progresso. Fique pronto para ser Instrutor ou Diretor de Escola de Condução com confiança",
+    "Prepare-se com exames práticos de qualidade. São mais de 1000 questões, mini-testes de 30 minutos e análises inteligentes para acelerar seu progresso. Fique pronto para ser Instrutor ou Diretor de Escola de Condução com confiança",
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
