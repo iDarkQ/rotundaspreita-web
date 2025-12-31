@@ -9,7 +9,10 @@ COPY package.json yarn.lock* ./
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN yarn install --frozen-lockfile
+ARG CACHEBUST=1
+
+COPY package.json yarn.lock ./
+RUN yarn install
 
 # Rebuild the source code only when needed
 FROM base AS builder
