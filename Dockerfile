@@ -4,11 +4,12 @@ FROM node:22-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
+
+COPY package.json yarn.lock* ./
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* ./
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -17,7 +18,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 RUN yarn run build;
-RUN yarn prisma generate || true
+RUN yarn prisma generate
 RUN yarn prisma migrate deploy || true
 
 # Production image, copy all the files and run next
