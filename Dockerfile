@@ -5,14 +5,11 @@ FROM node:22-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 
-COPY package.json yarn.lock* ./
+COPY package.json ./
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-ARG CACHEBUST=1
-
-COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
