@@ -3,12 +3,22 @@ services:
   rotundaspreita-web:
     image: iDarkQ/rotundaspreita-web:latest
     restart: always
+    networks:
+      - prisma-network
     expose:
       - 3003
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "3003:3003"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://0.0.0.0:3003 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
   db:
     image: postgres:15
     restart: always
@@ -22,10 +32,10 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # networks:
-    #   - prisma-network
+    networks:
+      - prisma-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -p 5433"]
       interval: 5s
       timeout: 2s
       retries: 20
@@ -35,8 +45,8 @@ services:
         max-size: "10m"
         max-file: "3"
     
-# networks:
-#   prisma-network:
+networks:
+  prisma-network:
 
 volumes:
   postgres_data:
