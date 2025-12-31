@@ -10,8 +10,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # ports:
-    #   - "3003:3003"
+    ports:
+      - "3003:3003"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://0.0.0.0:3003 || exit 1"]
       interval: 10s
@@ -24,8 +24,8 @@ services:
     restart: always
     expose:
       - 5433
-    # ports:
-    #   - "5433:5433"
+    ports:
+      - "5433:5433"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
