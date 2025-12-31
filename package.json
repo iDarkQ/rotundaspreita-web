@@ -9,7 +9,7 @@
     "lint": "eslint",
     "lint-check": "eslint-config-prettier app/page.tsx",
     "prettier": "prettier --write app/",
-    "docker:build": "docker build -t iDarkQ/rotundaspreita-web:latest .",
+    "docker:build": "docker build --no-cache -t iDarkQ/rotundaspreita-web:latest .",
     "docker:compose": "docker compose up -d --build"
   },
   "dependencies": {
