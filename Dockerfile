@@ -5,10 +5,10 @@ FROM node:22-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 
-COPY package.json ./
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN apk add --no-cache libc6-compat
+COPY package.json ./
 RUN rm -f yarn.lock
 RUN yarn install
 
