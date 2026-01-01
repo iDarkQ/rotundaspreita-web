@@ -1,6 +1,6 @@
 "use server";
 
-const GRACE_PERIOD_HOURS = 6;
+const GRACE_PERIOD_DAYS = 5;
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
@@ -118,7 +118,7 @@ export const verifySessionSubscription = cache(async () => {
   const hasValidSubscription =
     subscription &&
     dayjs(subscription.expiresAt)
-      .add(GRACE_PERIOD_HOURS, "hour")
+      .add(GRACE_PERIOD_DAYS, "day")
       .isAfter(dayjs());
 
   if (hasValidSubscription || !session.usedFreeTest) {
