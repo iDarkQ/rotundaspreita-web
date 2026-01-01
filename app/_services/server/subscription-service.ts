@@ -12,9 +12,13 @@ export const serverStartSubscription = async (
   createOrReplaceSubscriptionQuery({
     user: { connect: { id: userId } },
     stripeSubId,
-    createdAt: new Date(),
-    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-  });
+export const serverRenewSubscription = async (subId: string, extendTo: number) =>
+  updateManySubscriptionQuery(
+    { stripeSubId: subId },
+    {
+      expiresAt: new Date(extendTo * 1000),
+    },
+  );
 
 export const serverFetchUserSubscription = async (userId: string) =>
   fetchSubscriptionQuery({ userId });
