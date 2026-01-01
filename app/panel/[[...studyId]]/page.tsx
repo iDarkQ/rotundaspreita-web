@@ -5,10 +5,8 @@ import {
   fetchAllStudies,
   fetchAllStudyCategories,
 } from "@/app/_services/study-service";
-import dayjs from "dayjs";
 import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block/panel-test-menu-block";
-import { fetchLoggedUserSubscription } from "@/app/_services/subscription-service";
-import { verifySession } from "@/app/_services/user-service";
+import { verifySession, verifySessionSubscription } from "@/app/_services/user-service";
 import { PanelBlobs } from "@/app/panel/[[...studyId]]/components/panel-blobs";
 import { PanelTitle } from "@/app/panel/[[...studyId]]/components/panel-title";
 import { PanelWelcomeMessage } from "@/app/panel/[[...studyId]]/components/panel-welcome-message";
@@ -29,11 +27,7 @@ export default async function Panel({ params }: Props) {
 
   const user = await verifySession();
 
-  const subscription = await fetchLoggedUserSubscription();
-
-  const hasExpired = dayjs(subscription?.expiresAt).isBefore(
-    subscription?.createdAt,
-  );
+  const subscription = await verifySessionSubscription();
 
   return (
     <Section>
@@ -47,8 +41,7 @@ export default async function Panel({ params }: Props) {
           {studies.length > 0 && (
             <PanelTestMenuBlock
               user={user}
-              hasExpired={hasExpired}
-              subscription={subscription}
+              hasExpired={!subscription}
             />
           )}
           <PageTestMenu
