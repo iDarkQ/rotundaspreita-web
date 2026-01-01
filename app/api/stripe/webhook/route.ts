@@ -1,4 +1,4 @@
-import { serverStartSubscription } from "@/app/_services/server/subscription-service";
+import { serverDeleteSubscription, serverRenewSubscription, serverStartSubscription } from "@/app/_services/server/subscription-service";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -32,6 +32,15 @@ export const POST = async (req: NextRequest) => {
       await serverStartSubscription(userId, subscriptionId);
       break;
     }
+    case "customer.subscription.deleted": {
+      const subscription = event.data.object as Stripe.Subscription;
+      const subId = subscription.id;
+
+      if (!subId) return;
+
+      await serverDeleteSubscription(subId);
+    }
+
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
       const firstLine = invoice.lines.data[0];
