@@ -1,12 +1,14 @@
 "use server";
 
+const GRACE_PERIOD_HOURS = 6;
+
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { User } from "@/app/generated/prisma/browser";
 import { createUserQuery } from "@/app/_lib/queries/user";
 import { TokenResponse } from "@react-oauth/google";
 import jwt from "jsonwebtoken";
 import { headers } from "next/headers";
-import { forbidden, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { cache } from "react";
 import dayjs from "dayjs";
 import {
@@ -114,7 +116,10 @@ export const verifySessionSubscription = cache(async () => {
   const subscription = await serverFetchUserSubscription(session.id);
 
   const hasValidSubscription =
-    subscription && dayjs(subscription.expiresAt).isAfter(dayjs());
+    subscription &&
+    dayjs(subscription.expiresAt)
+      .add(GRACE_PERIOD_HOURS, "hour")
+      .isAfter(dayjs());
 
   if (hasValidSubscription || !session.usedFreeTest) {
     return session;
