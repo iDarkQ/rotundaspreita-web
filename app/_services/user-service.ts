@@ -27,7 +27,6 @@ const secret = process.env.JWT_SECRET;
 export const registerUser = async (
   data: Omit<TokenResponse, "error" | "error_description" | "error_uri">,
 ) => {
-  console.log("REGISTER USER CALLED");
   const headersList = await headers();
   const ipAddress = headersList.get("x-forwarded-for");
   const userAgent = headersList.get("user-agent");
