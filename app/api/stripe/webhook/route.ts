@@ -32,18 +32,20 @@ export const POST = async (req: NextRequest) => {
       await serverStartSubscription(userId, subscriptionId);
       break;
     }
-    // Make sure subscriptions with no subscriptionId will be ignored
+    case "invoice.paid": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const firstLine = invoice.lines.data[0];
 
-    // case "invoice.payment_succeeded": {
-    //     const invoice = event.data.object as Stripe.Invoice;
-    //     const userId = session.metadata?.userId;
-    //     const subscriptionId = invoice. as string;
+      const subscriptionId = firstLine.parent?.subscription_item_details?.subscription ?? invoice.parent?.subscription_details?.subscription.toString();
+      const extendTo = firstLine.period.end;
 
-    //     if (!userId) return;
+      if (!subscriptionId || !extendTo) {
+        break;
+      }
 
-    //     await serverStartSubscription(userId, subscriptionId);
-    //     break;
-    // }
+      await serverRenewSubscription(subscriptionId, extendTo);
+      break;
+    }
     default:
       break;
   }
