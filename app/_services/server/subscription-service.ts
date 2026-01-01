@@ -26,5 +26,9 @@ export const serverRenewSubscription = async (subId: string, extendTo: number) =
     },
   );
 
+export const serverDeleteSubscription = async (subId: string) => deleteManySubscriptionQuery({
+  stripeSubId: subId,
+})
+
 export const serverFetchUserSubscription = async (userId: string) =>
   fetchSubscriptionQuery({ userId });
