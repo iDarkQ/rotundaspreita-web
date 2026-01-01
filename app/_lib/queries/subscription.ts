@@ -12,9 +12,9 @@ export const createOrReplaceSubscriptionQuery = async (
     create: data,
   });
 
-export const deleteSubscriptionQuery = async (
-  where: Prisma.SubscriptionWhereUniqueInput,
-) => prisma.subscription.delete({ where });
+export const deleteManySubscriptionQuery = async (
+  where: Prisma.SubscriptionWhereInput,
+) => prisma.subscription.deleteMany({ where });
 
 export const fetchSubscriptionQuery = async (
   where: Prisma.SubscriptionWhereInput,
