@@ -15,11 +15,12 @@ export const NavbarItemsList = ({ className }: Props) => {
   return (
     <ul
       className={clsx(
-        "flex h-full flex-row items-center gap-2 max-lg:hidden",
+        "flex h-full flex-row items-center gap-2 max-xl:hidden",
         className && className,
       )}
     >
       <NavbarItem path={RouteNames.HOME} name="Início" />
+      <NavbarItem path={RouteNames.NEWS} name="Notícias" />
       <NavbarItem path={RouteNames.FAQ} name="Ajuda" />
       {user ? (
         <>

@@ -37,17 +37,13 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
     }));
   };
 
-  const hasExpired = dayjs(subscription?.expiresAt).isBefore(
-    subscription?.createdAt,
-  );
-
   return (
     <Dialog open={true} title="Definições Do Perfil" onClose={onClose}>
       <DialogPart>
-        {!!subscription && !hasExpired ? (
+        {!!subscription ? (
           <>
             <SubscriptionCard
-              active={!hasExpired}
+              active={!!subscription}
               createdAt={subscription.createdAt}
               expiresAt={subscription.expiresAt}
             />
@@ -57,7 +53,7 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
               onClick={handleSubscriptionButton}
             >
               <Text>
-                {hasExpired || subscription?.cancelled
+                {subscription?.cancelled
                   ? "Renovar Subscrição"
                   : "Cancelar Subscrição"}
               </Text>
@@ -75,16 +71,14 @@ export const NavbarSettingsDialog = ({ onClose }: Props) => {
             no final do período da atual.
           </Text>
         )}
-        {subscription?.stripeSubId &&
-          subscription?.cancelled &&
-          !hasExpired && (
-            <Text>
-              A sua subscrição foi cancelada. Não será cobrado no próximo mês.
-              Pode continuar a utilizar a sua conta até ao fim do período atual
-              de faturação. Se desejar, pode renovar a sua subscrição a qualquer
-              momento através do botão acima.
-            </Text>
-          )}
+        {subscription?.stripeSubId && subscription?.cancelled && (
+          <Text>
+            A sua subscrição foi cancelada. Não será cobrado no próximo mês.
+            Pode continuar a utilizar a sua conta até ao fim do período atual de
+            faturação. Se desejar, pode renovar a sua subscrição a qualquer
+            momento através do botão acima.
+          </Text>
+        )}
       </DialogPart>
       <Divider />
       <DialogPart>

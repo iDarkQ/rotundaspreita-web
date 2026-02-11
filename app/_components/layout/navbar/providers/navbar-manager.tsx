@@ -7,6 +7,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -35,6 +36,10 @@ export const NavbarManagerProvider = ({
 }: NavbarManagerProviderProps) => {
   const [expanded, setExpanded] = useState(false);
   const [subscription, setSubscription] = useState(baseSubscription);
+
+  useEffect(() => {
+    setSubscription(baseSubscription);
+  }, [baseSubscription]);
 
   return (
     <NavbarManagerContext.Provider
