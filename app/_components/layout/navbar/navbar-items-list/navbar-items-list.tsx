@@ -20,7 +20,7 @@ export const NavbarItemsList = ({ className }: Props) => {
       )}
     >
       <NavbarItem path={RouteNames.HOME} name="Início" />
-      <NavbarItem path={RouteNames.NEWS} name="Notícias" />
+      {/* <NavbarItem path={RouteNames.NEWS} name="Notícias" /> */}
       <NavbarItem path={RouteNames.FAQ} name="Ajuda" />
       {user ? (
         <>
