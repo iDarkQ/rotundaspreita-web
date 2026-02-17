@@ -25,7 +25,7 @@ export const SubscriptionCard = ({ active, createdAt, expiresAt }: Props) => {
       <div className="flex flex-row justify-between gap-2">
         <div className="flex flex-col">
           <Text as="h4">Plano de Subscrição</Text>
-          <Text>2.99€ · mensal</Text>
+          <Text>4.99€ · mensal</Text>
         </div>
         <Chip>
           <Text className="text-white!">{active ? "Ativo" : "Inativo"}</Text>
