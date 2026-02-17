@@ -7,7 +7,7 @@ import { IoMdCheckbox } from "react-icons/io";
 
 interface Props {
   bulletList: string[];
-  description: string;
+  description?: string;
   title: string;
   price: string;
 }
@@ -18,7 +18,7 @@ export const PlanCard = ({ bulletList, title, description, price }: Props) => (
       <div>
         <Text>{title}</Text>
         <Text as="h3">{price}</Text>
-        <Text as="p">{description}</Text>
+        {description && <Text as="p">{description}</Text>}
       </div>
     </div>
 

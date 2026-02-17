@@ -9,11 +9,11 @@ export const createCheckoutSession = async () => {
   const session = await stripe.checkout.sessions.create({
     line_items: [
       { price: process.env.STRIPE_PRICE_ID!, quantity: 1 },
-      {
-        // One-time starter fee
-        price: process.env.STRIPE_STARTER_FEE_PRICE_ID!,
-        quantity: 1,
-      },
+      // {
+      //   // One-time starter fee
+      //   price: process.env.STRIPE_STARTER_FEE_PRICE_ID!,
+      //   quantity: 1,
+      // },
     ],
     mode: "subscription",
 
