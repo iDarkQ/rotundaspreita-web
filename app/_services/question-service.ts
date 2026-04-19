@@ -17,6 +17,8 @@ import {
   verifySession,
   verifyAdminPermissions,
 } from "@/app/_services/user-service";
+import { redirect } from "next/navigation";
+import { RouteNames } from "@/app/_utils/route-names";
 
 interface OptionProp {
   letter: OptionLetter;
@@ -102,17 +104,21 @@ export const searchForQuestions = async (
   searchText?: string,
   page?: number,
 ): Promise<SearchResults | undefined> => {
-  await verifySession();
+  const session = await verifyAdminPermissions();
+
+  if (!session) {
+    redirect(RouteNames.PANEL);
+  }
 
   const where: Prisma.QuestionWhereInput = {
     studyId,
     ...(searchText
       ? {
-          content: {
-            contains: searchText,
-            mode: "insensitive",
-          },
-        }
+        content: {
+          contains: searchText,
+          mode: "insensitive",
+        },
+      }
       : {}),
   };
 

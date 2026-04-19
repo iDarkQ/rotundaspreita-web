@@ -21,10 +21,16 @@ import {
 } from "@/app/_services/user-service";
 import { Difficulty } from "@/app/_types/difficulty";
 import { TestAnswers } from "@/app/_types/test-answer";
+import { RouteNames } from "@/app/_utils/route-names";
 import { createId } from "@paralleldrive/cuid2";
+import { redirect } from "next/navigation";
 
 export const fetchStudyByIdOrReturnFirst = async (id: string) => {
-  await verifySession();
+  const allowed = await verifyAdminPermissions();
+
+  if (!allowed) {
+    redirect(RouteNames.PANEL);
+  }
 
   let study = await fetchFirstStudyQuery({ id });
 
