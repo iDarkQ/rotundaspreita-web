@@ -1,8 +1,9 @@
 "use server";
 
 import { AnalyticsDto } from "@/app/_lib/dtos/test-results/analytics.dto";
+import { LastTestResultDto } from "@/app/_lib/dtos/test-results/last-test-result.dto";
 import { findManyQuestionsQuery } from "@/app/_lib/queries/question";
-import { fetchTestResultsQuery } from "@/app/_lib/queries/test-results";
+import { fetchLastTestResultsQuery, fetchTestResultsQuery } from "@/app/_lib/queries/test-results";
 import { countQuestions } from "@/app/_services/question-service";
 import { verifySession } from "@/app/_services/user-service";
 
@@ -54,3 +55,28 @@ export const fetchAnalytics = async (
     questionsNotAnswered,
   };
 };
+
+export const fetchLastTestResults = async (): Promise<LastTestResultDto[] | undefined> => {
+  const session = await verifySession();
+  if (!session) return;
+
+  const results = await fetchLastTestResultsQuery({ userId: session.id }, { createdAt: "desc" }, 30);
+  const questionsIds = results.map((r) => r.questionId);
+
+  const questions = await findManyQuestionsQuery({ id: { in: questionsIds } })
+  const options = questions.flatMap(q => q.options);
+
+  const transformedList = results.reduce<LastTestResultDto[]>((prev, cur) => {
+    const optionData = options.find((o) => o.id === cur.optionId);
+
+    const question = questions.find((q) => q.id === cur.questionId)?.content;
+    const option = optionData?.content;
+    const answer = optionData?.answer;
+
+    if (!question) return prev;
+
+    return [...prev, { question, option, answer }]
+  }, []);
+
+  return transformedList.reverse();
+}
