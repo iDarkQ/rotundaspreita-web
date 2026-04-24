@@ -114,6 +114,7 @@ export const verifyTestResults = async (
   studyId: string,
   answers: TestAnswers,
 ) => {
+
   const session = await verifySessionSubscription();
   if (!session) return;
 
@@ -125,15 +126,17 @@ export const verifyTestResults = async (
   if (ids.length > 30) return;
 
   const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
+  const map = new Map(questions.map(q => [q.id, q]));
+  const orderedQuestions = ids.map(id => map.get(id)!);
 
-  const correctAnswers = questions.reduce<TestAnswers>((acc, q) => {
+  const correctAnswers = orderedQuestions.reduce<TestAnswers>((acc, q) => {
     acc[q.id] = q.options.find((o) => o.answer)?.id ?? null;
     return acc;
   }, {});
 
   const testRunId = createId();
 
-  questions.map(async (question) => {
+  orderedQuestions.map(async (question) => {
     const option = question.options.find((o) => o.id === answers[question.id]);
 
     await serverCreateTestResults(
