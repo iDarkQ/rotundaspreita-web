@@ -6,11 +6,18 @@ import {
   fetchAllStudyCategories,
 } from "@/app/_services/study-service";
 import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block/panel-test-menu-block";
-import { verifySession, verifySessionSubscription } from "@/app/_services/user-service";
+import {
+  verifySession,
+  verifySessionSubscription,
+} from "@/app/_services/user-service";
 import { PanelBlobs } from "@/app/panel/[[...studyId]]/components/panel-blobs";
 import { PanelTitle } from "@/app/panel/[[...studyId]]/components/panel-title";
 import { PanelWelcomeMessage } from "@/app/panel/[[...studyId]]/components/panel-welcome-message";
 import { PanelStatisticsTitle } from "@/app/panel/[[...studyId]]/components/panel-statistics-title";
+import { PanelLastQuestionsTitle } from "@/app/panel/[[...studyId]]/components/panel-last-questions-title";
+import { PanelLastQuestionsCard } from "@/app/panel/[[...studyId]]/components/panel-last-questions-card";
+import { PanelLastQuestionsItem } from "@/app/panel/[[...studyId]]/components/panel-last-questions-item";
+import { fetchLastTestResults } from "@/app/_services/test-results-service";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -29,6 +36,8 @@ export default async function Panel({ params }: Props) {
 
   const subscription = await verifySessionSubscription();
 
+  const lastQuestions = (await fetchLastTestResults()) ?? [];
+
   return (
     <Section>
       <PanelBlobs />
@@ -39,10 +48,7 @@ export default async function Panel({ params }: Props) {
         </div>
         <div className="relative">
           {studies.length > 0 && (
-            <PanelTestMenuBlock
-              user={user}
-              hasExpired={!subscription}
-            />
+            <PanelTestMenuBlock user={user} hasExpired={!subscription} />
           )}
           <PageTestMenu
             studies={studies}
@@ -53,6 +59,22 @@ export default async function Panel({ params }: Props) {
       </div>
       <PanelStatisticsTitle />
       <PanelStatistics defaultStudyId={foundStudy?.id} />
+      {lastQuestions.length > 0 && (
+        <>
+          <PanelLastQuestionsTitle />
+          <PanelLastQuestionsCard />
+          <div className="flex flex-col gap-2">
+            {lastQuestions.map((v, i) => (
+              <PanelLastQuestionsItem
+                key={i}
+                index={++i}
+                question={v.question}
+                answer={v.answer}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </Section>
   );
 }
