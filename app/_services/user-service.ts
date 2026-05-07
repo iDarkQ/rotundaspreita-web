@@ -78,20 +78,24 @@ export const authenticate = async (jwtToken: string) => {
   const ip = headersList.get("x-forwarded-for");
   const agent = headersList.get("user-agent");
 
-  const verifyJwt = jwt.verify(jwtToken, secret) as User | null;
-  const userId = verifyJwt?.id;
+  try {
+    const verifyJwt = jwt.verify(jwtToken, secret) as User | null;
+    const userId = verifyJwt?.id;
 
-  if (!userId || !ip || !agent) return;
+    if (!userId || !ip || !agent) return;
 
-  const user = await serverFindUserById(userId);
+    const user = await serverFindUserById(userId);
 
-  if (!user) return;
+    if (!user) return;
 
-  const session = await serverCreateDeviceSession(userId, ip, agent, jwtToken);
+    const session = await serverCreateDeviceSession(userId, ip, agent, jwtToken);
 
-  if (!session) return;
+    if (!session) return;
 
-  return user;
+    return user;
+  } catch (_) {
+    return;
+  }
 };
 
 export const verifySession = cache(async () => {

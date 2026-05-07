@@ -11,6 +11,12 @@ export const fetchTestResultsQuery = async (
   where: Prisma.TestResultWhereInput,
 ) => prisma.testResult.findMany({ where });
 
+export const fetchLastTestResultsQuery = async (
+  where: Prisma.TestResultWhereInput,
+  orderBy: Prisma.TestResultOrderByWithRelationInput,
+  take?: number,
+) => prisma.testResult.findMany({ where, take, orderBy });
+
 export const updateManyTestsResultsQuery = async (
   where: Prisma.TestResultWhereInput,
   data: Prisma.TestResultUpdateManyMutationInput,

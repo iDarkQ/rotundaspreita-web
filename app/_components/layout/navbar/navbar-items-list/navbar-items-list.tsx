@@ -24,7 +24,9 @@ export const NavbarItemsList = ({ className }: Props) => {
       <NavbarItem path={RouteNames.FAQ} name="Ajuda" />
       {user ? (
         <>
-          <NavbarItem path={RouteNames.QUESTIONS} name="Biblioteca" />
+          {user.admin && (
+            <NavbarItem path={RouteNames.QUESTIONS} name="Biblioteca" />
+          )}
           <NavbarItem path={RouteNames.PANEL} name="Perfil" contained />
           <NavbarSettingsItem />
         </>
