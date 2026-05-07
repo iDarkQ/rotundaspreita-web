@@ -3,7 +3,17 @@ import { Chip } from "@/app/_components/chip";
 import { ProgressBar } from "@/app/_components/progress-bar";
 import { Text } from "@/app/_components/text";
 
-export const PanelLastQuestionsCard = () => (
+interface PanelLastQuestionsCardProps {
+  correct: number;
+  wrong: number;
+  blank: number;
+}
+
+export const PanelLastQuestionsCard = ({
+  correct,
+  wrong,
+  blank,
+}: PanelLastQuestionsCardProps) => (
   <Card className="w-full gap-2">
     <div className="flex flex-row items-center justify-between">
       <Text as="p" className="text-primary">
@@ -14,16 +24,20 @@ export const PanelLastQuestionsCard = () => (
       </Text>
       <div className="flex gap-1">
         <Chip color="success" className="text-success">
-          Corretos 9
+          Corretos {correct}
         </Chip>
         <Chip color="error" className="text-error">
-          Errados 20
+          Errados {wrong}
         </Chip>
         <Chip color="neutral" className="text-neutral">
-          Em Branco 1
+          Em Branco {blank}
         </Chip>
       </div>
     </div>
-    <ProgressBar label="Aproveitamento" value={60} max={100} />
+    <ProgressBar
+      label="Aproveitamento"
+      value={correct}
+      max={correct + wrong + blank}
+    />
   </Card>
 );
