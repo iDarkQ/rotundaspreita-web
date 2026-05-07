@@ -1,23 +1,20 @@
 import { Section } from "@/app/_components/section";
-import { PageTestMenu } from "@/app/panel/[[...studyId]]/components/panel-test-menu/page-test-menu";
-import { PanelStatistics } from "@/app/panel/[[...studyId]]/components/panel-statistics/panel-statistics";
+import { PageTestMenu } from "./components/panel-test-menu/page-test-menu";
+import { PanelStatistics } from "./components/panel-statistics/panel-statistics";
 import {
   fetchAllStudies,
   fetchAllStudyCategories,
 } from "@/app/_services/study-service";
-import { PanelTestMenuBlock } from "@/app/panel/[[...studyId]]/components/panel-test-menu-block/panel-test-menu-block";
+import { PanelTestMenuBlock } from "./components/panel-test-menu-block/panel-test-menu-block";
 import {
   verifySession,
   verifySessionSubscription,
 } from "@/app/_services/user-service";
-import { PanelBlobs } from "@/app/panel/[[...studyId]]/components/panel-blobs";
-import { PanelTitle } from "@/app/panel/[[...studyId]]/components/panel-title";
-import { PanelWelcomeMessage } from "@/app/panel/[[...studyId]]/components/panel-welcome-message";
-import { PanelStatisticsTitle } from "@/app/panel/[[...studyId]]/components/panel-statistics-title";
-import { PanelLastQuestionsTitle } from "@/app/panel/[[...studyId]]/components/panel-last-questions-title";
-import { PanelLastQuestionsCard } from "@/app/panel/[[...studyId]]/components/panel-last-questions-card";
-import { PanelLastQuestionsItem } from "@/app/panel/[[...studyId]]/components/panel-last-questions-item";
-import { fetchLastTestResults } from "@/app/_services/test-results-service";
+import { PanelBlobs } from "./components/panel-blobs";
+import { PanelTitle } from "./components/panel-title";
+import { PanelWelcomeMessage } from "./components/panel-welcome-message";
+import { PanelStatisticsTitle } from "./components/panel-statistics-title";
+import { PanelLastQuestions } from "./components/panel-last-questions/panel-last-questions";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -35,8 +32,6 @@ export default async function Panel({ params }: Props) {
   const user = await verifySession();
 
   const subscription = await verifySessionSubscription();
-
-  const lastQuestions = (await fetchLastTestResults()) ?? [];
 
   return (
     <Section>
@@ -59,22 +54,7 @@ export default async function Panel({ params }: Props) {
       </div>
       <PanelStatisticsTitle />
       <PanelStatistics defaultStudyId={foundStudy?.id} />
-      {lastQuestions.length > 0 && (
-        <>
-          <PanelLastQuestionsTitle />
-          <PanelLastQuestionsCard />
-          <div className="flex flex-col gap-2">
-            {lastQuestions.map((v, i) => (
-              <PanelLastQuestionsItem
-                key={i}
-                index={++i}
-                question={v.question}
-                answer={v.answer}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      <PanelLastQuestions />
     </Section>
   );
 }
