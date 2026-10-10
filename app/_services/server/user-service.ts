@@ -1,7 +1,11 @@
 "use server";
 
 import { User } from "@/app/generated/prisma/client";
-import { findUserQuery, updateUserQuery } from "@/app/_lib/queries/user";
+import {
+  findUserQuery,
+  linkGoogleAccountQuery,
+  updateUserQuery,
+} from "@/app/_lib/queries/user";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import { GoogleAccountDto } from "@/app/_lib/dtos/user/google-account,dto";
@@ -16,10 +20,15 @@ export const serverFindUserByEmail = async (email: string) =>
 export const serverBeginFreeTest = async (userId: string) =>
   updateUserQuery({ id: userId }, { usedFreeTest: true });
 
+export const serverLinkGoogleAccount = async (
+  userId: string,
+  googleId: string,
+) => linkGoogleAccountQuery(userId, googleId);
+
 export const serverSignUser = async (user: User) => {
   if (!secret) return;
 
-  return jwt.sign(user, secret);
+  return jwt.sign({ id: user.id }, secret);
 };
 
 export const serverFetchGoogleAccountInfo = async (token: string) => {

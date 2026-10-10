@@ -16,10 +16,11 @@ enum OptionLetter {
 }
 
 model User {
-  id       String @id @default(cuid())
-  googleId String @unique
-  email    String @unique
-  name     String
+  id           String  @id @default(cuid())
+  googleId     String? @unique
+  email        String  @unique
+  name         String
+  passwordHash String?
 
   admin Boolean @default(false)
 

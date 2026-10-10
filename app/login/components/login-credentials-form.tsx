@@ -1,0 +1,87 @@
+"use client";
+
+import { Button } from "@/app/_components/button";
+import { Field } from "@/app/_components/field";
+import { Input } from "@/app/_components/input";
+import { Text } from "@/app/_components/text";
+import { posthogClient } from "@/app/_lib/instrumentation-client";
+import { loginUserWithCredentials } from "@/app/_services/user-service";
+import { RouteNames } from "@/app/_utils/route-names";
+import { saveSecret } from "@/app/login/server/save-secret";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+
+export const LoginCredentialsForm = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setError(null);
+    setLoading(true);
+
+    try {
+      const secret = await loginUserWithCredentials({ email, password });
+
+      if (!secret) {
+        setError("Credenciais inválidas. Verifique o email e a palavra-passe.");
+        return;
+      }
+
+      await saveSecret(secret);
+      posthogClient.capture("login", { method: "Credentials" });
+      router.push(RouteNames.PANEL);
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form
+      className="flex w-full flex-col gap-3"
+      onSubmit={handleSubmit}
+      noValidate
+    >
+      <Field className="gap-1">
+        <Text as="label">Email</Text>
+        <Input
+          type="email"
+          autoComplete="email"
+          placeholder="nome@exemplo.com"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          required
+        />
+      </Field>
+
+      <Field className="gap-1">
+        <Text as="label">Palavra-passe</Text>
+        <Input
+          type="password"
+          autoComplete="current-password"
+          placeholder="A sua palavra-passe"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          required
+        />
+      </Field>
+
+      {error && (
+        <Text as="p" className="text-error!">
+          {error}
+        </Text>
+      )}
+
+      <Button type="submit" loading={loading}>
+        <Text as="span" className="text-white">
+          Entrar com email
+        </Text>
+      </Button>
+    </form>
+  );
+};
