@@ -110,6 +110,11 @@ body {
 }
 
 @layer base {
+  .password-input::-ms-reveal,
+  .password-input::-ms-clear {
+    display: none;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -146,7 +151,7 @@ body {
   }
 
   .section-width {
-    @apply mx-auto w-[90%]! max-w-(--breakpoint-2xl) max-md:w-[95%]!
+    @apply mx-auto w-[90%]! max-w-(--breakpoint-2xl) max-md:w-[95%]!;
   }
 }
 
