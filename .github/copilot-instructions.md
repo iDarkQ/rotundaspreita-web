@@ -122,3 +122,10 @@
   connection to the task.
 - Treat a requested change as permission to alter the rest of the page or
   shared design system.
+
+## 6. Validation after changes
+
+- After making code changes, run `yarn build` and resolve any build failures
+  caused by the changes.
+- Run the additional project checks listed below when they are configured:
+  - [Add future checks here, for example `yarn test`]
