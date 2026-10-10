@@ -60,8 +60,11 @@ export const LoginCredentialsForm = () => {
       noValidate
     >
       <Field className="gap-1">
-        <Text as="label">Email</Text>
+        <Text as="label" htmlFor="login-email">
+          Email
+        </Text>
         <Input
+          id="login-email"
           type="email"
           autoComplete="email"
           placeholder="nome@exemplo.com"
@@ -72,8 +75,11 @@ export const LoginCredentialsForm = () => {
       </Field>
 
       <Field className="gap-1">
-        <Text as="label">Palavra-passe</Text>
+        <Text as="label" htmlFor="login-password">
+          Palavra-passe
+        </Text>
         <Input
+          id="login-password"
           type="password"
           autoComplete="current-password"
           placeholder="A sua palavra-passe"

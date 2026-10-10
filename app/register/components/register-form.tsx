@@ -80,8 +80,11 @@ export const RegisterForm = () => {
       noValidate
     >
       <Field className="gap-1">
-        <Text as="label">Nome</Text>
+        <Text as="label" htmlFor="register-name">
+          Nome
+        </Text>
         <Input
+          id="register-name"
           type="text"
           autoComplete="given-name"
           placeholder="Nome"
@@ -92,8 +95,11 @@ export const RegisterForm = () => {
       </Field>
 
       <Field className="gap-1">
-        <Text as="label">Apelido</Text>
+        <Text as="label" htmlFor="register-last-name">
+          Apelido
+        </Text>
         <Input
+          id="register-last-name"
           type="text"
           autoComplete="family-name"
           placeholder="Apelido"
@@ -104,8 +110,11 @@ export const RegisterForm = () => {
       </Field>
 
       <Field className="gap-1">
-        <Text as="label">Email</Text>
+        <Text as="label" htmlFor="register-email">
+          Email
+        </Text>
         <Input
+          id="register-email"
           type="email"
           autoComplete="email"
           placeholder="nome@exemplo.com"
@@ -116,8 +125,11 @@ export const RegisterForm = () => {
       </Field>
 
       <Field className="gap-1">
-        <Text as="label">Palavra-passe</Text>
+        <Text as="label" htmlFor="register-password">
+          Palavra-passe
+        </Text>
         <Input
+          id="register-password"
           type="password"
           autoComplete="new-password"
           placeholder="Mínimo de 8 caracteres"
