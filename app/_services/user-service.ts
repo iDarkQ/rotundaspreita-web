@@ -45,6 +45,9 @@ interface LoginCredentialsInput {
 
 const normalizeEmail = (email: string) => email.trim().toLowerCase();
 
+const isValidEmail = (email: string) =>
+  email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 const buildFullName = (name: string, lastName: string) =>
   `${name.trim()} ${lastName.trim()}`.trim();
 
@@ -187,7 +190,7 @@ export const registerUserWithCredentials = async ({
   const trimmedPassword = password.trim();
   const fullName = buildFullName(name, lastName);
 
-  if (!normalizedEmail || !fullName) return;
+  if (!isValidEmail(normalizedEmail) || !fullName) return;
   if (trimmedPassword.length < MIN_PASSWORD_LENGTH) return;
 
   const existingUser = await serverFindUserByEmail(normalizedEmail);
