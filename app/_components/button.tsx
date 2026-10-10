@@ -4,11 +4,11 @@ import { ReactTag } from "@/app/_components/types/react-tag";
 import { useRipple } from "@/app/_hooks/use-ripple";
 import { Button as HeadlessUIButton } from "@headlessui/react";
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, useEffect, useState } from "react";
+import { ButtonHTMLAttributes, ReactNode, useEffect, useState } from "react";
 
 type ButtonVariant = "contained" | "outlined" | "text" | "warning";
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   className?: string;
   disabled?: boolean;

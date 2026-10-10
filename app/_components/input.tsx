@@ -8,7 +8,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       ref={ref}
       {...rest}
       className={clsx(
-        "c-border border-input focus-visible:outline-input-focus-visible! h-(--input-height) p-2",
+        "c-border border-input focus-visible:border-input-focus-visible h-(--input-height) bg-white p-2 focus-visible:outline-none",
         className && className,
       )}
     />
