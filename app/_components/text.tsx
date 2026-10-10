@@ -6,6 +6,7 @@ interface Props {
   children?: ReactNode;
   className?: string;
   center?: boolean;
+  htmlFor?: string;
 }
 
 const baseText = "font-roboto text-neutral text-base paragraph";
@@ -34,17 +35,27 @@ const styles = {
   ),
 };
 
-export const Text = ({ as = "p", children, center, className }: Props) => {
-  const Component = as;
-  return (
-    <Component
-      className={clsx(
-        styles[as],
-        center && "text-center",
-        className && className,
-      )}
-    >
-      {children}
-    </Component>
+export const Text = ({
+  as = "p",
+  children,
+  center,
+  className,
+  htmlFor,
+}: Props) => {
+  const textClassName = clsx(
+    styles[as],
+    center && "text-center",
+    className && className,
   );
+
+  if (as === "label") {
+    return (
+      <label htmlFor={htmlFor} className={textClassName}>
+        {children}
+      </label>
+    );
+  }
+
+  const Component = as;
+  return <Component className={textClassName}>{children}</Component>;
 };

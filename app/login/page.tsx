@@ -1,12 +1,11 @@
 import { Section } from "@/app/_components/section";
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
-import { LoginButton } from "@/app/login/components/login-button";
 import { RouteNames } from "@/app/_utils/route-names";
-import { headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 import { LoginBlobs } from "@/app/login/components/login-blobs";
 import { LoginHeading } from "@/app/login/components/login-heading/login-heading";
 import { Metadata } from "next";
+import { LoginOptions } from "@/app/login/components/login-options";
 
 export const metadata: Metadata = {
   title: "Entrar na Plataforma",
@@ -25,7 +24,7 @@ export default async function Login() {
     <Section className="justify-center!">
       <LoginBlobs />
       <LoginHeading />
-      <LoginButton />
+      <LoginOptions />
     </Section>
   );
 }

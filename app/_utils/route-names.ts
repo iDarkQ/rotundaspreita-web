@@ -4,4 +4,5 @@ export enum RouteNames {
   QUESTIONS = "/questions",
   FAQ = "/faq",
   LOGIN = "/login",
+  REGISTER = "/register",
 }
