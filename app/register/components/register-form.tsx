@@ -10,7 +10,7 @@ import { registerUserWithCredentials } from "@/app/_services/user-service";
 import { RouteNames } from "@/app/_utils/route-names";
 import { saveSecret } from "@/app/login/server/save-secret";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -20,9 +20,11 @@ export const RegisterForm = () => {
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isSubmitting = useRef(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting.current) return;
 
     setError(null);
 
@@ -36,6 +38,7 @@ export const RegisterForm = () => {
       return;
     }
 
+    isSubmitting.current = true;
     setLoading(true);
 
     try {
@@ -65,6 +68,7 @@ export const RegisterForm = () => {
       router.push(RouteNames.PANEL);
       router.refresh();
     } finally {
+      isSubmitting.current = false;
       setLoading(false);
     }
   };

@@ -64,6 +64,7 @@ export const Button = ({
       {...rest}
       ref={ref}
       as={as}
+      disabled={disabled || loading}
       onClick={handleButtonClick}
       className={clsx(
         `button button-${variant}`,
