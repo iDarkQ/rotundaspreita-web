@@ -4,6 +4,7 @@ import { Button } from "@/app/_components/button";
 import { Field } from "@/app/_components/field";
 import { Input } from "@/app/_components/input";
 import { Text } from "@/app/_components/text";
+import { USER_LOGIN_STATUS } from "@/app/_constants/user-login-status";
 import { posthogClient } from "@/app/_lib/instrumentation-client";
 import { loginUserWithCredentials } from "@/app/_services/user-service";
 import { RouteNames } from "@/app/_utils/route-names";
@@ -25,14 +26,21 @@ export const LoginCredentialsForm = () => {
     setLoading(true);
 
     try {
-      const secret = await loginUserWithCredentials({ email, password });
+      const result = await loginUserWithCredentials({ email, password });
 
-      if (!secret) {
+      if (result?.status === USER_LOGIN_STATUS.RATE_LIMITED) {
+        setError(
+          "Demasiadas tentativas de início de sessão. Tente novamente mais tarde.",
+        );
+        return;
+      }
+
+      if (!result) {
         setError("Credenciais inválidas. Verifique o email e a palavra-passe.");
         return;
       }
 
-      await saveSecret(secret);
+      await saveSecret(result.secret);
       posthogClient.capture("login", { method: "Credentials" });
       router.push(RouteNames.PANEL);
       router.refresh();

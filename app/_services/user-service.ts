@@ -5,6 +5,7 @@ const MIN_PASSWORD_LENGTH = 8;
 
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { USER_REGISTRATION_STATUS } from "@/app/_constants/user-registration-status";
+import { USER_LOGIN_STATUS } from "@/app/_constants/user-login-status";
 import { createUserQuery } from "@/app/_lib/queries/user";
 import { Prisma, User } from "@/app/generated/prisma/client";
 import { TokenResponse } from "@react-oauth/google";
@@ -17,6 +18,7 @@ import {
   serverHashPassword,
   serverVerifyPassword,
 } from "@/app/_services/server/password-service";
+import { serverConsumeLoginAttempt } from "@/app/_services/server/login-rate-limit-service";
 import {
   serverFetchGoogleAccountInfo,
   serverFindUserByEmail,
@@ -74,6 +76,15 @@ export type UserRegistrationResult =
     }
   | {
       status: typeof USER_REGISTRATION_STATUS.EMAIL_ALREADY_REGISTERED;
+    };
+
+export type UserLoginResult =
+  | {
+      status: typeof USER_LOGIN_STATUS.SUCCESS;
+      secret: string;
+    }
+  | {
+      status: typeof USER_LOGIN_STATUS.RATE_LIMITED;
     };
 
 export const registerUser = async (
@@ -236,7 +247,7 @@ export const registerUserWithCredentials = async ({
 export const loginUserWithCredentials = async ({
   email,
   password,
-}: LoginCredentialsInput) => {
+}: LoginCredentialsInput): Promise<UserLoginResult | undefined> => {
   const requestMetadata = await getRequestMetadata();
   if (!requestMetadata) return;
   if (!secret) return;
@@ -245,6 +256,15 @@ export const loginUserWithCredentials = async ({
   const trimmedPassword = password.trim();
 
   if (!normalizedEmail || !trimmedPassword) return;
+
+  const rateLimitResult = await serverConsumeLoginAttempt(
+    normalizedEmail,
+    requestMetadata.ipAddress,
+  );
+  if (rateLimitResult === "limited") {
+    return { status: USER_LOGIN_STATUS.RATE_LIMITED };
+  }
+  if (rateLimitResult !== "allowed") return;
 
   const user = await serverFindUserByEmail(normalizedEmail);
   if (!user || !user.passwordHash) return;
@@ -266,7 +286,7 @@ export const loginUserWithCredentials = async ({
     signedUser,
   );
 
-  return signedUser;
+  return { status: USER_LOGIN_STATUS.SUCCESS, secret: signedUser };
 };
 
 export const authenticate = async (jwtToken: string) => {
