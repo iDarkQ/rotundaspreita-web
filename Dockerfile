@@ -10,6 +10,7 @@ WORKDIR /app
 RUN apk add --no-cache libc6-compat
 COPY package.json ./
 RUN rm -f yarn.lock
+RUN rm -f package-lock.json
 RUN yarn install
 
 # Rebuild the source code only when needed
@@ -19,7 +20,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 RUN yarn prisma generate
-RUN yarn run build;
+RUN yarn run build
 RUN yarn prisma migrate deploy || true
 
 # Production image, copy all the files and run next
