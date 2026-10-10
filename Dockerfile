@@ -13,6 +13,14 @@ RUN rm -f yarn.lock
 RUN rm -f package-lock.json
 RUN yarn install
 
+FROM base AS migrator
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY prisma ./prisma
+COPY prisma.config.ts ./
+
+CMD ["./node_modules/.bin/prisma", "migrate", "deploy"]
+
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -21,7 +29,6 @@ COPY . .
 
 RUN yarn prisma generate
 RUN yarn run build
-RUN yarn prisma migrate deploy || true
 
 # Production image, copy all the files and run next
 FROM base AS runner
