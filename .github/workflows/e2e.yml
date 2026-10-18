@@ -1,0 +1,31 @@
+name: End-to-end tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: windows-latest
+    env:
+      PLAYWRIGHT_DATABASE_URL: postgresql://playwright:playwright@127.0.0.1:55432/rotundaspreita_e2e_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ikalnytskyi/action-setup-postgres@v8
+        with:
+          username: playwright
+          password: playwright
+          database: rotundaspreita_e2e_test
+          port: 55432
+          postgres-version: "15"
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npx playwright install chromium
+      - run: npm run test:e2e
