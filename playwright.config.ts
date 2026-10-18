@@ -75,6 +75,7 @@ export default defineConfig({
       ...process.env,
       DATABASE_URL: testDatabaseUrl,
       JWT_SECRET: TEST_JWT_SECRET,
+      STRIPE_PRIVATE_KEY: "sk_test_playwright_placeholder",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },
