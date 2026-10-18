@@ -76,6 +76,8 @@ export default defineConfig({
       DATABASE_URL: testDatabaseUrl,
       JWT_SECRET: TEST_JWT_SECRET,
       STRIPE_PRIVATE_KEY: "sk_test_playwright_placeholder",
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID:
+        "playwright-test-client-id.apps.googleusercontent.com",
       NEXT_PUBLIC_TEST_LENGTH: "30",
       NEXT_PUBLIC_POSTHOG_KEY: "",
       NEXT_PUBLIC_POSTHOG_HOST: "",

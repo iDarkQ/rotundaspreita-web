@@ -4,7 +4,6 @@ import { TEST_CORRECT_ANSWER, TEST_QUESTION } from "./test-constants";
 
 test("login form reports invalid credentials accessibly", async ({ page }) => {
   await page.goto("/login");
-  await page.waitForLoadState("networkidle");
   await page.getByLabel("Email").fill("missing-user@example.test");
   await page.getByPlaceholder("A sua palavra-passe").fill("invalid-password");
   await page.getByRole("button", { name: "Entrar com email" }).click();
