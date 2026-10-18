@@ -1,5 +1,3 @@
-"use server";
-
 import { stripe } from "@/app/_lib/stripe";
 import { verifySession } from "@/app/_services/user-service";
 
@@ -21,6 +19,10 @@ export const createCheckoutSession = async () => {
     success_url: `${process.env.BASE_URL}/panel`,
     cancel_url: `${process.env.BASE_URL}`,
   });
+
+  if (!session.url) {
+    throw new Error("Stripe checkout session URL was not returned.");
+  }
 
   return session.url;
 };

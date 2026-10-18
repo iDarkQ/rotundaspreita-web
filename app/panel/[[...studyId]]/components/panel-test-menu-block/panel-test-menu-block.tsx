@@ -10,11 +10,13 @@ import { useState } from "react";
 interface Props {
   user: User;
   hasExpired: boolean;
+  checkoutUrl: string | null;
 }
 
 export const PanelTestMenuBlock = ({
   user,
   hasExpired,
+  checkoutUrl,
 }: Props) => {
   const [show, setShow] = useState(true);
 
@@ -23,11 +25,12 @@ export const PanelTestMenuBlock = ({
   const shouldShowMessage = !user.admin && hasExpired;
 
   if (!shouldShowMessage) return;
+
   return (
     <div className="absolute z-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-sm bg-black/70 p-5">
       <PanelTestMenuBlockTitle />
       <PanelTestMenuBlockDescription />
-      <PanelRenewSubscriptionButton />
+      <PanelRenewSubscriptionButton checkoutUrl={checkoutUrl ?? ""} />
       {!user.usedFreeTest && (
         <PanelTestMenuBlockAction onClick={() => setShow(false)} />
       )}

@@ -1,19 +1,17 @@
-"use client";
-
-import { Button } from "@/app/_components/button";
+import { Link } from "@/app/_components/link";
 import { Text } from "@/app/_components/text";
-import { createCheckoutSession } from "@/app/panel/[[...studyId]]/server/create-stripe-session";
 
-export const PanelRenewSubscriptionButton = () => (
-  <Button
-    variant="contained"
-    onClick={async () => {
-      const url = await createCheckoutSession();
-      if (!url) return;
+interface Props {
+  checkoutUrl: string;
+}
 
-      window.open(url, "_blank");
-    }}
+export const PanelRenewSubscriptionButton = ({ checkoutUrl }: Props) => (
+  <Link
+    link={checkoutUrl}
+    isExternalLink
+    hideStyles
+    className="button button-contained inline-flex items-center justify-center"
   >
     <Text className="text-white!">Renovar Subscrição</Text>
-  </Button>
+  </Link>
 );
