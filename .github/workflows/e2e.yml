@@ -11,6 +11,7 @@ jobs:
   e2e:
     runs-on: windows-latest
     env:
+      DATABASE_URL: postgresql://playwright:playwright@127.0.0.1:55432/rotundaspreita_e2e_test
       PLAYWRIGHT_DATABASE_URL: postgresql://playwright:playwright@127.0.0.1:55432/rotundaspreita_e2e_test
     steps:
       - uses: actions/checkout@v4
