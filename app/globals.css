@@ -107,6 +107,7 @@ body {
   --animate-ripple-hide: ripple-animation-hide 500ms linear forwards;
   --animate-select-toggle-button: select-toggle-button 1000ms linear forwards;
   --animate-float: float 3s ease-in-out infinite;
+  --animate-testimonial-scroll: testimonial-scroll-right 55s linear infinite;
 }
 
 @layer base {
@@ -166,5 +167,63 @@ body {
   to {
     /* transform: scale(4); */
     background-color: var(--color-toggle-button-selected);
+  }
+}
+
+.testimonials-viewport {
+  overflow: hidden;
+  margin-block: -1rem;
+  padding-block: 1rem;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+}
+
+.testimonials-track {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-testimonial-scroll);
+}
+
+.testimonials-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.testimonials-viewport:hover .testimonials-track,
+.testimonials-viewport:focus-within .testimonials-track {
+  animation-play-state: paused;
+}
+
+@keyframes testimonial-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-viewport {
+    overflow-x: auto;
+  }
+
+  .testimonials-track {
+    animation: none;
   }
 }

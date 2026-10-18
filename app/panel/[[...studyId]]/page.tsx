@@ -15,6 +15,7 @@ import { PanelTitle } from "./components/panel-title";
 import { PanelWelcomeMessage } from "./components/panel-welcome-message";
 import { PanelStatisticsTitle } from "./components/panel-statistics-title";
 import { PanelLastQuestions } from "./components/panel-last-questions/panel-last-questions";
+import { createCheckoutSession } from "./server/create-stripe-session";
 
 interface Props {
   params: Promise<{ studyId: string[] }>;
@@ -32,6 +33,10 @@ export default async function Panel({ params }: Props) {
   const user = await verifySession();
 
   const subscription = await verifySessionSubscription();
+  const checkoutUrl =
+    studies.length > 0 && !user.admin && !subscription
+      ? await createCheckoutSession()
+      : null;
 
   return (
     <Section>
@@ -43,7 +48,11 @@ export default async function Panel({ params }: Props) {
         </div>
         <div className="relative">
           {studies.length > 0 && (
-            <PanelTestMenuBlock user={user} hasExpired={!subscription} />
+            <PanelTestMenuBlock
+              user={user}
+              hasExpired={!subscription}
+              checkoutUrl={checkoutUrl}
+            />
           )}
           <PageTestMenu
             studies={studies}
