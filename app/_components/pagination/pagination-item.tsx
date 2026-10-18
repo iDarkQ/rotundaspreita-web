@@ -25,11 +25,19 @@ export const PaginationItem = ({
 }: Props) => {
   const { ref } = useRipple(true, disabled);
 
+  const ariaLabel =
+    type === "previous"
+      ? "Pergunta anterior"
+      : type === "next"
+        ? "Próxima pergunta"
+        : `Pergunta ${page}`;
+
   return (
     <Button
       ref={ref}
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel}
       className={clsx(
         "relative overflow-hidden",
         "c-border border-pagination-item-border cursor-pointer rounded-sm transition-colors duration-200",

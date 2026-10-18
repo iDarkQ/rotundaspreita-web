@@ -53,7 +53,7 @@ ROTUNDÁSPREITA is built using modern web technologies to ensure strong performa
 
 ## End-to-end and visual regression tests
 
-Playwright protects key screens with strict desktop and mobile screenshots and checks the login, test-taking, and question-management flows. The suite seeds an administrator and sample study into a dedicated PostgreSQL test database; it will refuse to seed a database unless its name contains a separate `test` segment.
+Playwright protects key screens with strict desktop and mobile screenshots and checks login, registration, question management, exam navigation/results, and the subscription checkout handoff. The payment flow uses a test-only mocked Stripe Checkout page and never creates a real charge. The suite seeds fixed test users and studies into a dedicated PostgreSQL test database; it will refuse to seed a database unless its name contains a separate `test` segment.
 
 For local runs, start a PostgreSQL database reserved for these tests, then set `PLAYWRIGHT_DATABASE_URL` to its connection string. For example, in PowerShell:
 
@@ -70,4 +70,4 @@ Remove the temporary database container when you no longer need it:
 docker rm --force rotundaspreita-e2e-db
 ```
 
-The test run pushes the Prisma schema and seeds only its fixed test user/study records in that database. It starts its own Next.js server with a test-only JWT secret and does not reuse an existing server. Visual baselines are platform-specific, so the pull-request workflow uses Windows Chromium, matching the committed baselines. To intentionally approve a visual change, run `npm run test:e2e:update` on Windows, review the changed snapshots, and commit them with the UI change. The GitHub Actions end-to-end workflow runs this suite for pull requests.
+The test run pushes the Prisma schema and seeds only its fixed test users/studies in that database. It starts its own Next.js server with test-only authentication and Stripe settings and does not reuse an existing server. Visual baselines are platform-specific, so the pull-request workflow uses Windows Chromium, matching the committed baselines. To intentionally approve a visual change, run `npm run test:e2e:update` on Windows, review the changed snapshots, and commit them with the UI change. The GitHub Actions end-to-end workflow runs this suite for pull requests.

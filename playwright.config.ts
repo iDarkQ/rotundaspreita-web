@@ -81,6 +81,7 @@ export default defineConfig({
       NEXT_PUBLIC_TEST_LENGTH: "30",
       NEXT_PUBLIC_POSTHOG_KEY: "",
       NEXT_PUBLIC_POSTHOG_HOST: "",
+      PLAYWRIGHT_STRIPE_MOCK: "true",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },

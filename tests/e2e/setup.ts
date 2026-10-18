@@ -5,6 +5,12 @@ import {
   TEST_ADMIN_EMAIL,
   TEST_ADMIN_ID,
   TEST_CORRECT_ANSWER,
+  TEST_EXAM_ADMIN_ID,
+  TEST_EXAM_QUESTIONS,
+  TEST_EXAM_STUDY_ID,
+  TEST_PAYMENT_USER_EMAIL,
+  TEST_PAYMENT_USER_ID,
+  TEST_REGISTRATION_EMAILS,
   TEST_QUESTION,
   TEST_STUDY_ID,
 } from "./test-constants";
@@ -42,14 +48,41 @@ async function setupTestDatabase() {
   });
 
   try {
-    await prisma.study.deleteMany({ where: { id: TEST_STUDY_ID } });
-    await prisma.user.deleteMany({ where: { id: TEST_ADMIN_ID } });
+    await prisma.study.deleteMany({
+      where: { id: { in: [TEST_STUDY_ID, TEST_EXAM_STUDY_ID] } },
+    });
+    await prisma.user.deleteMany({
+      where: {
+        id: { in: [TEST_ADMIN_ID, TEST_EXAM_ADMIN_ID, TEST_PAYMENT_USER_ID] },
+      },
+    });
+    await prisma.user.deleteMany({
+      where: { email: { in: [...TEST_REGISTRATION_EMAILS] } },
+    });
 
     await prisma.user.create({
       data: {
         id: TEST_ADMIN_ID,
         email: TEST_ADMIN_EMAIL,
         name: "Utilizador de Teste",
+        admin: true,
+      },
+    });
+
+    await prisma.user.create({
+      data: {
+        id: TEST_PAYMENT_USER_ID,
+        email: TEST_PAYMENT_USER_EMAIL,
+        name: "Utilizador de Pagamento",
+        usedFreeTest: true,
+      },
+    });
+
+    await prisma.user.create({
+      data: {
+        id: TEST_EXAM_ADMIN_ID,
+        email: "playwright-exam-admin@example.test",
+        name: "Administrador de Exame",
         admin: true,
       },
     });
@@ -94,6 +127,48 @@ async function setupTestDatabase() {
               },
             },
           ],
+        },
+      },
+    });
+
+    await prisma.study.create({
+      data: {
+        id: TEST_EXAM_STUDY_ID,
+        title: "Estudo do Exame de Teste",
+        questions: {
+          create: TEST_EXAM_QUESTIONS.map((question) => ({
+            id: question.id,
+            content: question.content,
+            category: "Tema de Exame de Teste",
+            options: {
+              create: [
+                {
+                  id: `${question.id}-option-a`,
+                  content: question.correctAnswer,
+                  letter: "A",
+                  answer: true,
+                },
+                {
+                  id: `${question.id}-option-b`,
+                  content: question.incorrectAnswer,
+                  letter: "B",
+                  answer: false,
+                },
+                {
+                  id: `${question.id}-option-c`,
+                  content: `Outra resposta para ${question.content}`,
+                  letter: "C",
+                  answer: false,
+                },
+                {
+                  id: `${question.id}-option-d`,
+                  content: `Última resposta para ${question.content}`,
+                  letter: "D",
+                  answer: false,
+                },
+              ],
+            },
+          })),
         },
       },
     });

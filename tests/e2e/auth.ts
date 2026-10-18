@@ -6,11 +6,11 @@ import {
   TEST_JWT_SECRET,
 } from "./test-constants";
 
-export async function authenticateAdmin(page: Page) {
+export async function authenticateUser(page: Page, userId: string) {
   await page.context().addCookies([
     {
       name: "secret",
-      value: jwt.sign({ id: TEST_ADMIN_ID }, TEST_JWT_SECRET, {
+      value: jwt.sign({ id: userId }, TEST_JWT_SECRET, {
         expiresIn: "1h",
       }),
       url: TEST_BASE_URL,
@@ -18,4 +18,8 @@ export async function authenticateAdmin(page: Page) {
       sameSite: "Lax",
     },
   ]);
+}
+
+export async function authenticateAdmin(page: Page) {
+  await authenticateUser(page, TEST_ADMIN_ID);
 }
