@@ -60,8 +60,8 @@ For local runs, start a PostgreSQL database reserved for these tests, then set `
 ```powershell
 docker run --detach --name rotundaspreita-e2e-db --publish 5434:5432 --env POSTGRES_USER=playwright --env POSTGRES_PASSWORD=playwright --env POSTGRES_DB=rotundaspreita_e2e_test postgres:15
 $env:PLAYWRIGHT_DATABASE_URL = "postgresql://playwright:playwright@127.0.0.1:5434/rotundaspreita_e2e_test"
-npx playwright install chromium
-npm run test:e2e
+yarn playwright install chromium
+yarn test:e2e
 ```
 
 Remove the temporary database container when you no longer need it:
@@ -70,4 +70,4 @@ Remove the temporary database container when you no longer need it:
 docker rm --force rotundaspreita-e2e-db
 ```
 
-The test run pushes the Prisma schema and seeds only its fixed test users/studies in that database. It starts its own Next.js server with test-only authentication and Stripe settings and does not reuse an existing server. Visual baselines are platform-specific, so the pull-request workflow uses Windows Chromium, matching the committed baselines. To intentionally approve a visual change, run `npm run test:e2e:update` on Windows, review the changed snapshots, and commit them with the UI change. The GitHub Actions end-to-end workflow runs this suite for pull requests.
+The test run pushes the Prisma schema and seeds only its fixed test users/studies in that database. It starts its own Next.js server with test-only authentication and Stripe settings and does not reuse an existing server. Visual baselines are platform-specific, so the pull-request workflow uses Windows Chromium, matching the committed baselines. To intentionally approve a visual change, run `yarn test:e2e:update` on Windows, review the changed snapshots, and commit them with the UI change. The GitHub Actions end-to-end workflow runs this suite for pull requests.

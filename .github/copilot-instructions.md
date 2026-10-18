@@ -127,5 +127,8 @@
 
 - After making code changes, run `yarn build` and resolve any build failures
   caused by the changes.
+- After every code change, always run the full E2E suite with `yarn test:e2e`
+  before considering the task complete. If it cannot be run, explain the blocker
+  and do not report the E2E checks as passing.
 - Run the additional project checks listed below when they are configured:
   - [Add future checks here, for example `yarn test`]

@@ -1,7 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-yarn.lock
 /node_modules
 /.pnp
 .pnp.*
@@ -18,6 +17,7 @@ yarn.lock
 
 # next.js
 /.next/
+/.next-e2e/
 /out/
 
 # production

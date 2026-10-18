@@ -67,7 +67,7 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "npm run test:e2e:server",
+    command: "yarn test:e2e:server",
     url: "http://127.0.0.1:3100/login",
     reuseExistingServer: false,
     timeout: 120_000,
@@ -81,6 +81,7 @@ export default defineConfig({
       NEXT_PUBLIC_TEST_LENGTH: "30",
       NEXT_PUBLIC_POSTHOG_KEY: "",
       NEXT_PUBLIC_POSTHOG_HOST: "",
+      PLAYWRIGHT_NEXT_DIST_DIR: ".next-e2e",
       PLAYWRIGHT_STRIPE_MOCK: "true",
       NEXT_TELEMETRY_DISABLED: "1",
     },

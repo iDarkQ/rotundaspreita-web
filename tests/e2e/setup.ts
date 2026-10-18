@@ -38,7 +38,7 @@ async function setupTestDatabase() {
     DATABASE_URL: databaseUrl,
   };
 
-  execSync("npx prisma db push", {
+  execSync("yarn prisma db push", {
     env,
     stdio: "inherit",
   });
