@@ -8,10 +8,8 @@ FROM base AS deps
 WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
-COPY package.json ./
-RUN rm -f yarn.lock
-RUN rm -f package-lock.json
-RUN yarn install
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 FROM base AS migrator
 WORKDIR /app

@@ -50,12 +50,6 @@ export const PanelLastQuestionsItem = ({
           {answerIcon}
           {answerMessage}
         </Chip>
-        <Button
-          variant="text"
-          className="flex items-center justify-center text-center"
-        >
-          <MdArrowDropDown />
-        </Button>
       </div>
     </Card>
   );

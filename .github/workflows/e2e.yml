@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: yarn
       - uses: ikalnytskyi/action-setup-postgres@v8
         with:
           username: playwright
@@ -26,10 +26,10 @@ jobs:
           database: rotundaspreita_e2e_test
           port: 55432
           postgres-version: "15"
-      - run: npm ci
-      - run: npx prisma generate
-      - run: npx playwright install chromium
-      - run: npm run test:e2e
+      - run: yarn install --frozen-lockfile
+      - run: yarn prisma generate
+      - run: yarn playwright install chromium
+      - run: yarn test:e2e
       - name: Upload Playwright failure artifacts
         if: failure()
         uses: actions/upload-artifact@v4
