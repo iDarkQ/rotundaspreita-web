@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "test:e2e:server": "tsx tests/e2e/setup.ts && next dev --hostname 127.0.0.1 --port 3100",
     "build": "next build",
     "preview": "next start --port 3002",
     "lint": "eslint",
@@ -36,6 +39,7 @@
     "vanilla-tilt": "^1.8.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@prisma/client": "^7.0.0",
     "@prisma/extension-accelerate": "^3.0.0",
     "@tailwindcss/postcss": "^4",

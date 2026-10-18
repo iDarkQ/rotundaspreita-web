@@ -7,7 +7,7 @@ import { Difficulty } from "@/app/_types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
 import { shuffle } from "@/app/_utils/shuffle";
 
-const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH) ?? 30;
+const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH ?? 30);
 
 export const createQuestionQuery = async (data: Prisma.QuestionCreateInput) =>
   prisma.question.create({ data, include: { options: true } });

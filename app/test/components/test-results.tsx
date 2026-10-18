@@ -43,7 +43,7 @@ export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
 
   useEffect(() => {
     if (finished && answers && correctAnswers) {
-      posthogClient.capture("finish_test", {
+      posthogClient?.capture("finish_test", {
         study: studyTitle,
         category: category,
         difficulty: difficulty,

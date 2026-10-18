@@ -25,7 +25,7 @@ export const TestTestimonialDialog = ({ onClose }: Props) => {
     const testimonial = await writeTestimonial(message.trim(), anonymous);
     if (!testimonial) return;
 
-    posthogClient.capture("testimonial", {
+    posthogClient?.capture("testimonial", {
       message: testimonial?.message,
       anonymous: testimonial?.anonymous,
       userId: testimonial?.userId,

@@ -4,6 +4,13 @@ import { verifySession } from "@/app/_services/user-service";
 export const createCheckoutSession = async () => {
   const user = await verifySession();
 
+  if (
+    process.env.NODE_ENV !== "production" &&
+    process.env.PLAYWRIGHT_STRIPE_MOCK === "true"
+  ) {
+    return `https://checkout.stripe.com/c/pay/cs_test_playwright_${user.id}`;
+  }
+
   const session = await stripe.checkout.sessions.create({
     line_items: [
       { price: process.env.STRIPE_PRICE_ID!, quantity: 1 },

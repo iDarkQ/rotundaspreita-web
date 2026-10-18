@@ -14,6 +14,7 @@ export const NavbarExpandItem = () => {
       <div className="fixed top-0 right-0 z-10 flex h-(--navbar-height) items-center justify-center p-5">
         <Button
           variant="text"
+          aria-label={expanded ? "Fechar menu" : "Abrir menu"}
           onClick={() => setExpanded((prev) => !prev)}
           className="flex aspect-square h-full items-center justify-center xl:hidden"
           data-expanded={expanded}
