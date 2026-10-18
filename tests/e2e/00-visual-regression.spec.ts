@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { authenticateAdmin } from "./auth";
+import { TEST_STUDY_ID } from "./test-constants";
 
 const visualScreens = [
   { name: "home", path: "/" },
@@ -8,7 +9,7 @@ const visualScreens = [
   { name: "panel", path: "/panel", authenticated: true, maskCharts: true },
   {
     name: "test-in-progress",
-    path: "/test",
+    path: `/test?s=${TEST_STUDY_ID}&d=all`,
     authenticated: true,
     maskTimer: true,
   },

@@ -43,7 +43,7 @@ export const SocialAuthButtons = ({ mode }: Props) => {
 
         if (result.status === USER_REGISTRATION_STATUS.SUCCESS) {
           setError(null);
-          posthogClient.capture(mode, { method: "Google" });
+          posthogClient?.capture(mode, { method: "Google" });
           await saveSecret(result.secret);
           router.push(RouteNames.PANEL);
           router.refresh();

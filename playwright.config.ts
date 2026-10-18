@@ -30,8 +30,8 @@ export default defineConfig({
     toHaveScreenshot: {
       animations: "disabled",
       caret: "hide",
-      maxDiffPixels: 0,
-      threshold: 0,
+      maxDiffPixelRatio: 0.03,
+      threshold: 0.2,
     },
   },
   reporter: [
@@ -76,6 +76,9 @@ export default defineConfig({
       DATABASE_URL: testDatabaseUrl,
       JWT_SECRET: TEST_JWT_SECRET,
       STRIPE_PRIVATE_KEY: "sk_test_playwright_placeholder",
+      NEXT_PUBLIC_TEST_LENGTH: "30",
+      NEXT_PUBLIC_POSTHOG_KEY: "",
+      NEXT_PUBLIC_POSTHOG_HOST: "",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },

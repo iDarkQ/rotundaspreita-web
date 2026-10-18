@@ -64,7 +64,7 @@ export const RegisterForm = () => {
       }
 
       await saveSecret(result.secret);
-      posthogClient.capture("register", { method: "Credentials" });
+      posthogClient?.capture("register", { method: "Credentials" });
       router.push(RouteNames.PANEL);
       router.refresh();
     } finally {
