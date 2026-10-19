@@ -30,7 +30,7 @@ export const Chip = ({
       ref={ref as RefObject<HTMLDivElement | null>}
       onClick={onClick}
       className={clsx(
-        "relative flex items-center justify-center gap-1 overflow-hidden transition-colors",
+        "relative flex items-center justify-center gap-1 overflow-hidden text-sm transition-colors",
         variant === "contained" && "bg-primary",
         variant === "outlined" && "c-border",
         color === "error" && "bg-error-bg!",

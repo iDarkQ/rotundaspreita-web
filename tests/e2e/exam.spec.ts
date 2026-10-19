@@ -28,7 +28,10 @@ test("admin navigates an exam, confirms finishing, and sees the results", async 
   await page.goto(`/panel/${TEST_EXAM_STUDY_ID}`);
   await page.getByRole("link", { name: "Iniciar teste" }).click();
 
-  const questionHeading = page.locator("main h3").first();
+  const questionHeading = page.getByRole("heading", {
+    level: 3,
+    name: /^Pergunta .+ do exame de teste\.$/,
+  });
   await expect(questionHeading).toBeVisible();
 
   const firstQuestionText = (await questionHeading.innerText()).trim();

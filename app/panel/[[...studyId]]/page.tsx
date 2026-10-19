@@ -61,7 +61,6 @@ export default async function Panel({ params }: Props) {
           />
         </div>
       </div>
-      <PanelStatisticsTitle />
       <PanelStatistics defaultStudyId={foundStudy?.id} />
       <PanelLastQuestions />
     </Section>
