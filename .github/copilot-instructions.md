@@ -125,10 +125,10 @@
 
 ## 6. Validation after changes
 
-- After making code changes, run `yarn build` and resolve any build failures
-  caused by the changes.
-- After every code change, always run the full E2E suite with `yarn test:e2e`
-  before considering the task complete. If it cannot be run, explain the blocker
-  and do not report the E2E checks as passing.
+- Before handing code changes back, run `yarn build` and resolve any build
+  failures caused by the changes.
+- Before handing code changes back, always run the full E2E suite with
+  `yarn test:e2e`, including for UI-only changes. If it cannot be run, explain
+  the blocker and do not report the E2E checks as passing.
 - Run the additional project checks listed below when they are configured:
   - [Add future checks here, for example `yarn test`]
