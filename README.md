@@ -71,3 +71,20 @@ docker rm --force rotundaspreita-e2e-db
 ```
 
 The test run pushes the Prisma schema and seeds only its fixed test users/studies in that database. It starts its own Next.js server with test-only authentication and Stripe settings and does not reuse an existing server. Visual baselines are platform-specific, so the pull-request workflow uses Windows Chromium, matching the committed baselines. To intentionally approve a visual change, run `yarn test:e2e:update` on Windows, review the changed snapshots, and commit them with the UI change. The GitHub Actions end-to-end workflow runs this suite for pull requests.
+
+## Push reminders
+
+Push reminders require these values in `.env.production` before building the
+production image:
+
+- `NEXT_PUBLIC_VAPID_PUBLIC_KEY` — the public VAPID key (embedded in the client
+  bundle).
+- `VAPID_PRIVATE_KEY` — the private VAPID key; keep it secret.
+- `VAPID_SUBJECT` — a contact URI such as `mailto:contact@example.com`.
+
+Generate a VAPID key pair with `yarn web-push generate-vapid-keys`. Configure a
+separate strong random `REMINDER_WORKER_TOKEN` in the Compose `.env` file. The
+production deployment starts a dedicated worker container that polls the
+protected reminder endpoint once per minute; Compose requires the token before
+starting the services. The app's database migration is applied by the existing
+`migrate` service.

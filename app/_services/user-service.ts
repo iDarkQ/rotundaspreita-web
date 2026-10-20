@@ -331,6 +331,16 @@ export const verifySession = cache(async () => {
   return user;
 });
 
+export const verifyOnboardingComplete = cache(async () => {
+  const user = await verifySession();
+
+  if (!user.onboardingCompleted && !user.onboardingDeferredAt) {
+    redirect(RouteNames.ONBOARDING);
+  }
+
+  return user;
+});
+
 export const verifySessionSubscription = cache(async () => {
   const session = await verifySession();
   if (!session) return;

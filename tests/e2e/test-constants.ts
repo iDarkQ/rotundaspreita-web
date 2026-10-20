@@ -7,6 +7,17 @@ export const TEST_PAYMENT_USER_EMAIL = "playwright-payment@example.test";
 export const TEST_EXAM_ADMIN_ID = "playwright-exam-admin";
 export const TEST_STUDY_ID = "playwright-study";
 export const TEST_EXAM_STUDY_ID = "playwright-exam-study";
+export const TEST_READINESS_USER_ID = "playwright-readiness-user";
+export const TEST_READINESS_EMPTY_USER_ID = "playwright-readiness-empty-user";
+export const TEST_READINESS_STUDY_ID = "playwright-readiness-study";
+
+// Mecânica is answered wrong, Sinalização right, Legislação is never seen.
+export const TEST_READINESS_CATEGORIES = [
+  { name: "Sinalização", questions: 5, answeredCorrectly: true },
+  { name: "Mecânica", questions: 5, answeredCorrectly: false },
+  { name: "Legislação", questions: 4, answeredCorrectly: null },
+] as const;
+export const TEST_READINESS_TEST_RUNS = 3;
 export const TEST_QUESTION_ID = "playwright-question";
 export const TEST_REGISTRATION_EMAILS = [
   "playwright-registration-desktop-chromium@example.test",

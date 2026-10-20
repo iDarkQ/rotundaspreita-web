@@ -131,13 +131,11 @@ export const findRandomQuestions = async (
           wrongRatio: (wrong / total) * 100,
         }))
         .sort((a, b) => b.wrongRatio - a.wrongRatio);
-      const hardestIdsList = hardest
-        .map((h) => h.questionId)
+      const hardestIdsList = hardest.map((h) => h.questionId);
 
       // The code belows makes sure we only show hardest questions that user has not finished yet or are not marked with markedAsNew
       const newQuestions = await fetchNewQuestions();
-      const idsResult = hardestIdsList
-        .filter((i) => newQuestions.includes(i));
+      const idsResult = hardestIdsList.filter((i) => newQuestions.includes(i));
 
       if (idsResult.length < testLength) {
         // We filter this to prevent repeated questions
@@ -155,19 +153,19 @@ export const findRandomQuestions = async (
     if (difficulty === "errados") {
       const wrongTestResults = await prisma.testResult.findMany({
         where: {
-          studyId, question: { category },
+          studyId,
+          question: { category },
           userId,
           option: {
-            answer: false
-          }
+            answer: false,
+          },
         },
         select: {
           questionId: true,
         },
-      })
+      });
 
-      const idsResult = [...new Set(wrongTestResults
-        .map((h) => h.questionId))];
+      const idsResult = [...new Set(wrongTestResults.map((h) => h.questionId))];
 
       if (idsResult.length < testLength) {
         // We filter this to prevent repeated questions
@@ -182,6 +180,42 @@ export const findRandomQuestions = async (
       return idsResult;
     }
 
+    if (difficulty === "weak") {
+      // Priority order: latest answer wrong or blank, never seen, then the rest.
+      const results = await prisma.testResult.findMany({
+        where: {
+          studyId,
+          userId,
+          ...(category ? { question: { category } } : {}),
+        },
+        select: { questionId: true, option: { select: { answer: true } } },
+        orderBy: { createdAt: "desc" },
+      });
+
+      const latestWasCorrect = new Map<string, boolean>();
+      for (const result of results) {
+        if (!latestWasCorrect.has(result.questionId)) {
+          latestWasCorrect.set(
+            result.questionId,
+            result.option?.answer === true,
+          );
+        }
+      }
+
+      const wrong = basicIdsResult.filter(
+        (id) => latestWasCorrect.get(id) === false,
+      );
+      const unseen = basicIdsResult.filter((id) => !latestWasCorrect.has(id));
+      const correct = basicIdsResult.filter(
+        (id) => latestWasCorrect.get(id) === true,
+      );
+
+      return [...shuffle(wrong), ...shuffle(unseen), ...shuffle(correct)].slice(
+        0,
+        testLength,
+      );
+    }
+
     return basicIdsResult;
   };
 
@@ -189,7 +223,7 @@ export const findRandomQuestions = async (
   if (allIds.length === 0) return [];
 
   const selectedIds = shuffle(allIds).slice(0, testLength);
-  
+
   const questions = await prisma.question.findMany({
     where: { id: { in: selectedIds } },
     include: {

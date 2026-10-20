@@ -5,4 +5,6 @@ export enum RouteNames {
   FAQ = "/faq",
   LOGIN = "/login",
   REGISTER = "/register",
+  ONBOARDING = "/onboarding",
+  NOTIFICATIONS = "/notifications",
 }

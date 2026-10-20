@@ -9,7 +9,7 @@ export const Checkbox = ({ ...rest }: CheckboxProps) => (
   <HeadlessUICheckbox
     {...rest}
     className={clsx(
-      "group c-border data-checked:bg-primary flex h-(--checkbox-height) w-(--checkbox-height) items-center justify-center rounded-sm bg-white transition-colors",
+      "group c-border data-checked:bg-primary flex h-(--checkbox-height) w-(--checkbox-height) cursor-pointer items-center justify-center rounded-sm bg-white transition-colors",
       rest.className && rest.className,
     )}
   >
