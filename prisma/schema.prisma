@@ -15,6 +15,13 @@ enum OptionLetter {
   E
 }
 
+enum ReminderDeliveryStatus {
+  PENDING
+  SENDING
+  SENT
+  FAILED
+}
+
 model User {
   id           String  @id @default(cuid())
   googleId     String? @unique
@@ -29,12 +36,51 @@ model User {
   banned    Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  deviceSessions DeviceSession[]
-  testResults    TestResult[]
+  onboardingCompleted      Boolean   @default(false)
+  onboardingDeferredAt     DateTime?
+  examDate                 DateTime?
+  weeklyTestGoal           Int?
+  reminderWeekdays         Int[]     @default([])
+  reminderTime             String?
+  reminderTimezone         String?
+  pushNotificationsEnabled Boolean   @default(false)
+
+  deviceSessions     DeviceSession[]
+  testResults        TestResult[]
+  pushSubscriptions  PushSubscription[]
+  reminderDeliveries ReminderDelivery[]
 
   subscription Subscription?
 
   testimonial Testimonial?
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ReminderDelivery {
+  id            String                 @id @default(cuid())
+  localDate     String
+  status        ReminderDeliveryStatus @default(PENDING)
+  attempts      Int                    @default(0)
+  nextAttemptAt DateTime               @default(now())
+  lastError     String?
+  sentAt        DateTime?
+  createdAt     DateTime               @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, localDate])
+  @@index([status, nextAttemptAt])
 }
 
 model Testimonial {

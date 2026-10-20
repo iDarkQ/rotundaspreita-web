@@ -108,6 +108,9 @@ body {
   --animate-select-toggle-button: select-toggle-button 1000ms linear forwards;
   --animate-float: float 3s ease-in-out infinite;
   --animate-testimonial-scroll: testimonial-scroll-right 55s linear infinite;
+  --animate-step-forward: step-forward 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-step-backward: step-backward 350ms cubic-bezier(0.22, 1, 0.36, 1)
+    both;
 }
 
 @layer base {
@@ -167,6 +170,20 @@ body {
   to {
     /* transform: scale(4); */
     background-color: var(--color-toggle-button-selected);
+  }
+}
+
+@keyframes step-forward {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+}
+
+@keyframes step-backward {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
   }
 }
 

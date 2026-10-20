@@ -17,7 +17,10 @@ export default async function Register() {
   const user = await fetchLoggedUser();
 
   if (user) {
-    redirect(RouteNames.PANEL, RedirectType.push);
+    redirect(
+      user.onboardingCompleted ? RouteNames.PANEL : RouteNames.ONBOARDING,
+      RedirectType.push,
+    );
   }
 
   return (

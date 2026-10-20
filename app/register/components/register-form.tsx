@@ -65,7 +65,7 @@ export const RegisterForm = () => {
 
       await saveSecret(result.secret);
       posthogClient?.capture("register", { method: "Credentials" });
-      router.push(RouteNames.PANEL);
+      router.push(RouteNames.ONBOARDING);
       router.refresh();
     } finally {
       isSubmitting.current = false;
