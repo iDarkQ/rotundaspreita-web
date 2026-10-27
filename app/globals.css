@@ -111,6 +111,16 @@ body {
   --animate-step-forward: step-forward 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-step-backward: step-backward 350ms cubic-bezier(0.22, 1, 0.36, 1)
     both;
+
+  /* Intro road scene timeline (6s): car brakes at the red light, lights cycle with crossfades, car drives to the parking spot. */
+  --animate-scene-road: scene-road-in 600ms ease-out both;
+  --animate-scene-pop: scene-pop-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-scene-car: scene-car-drive 6000ms linear both;
+  --animate-scene-light-red: scene-light-red 6000ms linear both;
+  --animate-scene-light-yellow: scene-light-yellow 6000ms linear both;
+  --animate-scene-light-green: scene-light-green 6000ms linear both;
+  --animate-onboarding-fields: onboarding-fields-reveal 500ms ease-out 6000ms
+    both;
 }
 
 @layer base {
@@ -184,6 +194,92 @@ body {
   from {
     opacity: 0;
     transform: translateX(-32px);
+  }
+}
+
+@keyframes scene-road-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes scene-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes scene-car-drive {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  8% {
+    opacity: 1;
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  46% {
+    transform: translateX(359px);
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: translateX(359px);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  92%,
+  100% {
+    transform: translateX(597px);
+  }
+}
+
+@keyframes scene-light-red {
+  0%,
+  46% {
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scene-light-yellow {
+  0%,
+  46% {
+    opacity: 0;
+    animation-timing-function: ease-in-out;
+  }
+  50%,
+  56% {
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  60%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scene-light-green {
+  0%,
+  56% {
+    opacity: 0;
+    animation-timing-function: ease-in-out;
+  }
+  60%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes onboarding-fields-reveal {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
   }
 }
 

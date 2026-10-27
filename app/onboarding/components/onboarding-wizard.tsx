@@ -3,6 +3,7 @@
 import { Button } from "@/app/_components/button";
 import { Text } from "@/app/_components/text";
 import { useBrowserTimezone } from "@/app/_hooks/use-browser-timezone";
+import { useImagesLoaded } from "@/app/_hooks/use-images-loaded";
 import { useSaveReminderPreferences } from "@/app/_hooks/use-save-reminder-preferences";
 import { deferOnboarding } from "@/app/_services/reminder-service";
 import { RouteNames } from "@/app/_utils/route-names";
@@ -13,6 +14,11 @@ import { ExamStep } from "@/app/onboarding/components/steps/exam-step";
 import { GoalStep } from "@/app/onboarding/components/steps/goal-step";
 import { PushStep } from "@/app/onboarding/components/steps/push-step";
 import { ScheduleStep } from "@/app/onboarding/components/steps/schedule-step";
+import {
+  INTRO_SCENE_ASSETS,
+  IntroPhase,
+  IntroRoadScene,
+} from "@/app/onboarding/components/intro-road-scene";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -56,6 +62,19 @@ export const OnboardingWizard = ({ firstName, initialPreferences }: Props) => {
   const timezone = useBrowserTimezone(initialPreferences.reminderTimezone);
   const [pushError, setPushError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const introAssetsLoaded = useImagesLoaded(INTRO_SCENE_ASSETS);
+  const [introPlayed, setIntroPlayed] = useState(false);
+  const introPhase: IntroPhase = introPlayed
+    ? "done"
+    : introAssetsLoaded
+      ? "playing"
+      : "loading";
+  const introRevealClass =
+    introPhase === "playing"
+      ? "motion-safe:animate-onboarding-fields"
+      : introPhase === "loading"
+        ? "invisible"
+        : "";
 
   const goTo = (next: Step, nextDirection: "forward" | "backward") => {
     setError(null);
@@ -201,11 +220,21 @@ export const OnboardingWizard = ({ firstName, initialPreferences }: Props) => {
         noValidate
       >
         {step === "welcome" && (
-          <OnboardingStep
-            direction={direction}
-            title={`Olá, ${firstName}!`}
-            description="Vamos preparar o seu plano de estudo em menos de um minuto. São só alguns passos rápidos e pode alterar tudo mais tarde."
-          />
+          <div className="flex w-full flex-col gap-8">
+            <IntroRoadScene phase={introPhase} />
+            <div
+              className={introRevealClass}
+              onAnimationEnd={(event) => {
+                if (event.target === event.currentTarget) setIntroPlayed(true);
+              }}
+            >
+              <OnboardingStep
+                direction={direction}
+                title={`Olá, ${firstName}!`}
+                description="Vamos preparar o seu plano de estudo em menos de um minuto. São só alguns passos rápidos e pode alterar tudo mais tarde."
+              />
+            </div>
+          </div>
         )}
         {step === "exam" && (
           <ExamStep
@@ -269,7 +298,11 @@ export const OnboardingWizard = ({ firstName, initialPreferences }: Props) => {
           </div>
         )}
 
-        <Button type="submit" loading={saving}>
+        <Button
+          type="submit"
+          loading={saving}
+          className={step === "welcome" ? introRevealClass : ""}
+        >
           <Text as="span" className="text-white">
             {primaryLabel}
           </Text>

@@ -1,0 +1,15 @@
+<svg width="90" height="44" viewBox="0 0 90 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 30C4 24.6667 6.66667 21.6667 12 21L26 20L34 8C35.3333 6.66667 37.3333 6 40 6H60C62.6667 6 65 7.33333 67 10L74 20L82 22C85.3333 23.3333 87 26 87 30V34H4V30Z" fill="#326487"/>
+<path d="M33 20L38 10H48V20H33Z" fill="#DBE7F0"/>
+<path d="M52 20V10H60C61.3333 10 62.6667 11 64 13L68 20H52Z" fill="#DBE7F0"/>
+<rect x="83" y="25" width="4" height="4" rx="1" fill="#FFD36B"/>
+<rect x="4" y="25" width="3" height="4" rx="1" fill="#E5484D"/>
+<circle cx="22" cy="34" r="8" fill="#1F2D3A"/>
+<circle cx="22" cy="34" r="3.5" fill="#9FB4C4"/>
+<rect x="21.25" y="28" width="1.5" height="12" fill="#1F2D3A"/>
+<rect x="16" y="33.25" width="12" height="1.5" fill="#1F2D3A"/>
+<circle cx="68" cy="34" r="8" fill="#1F2D3A"/>
+<circle cx="68" cy="34" r="3.5" fill="#9FB4C4"/>
+<rect x="67.25" y="28" width="1.5" height="12" fill="#1F2D3A"/>
+<rect x="62" y="33.25" width="12" height="1.5" fill="#1F2D3A"/>
+</svg>
