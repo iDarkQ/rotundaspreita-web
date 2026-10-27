@@ -38,7 +38,7 @@ export const Chip = ({
         color === "neutral" && "bg-border!",
         square
           ? "aspect-square h-(--chip-height) w-auto rounded-sm p-5"
-          : "h-(--chip-height) rounded-xl px-3",
+          : "min-h-(--chip-height) rounded-xl px-3 py-1",
         (onClick || clickable) && "cursor-pointer select-none",
         className && className,
       )}
