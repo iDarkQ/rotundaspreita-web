@@ -27,7 +27,7 @@ export const AboutFeatureManyQuestions = async () => (
         />
 
         <AnswerOption
-          label="ROTUNDÁSPREITA tem perguntas para instrutores e diretores"
+          label="ROTUNDÁSPREITA tem perguntas para instrutores, diretores e examinadores"
           option="C"
           selectable={false}
           selected={true}

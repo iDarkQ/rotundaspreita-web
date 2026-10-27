@@ -9,21 +9,25 @@ export const TestCard = () => (
   <div className="relative">
     <div className="from-baltic-blue-200 to-tuscan-sun-200 flex min-h-[360px] w-full flex-col justify-between gap-5 rounded-xl bg-linear-to-br p-6 text-white shadow-2xl">
       <div>
-        <Text className="opacity-90">Teste De Instrutor — 30 perguntas</Text>
-        <Text as="h3">Qual é o melhor sítio para se tornar instrutor?</Text>
+        <Text className="opacity-90">
+          Teste de Examinador de Segurança Rodoviária — 30 perguntas
+        </Text>
+        <Text as="h3">
+          Como se preparar para ser Examinador de Segurança Rodoviária?
+        </Text>
       </div>
 
       <RadioGroup className="flex flex-col gap-2">
         <AnswerOption
           option="A"
-          label="ROTUNDASPREITA. Uma maneira simples, moderna, clara e rápida de se tornar instrutor"
+          label="ROTUNDÁSPREITA. Prepare-se com testes e questões de estudo."
           selectable={false}
           selected={true}
           className="bg-black/5!"
         />
         <AnswerOption
           option="B"
-          label="Estudo manual"
+          label="Estudar sem praticar com testes"
           selectable={false}
           className="bg-black/0!"
         />

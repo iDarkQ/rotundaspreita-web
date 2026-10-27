@@ -22,11 +22,11 @@ const sourceCodePro = Source_Code_Pro({
 export const metadata: Metadata = {
   title: {
     default:
-      "ROTUNDÁSPREITA - Torne-se Instrutor ou Diretor de Escola de Condução",
+      "ROTUNDÁSPREITA - Prepare-se para ser Instrutor, Diretor ou Examinador de Segurança Rodoviária",
     template: "%s | ROTUNDÁSPREITA",
   },
   description:
-    "Prepare-se com exames práticos de qualidade. São mais de 1000 questões, mini-testes de 30 minutos e análises inteligentes para acelerar seu progresso. Fique pronto para ser Instrutor ou Diretor de Escola de Condução com confiança",
+    "Prepare-se para os exames de Instrutor, Diretor de Escola de Condução e Examinador de Segurança Rodoviária com mais de 1000 questões, mini-testes de 30 minutos e análises inteligentes.",
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
