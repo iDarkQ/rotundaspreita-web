@@ -30,6 +30,6 @@ export const fetchStudyWithQuestionsQuery = async (
   prisma.study.findFirst({
     where,
     include: {
-      questions: whereQuestion ? { where: whereQuestion } : true,
+      questions: { where: { ...whereQuestion, deleted: false } },
     },
   });

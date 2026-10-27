@@ -127,7 +127,7 @@ export const verifyTestResults = async (
 
   const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
   const map = new Map(questions.map(q => [q.id, q]));
-  const orderedQuestions = ids.map(id => map.get(id)!);
+  const orderedQuestions = ids.flatMap((id) => map.get(id) ?? []);
 
   const correctAnswers = orderedQuestions.reduce<TestAnswers>((acc, q) => {
     acc[q.id] = q.options.find((o) => o.answer)?.id ?? null;

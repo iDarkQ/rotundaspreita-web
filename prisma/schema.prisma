@@ -153,10 +153,11 @@ model Question {
   content   String
   category  String?
   studyId   String
+  deleted   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  study   Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  study    Study    @relation(fields: [studyId], references: [id], onDelete: Cascade)
   options Option[] @relation("QuestionOptions")
 
   testResults TestResult[]
@@ -168,6 +169,7 @@ model Option {
   letter     OptionLetter
   answer     Boolean
   questionId String
+  deleted    Boolean      @default(false)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
