@@ -2,8 +2,17 @@
 
 import { AnalyticsDto } from "@/app/_lib/dtos/test-results/analytics.dto";
 import { LastTestResultDto } from "@/app/_lib/dtos/test-results/last-test-result.dto";
+import { ReadinessDto } from "@/app/_lib/dtos/test-results/readiness.dto";
 import { findManyQuestionsQuery } from "@/app/_lib/queries/question";
-import { fetchLastTestResultsQuery, fetchTestResultsQuery } from "@/app/_lib/queries/test-results";
+import {
+  fetchStudyAnswerHistory,
+  fetchStudyQuestionCounts,
+} from "@/app/_lib/queries/readiness";
+import { buildReadiness } from "@/app/_utils/readiness";
+import {
+  fetchLastTestResultsQuery,
+  fetchTestResultsQuery,
+} from "@/app/_lib/queries/test-results";
 import { countQuestions } from "@/app/_services/question-service";
 import { verifySession } from "@/app/_services/user-service";
 
@@ -56,15 +65,44 @@ export const fetchAnalytics = async (
   };
 };
 
-export const fetchLastTestResults = async (): Promise<LastTestResultDto[] | undefined> => {
+export const fetchReadiness = async (
+  studyId: string,
+): Promise<ReadinessDto | undefined> => {
   const session = await verifySession();
   if (!session) return;
 
-  const results = await fetchLastTestResultsQuery({ userId: session.id }, { createdAt: "desc" }, 30);
+  const [answers, { totalQuestions, categoryCounts }] = await Promise.all([
+    fetchStudyAnswerHistory(session.id, studyId),
+    fetchStudyQuestionCounts(studyId),
+  ]);
+
+  return buildReadiness({
+    studyId,
+    answers,
+    totalQuestions,
+    categoryCounts,
+    weeklyGoal: session.weeklyTestGoal,
+    examDate: session.examDate,
+    timezone: session.reminderTimezone,
+    now: new Date(),
+  });
+};
+
+export const fetchLastTestResults = async (): Promise<
+  LastTestResultDto[] | undefined
+> => {
+  const session = await verifySession();
+  if (!session) return;
+
+  const results = await fetchLastTestResultsQuery(
+    { userId: session.id },
+    { createdAt: "desc" },
+    30,
+  );
   const questionsIds = results.map((r) => r.questionId);
 
-  const questions = await findManyQuestionsQuery({ id: { in: questionsIds } })
-  const options = questions.flatMap(q => q.options);
+  const questions = await findManyQuestionsQuery({ id: { in: questionsIds } });
+  const options = questions.flatMap((q) => q.options);
 
   const transformedList = results.reduce<LastTestResultDto[]>((prev, cur) => {
     const optionData = options.find((o) => o.id === cur.optionId);
@@ -75,8 +113,8 @@ export const fetchLastTestResults = async (): Promise<LastTestResultDto[] | unde
 
     if (!question) return prev;
 
-    return [...prev, { question, option, answer }]
+    return [...prev, { question, option, answer }];
   }, []);
 
   return transformedList.reverse();
-}
+};

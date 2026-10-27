@@ -1,6 +1,25 @@
 import { expect, test } from "@playwright/test";
 import { authenticateAdmin } from "./auth";
-import { TEST_STUDY_ID } from "./test-constants";
+import { TEST_ADMIN_ID, TEST_STUDY_ID } from "./test-constants";
+import { Client } from "pg";
+
+const clearAdminTestResults = async () => {
+  const databaseUrl = process.env.PLAYWRIGHT_DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error("PLAYWRIGHT_DATABASE_URL is required for visual tests.");
+  }
+
+  const client = new Client({ connectionString: databaseUrl });
+
+  try {
+    await client.connect();
+    await client.query('DELETE FROM "TestResult" WHERE "userId" = $1', [
+      TEST_ADMIN_ID,
+    ]);
+  } finally {
+    await client.end();
+  }
+};
 
 const visualScreens = [
   { name: "home", path: "/" },
@@ -20,6 +39,10 @@ for (const screen of visualScreens) {
   test(`${screen.name} visual baseline`, async ({ page }, testInfo) => {
     if (screen.authenticated) {
       await authenticateAdmin(page);
+    }
+
+    if (screen.name === "panel") {
+      await clearAdminTestResults();
     }
 
     await page.goto(screen.path);

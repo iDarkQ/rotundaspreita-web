@@ -3,4 +3,5 @@ export enum Difficulty {
   new = "new",
   difficult = "difficult",
   errados = "errados",
+  weak = "weak",
 }
