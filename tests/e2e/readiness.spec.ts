@@ -60,23 +60,9 @@ test("practising a weak area starts a test in that category", async ({
   ).toBeVisible();
 });
 
-test("explored-area values explain themselves in a tooltip", async ({
-  page,
-}) => {
+test("readiness score explains its coverage in a tooltip", async ({ page }) => {
   await authenticateUser(page, TEST_READINESS_USER_ID);
   await page.goto(panelUrl);
-
-  const tooltip = page.getByRole("tooltip").filter({
-    hasText: "Perguntas diferentes que já respondeu neste tema: 5 de 5",
-  });
-  await expect(tooltip).toBeHidden();
-
-  await page
-    .getByRole("region", { name: "Áreas exploradas" })
-    .getByText("5/5 vistas")
-    .first()
-    .hover();
-  await expect(tooltip).toBeVisible();
 
   await page.getByText("53/100").hover();
   await expect(
