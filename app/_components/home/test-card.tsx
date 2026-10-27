@@ -9,12 +9,8 @@ export const TestCard = () => (
   <div className="relative">
     <div className="from-baltic-blue-200 to-tuscan-sun-200 flex min-h-[360px] w-full flex-col justify-between gap-5 rounded-xl bg-linear-to-br p-6 text-white shadow-2xl">
       <div>
-        <Text className="opacity-90">
-          Teste de Examinador de Segurança Rodoviária — 30 perguntas
-        </Text>
-        <Text as="h3">
-          Como se preparar para ser Examinador de Segurança Rodoviária?
-        </Text>
+        <Text className="opacity-90">Teste de Examinador — 30 perguntas</Text>
+        <Text as="h3">Como se preparar para ser Examinador?</Text>
       </div>
 
       <RadioGroup className="flex flex-col gap-2">
