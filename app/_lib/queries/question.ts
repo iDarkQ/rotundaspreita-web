@@ -2,6 +2,10 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/app/_lib/prisma";
+import {
+  activeOptionsWhere,
+  onlyActiveTestResults,
+} from "@/app/_lib/queries/active-filters";
 import { serverMarkAllTestResultsAsNew } from "@/app/_services/server/test-results-service";
 import { Difficulty } from "@/app/_types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
@@ -9,17 +13,24 @@ import { shuffle } from "@/app/_utils/shuffle";
 
 const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH ?? 30);
 
+const activeOptions = { where: activeOptionsWhere };
+
 export const createQuestionQuery = async (data: Prisma.QuestionCreateInput) =>
-  prisma.question.create({ data, include: { options: true } });
+  prisma.question.create({ data, include: { options: activeOptions } });
 
 export const updateQuestionQuery = async (
   where: Prisma.QuestionWhereUniqueInput,
   data: Prisma.QuestionUpdateInput,
-) => prisma.question.update({ where, data, include: { options: true } });
+) =>
+  prisma.question.update({
+    where,
+    data,
+    include: { options: activeOptions },
+  });
 
-export const deleteQuestionQuery = async (
+export const softDeleteQuestionQuery = async (
   where: Prisma.QuestionWhereUniqueInput,
-) => prisma.question.delete({ where });
+) => prisma.question.update({ where, data: { deleted: true } });
 
 export const findManyQuestionsQuery = async (
   where: Prisma.QuestionWhereInput,
@@ -27,18 +38,21 @@ export const findManyQuestionsQuery = async (
   skip?: number,
 ) =>
   prisma.question.findMany({
-    where,
-    include: { options: true },
+    where: { ...where, deleted: false },
+    include: { options: activeOptions },
     take,
     skip,
     orderBy: { createdAt: "desc" },
   });
 
 export const findQuestionQuery = async (where: Prisma.QuestionWhereInput) =>
-  prisma.question.findFirst({ where, include: { options: true } });
+  prisma.question.findFirst({
+    where: { ...where, deleted: false },
+    include: { options: activeOptions },
+  });
 
 export const countQuestionsQuery = async (where: Prisma.QuestionWhereInput) =>
-  prisma.question.count({ where });
+  prisma.question.count({ where: { ...where, deleted: false } });
 
 export const findRandomQuestions = async (
   studyId: string,
@@ -46,7 +60,7 @@ export const findRandomQuestions = async (
   difficulty: Difficulty,
   category?: string,
 ): Promise<QuestionWithOptionsNoAnswer[]> => {
-  const where: Prisma.QuestionWhereInput = { studyId };
+  const where: Prisma.QuestionWhereInput = { studyId, deleted: false };
   if (category) where.category = category;
 
   const fetchRandomIds = async (): Promise<string[]> => {
@@ -105,7 +119,7 @@ export const findRandomQuestions = async (
 
     if (difficulty === "difficult") {
       const results = await prisma.testResult.findMany({
-        where: { studyId, question: { category } },
+        where: onlyActiveTestResults({ studyId, question: { category } }),
         select: {
           questionId: true,
           option: {
@@ -152,14 +166,14 @@ export const findRandomQuestions = async (
 
     if (difficulty === "errados") {
       const wrongTestResults = await prisma.testResult.findMany({
-        where: {
+        where: onlyActiveTestResults({
           studyId,
           question: { category },
           userId,
           option: {
             answer: false,
           },
-        },
+        }),
         select: {
           questionId: true,
         },
@@ -183,11 +197,11 @@ export const findRandomQuestions = async (
     if (difficulty === "weak") {
       // Priority order: latest answer wrong or blank, never seen, then the rest.
       const results = await prisma.testResult.findMany({
-        where: {
+        where: onlyActiveTestResults({
           studyId,
           userId,
           ...(category ? { question: { category } } : {}),
-        },
+        }),
         select: { questionId: true, option: { select: { answer: true } } },
         orderBy: { createdAt: "desc" },
       });
@@ -225,9 +239,10 @@ export const findRandomQuestions = async (
   const selectedIds = shuffle(allIds).slice(0, testLength);
 
   const questions = await prisma.question.findMany({
-    where: { id: { in: selectedIds } },
+    where: { id: { in: selectedIds }, deleted: false },
     include: {
       options: {
+        where: activeOptionsWhere,
         omit: { answer: true },
       },
     },

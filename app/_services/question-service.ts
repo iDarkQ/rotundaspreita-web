@@ -7,7 +7,7 @@ import { UpdateQuestionDto } from "@/app/_lib/dtos/question/update-question-opti
 import {
   countQuestionsQuery,
   createQuestionQuery,
-  deleteQuestionQuery,
+  softDeleteQuestionQuery,
   findManyQuestionsQuery,
   findQuestionQuery,
   updateQuestionQuery,
@@ -86,7 +86,10 @@ export const updateQuestion = async (
           where: { id: o.id },
           data: { content: o.content, letter: o.letter, answer: o.answer },
         })),
-        delete: optionsToDelete.map((o) => ({ id: o.id })),
+        updateMany: {
+          where: { id: { in: optionsToDelete.map((o) => o.id) } },
+          data: { deleted: true },
+        },
       },
     },
   );
@@ -96,7 +99,7 @@ export const deleteQuestion = async (id: string) => {
   const session = await verifyAdminPermissions();
   if (!session) return;
 
-  return deleteQuestionQuery({ id });
+  return softDeleteQuestionQuery({ id });
 };
 
 export const searchForQuestions = async (

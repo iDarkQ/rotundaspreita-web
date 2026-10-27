@@ -1,4 +1,5 @@
 import prisma from "@/app/_lib/prisma";
+import { onlyActiveTestResults } from "@/app/_lib/queries/active-filters";
 import { AnswerRecord, CategoryQuestionCount } from "@/app/_utils/readiness";
 
 // Intentionally not a "use server" module: these helpers take a user id and
@@ -8,7 +9,7 @@ export const fetchStudyAnswerHistory = async (
   studyId: string,
 ): Promise<AnswerRecord[]> => {
   const results = await prisma.testResult.findMany({
-    where: { userId, studyId },
+    where: onlyActiveTestResults({ userId, studyId }),
     select: {
       questionId: true,
       testRunId: true,
@@ -30,7 +31,7 @@ export const fetchStudyAnswerHistory = async (
 export const fetchStudyQuestionCounts = async (studyId: string) => {
   const groups = await prisma.question.groupBy({
     by: ["category"],
-    where: { studyId },
+    where: { studyId, deleted: false },
     _count: { _all: true },
   });
 
