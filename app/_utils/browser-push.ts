@@ -1,4 +1,8 @@
 import { PushSubscriptionInput } from "@/app/_services/reminder-service";
+import {
+  isSupportedPushHost,
+  unsupportedPushServiceMessage,
+} from "@/app/_utils/push-endpoint";
 
 const decodeApplicationServerKey = (value: string) => {
   const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
@@ -43,6 +47,11 @@ export const createBrowserPushSubscription =
         userVisibleOnly: true,
         applicationServerKey: decodeApplicationServerKey(publicKey),
       }));
+    const { hostname } = new URL(subscription.endpoint);
+    if (!isSupportedPushHost(hostname)) {
+      throw new Error(unsupportedPushServiceMessage(hostname));
+    }
+
     const keys = subscription.toJSON().keys;
 
     if (!keys?.p256dh || !keys.auth) {

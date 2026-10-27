@@ -7,6 +7,10 @@ import {
   upsertPushSubscriptionQuery,
 } from "@/app/_lib/queries/reminders";
 import { verifySession } from "@/app/_services/user-service";
+import {
+  isSupportedPushHost,
+  unsupportedPushServiceMessage,
+} from "@/app/_utils/push-endpoint";
 
 export interface ReminderPreferencesInput {
   examDate: string | null;
@@ -126,24 +130,17 @@ const validateSubscription = (subscription: PushSubscriptionInput) => {
     throw new Error("A subscrição de notificações não é válida.");
   }
 
-  const allowedHostSuffixes = [
-    "fcm.googleapis.com",
-    "push.services.mozilla.com",
-    "web.push.apple.com",
-  ];
-  const supportedHost = allowedHostSuffixes.some(
-    (suffix) =>
-      endpoint.hostname === suffix || endpoint.hostname.endsWith(`.${suffix}`),
-  );
+  if (!isSupportedPushHost(endpoint.hostname)) {
+    throw new Error(unsupportedPushServiceMessage(endpoint.hostname));
+  }
 
   if (
     endpoint.protocol !== "https:" ||
-    !supportedHost ||
     endpoint.username ||
     endpoint.password ||
     (endpoint.port && endpoint.port !== "443")
   ) {
-    throw new Error("O fornecedor de notificações não é suportado.");
+    throw new Error("A subscrição de notificações não é válida.");
   }
 
   if (

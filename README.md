@@ -88,3 +88,57 @@ production deployment starts a dedicated worker container that polls the
 protected reminder endpoint once per minute; Compose requires the token before
 starting the services. The app's database migration is applied by the existing
 `migrate` service.
+
+### Test reminders locally
+
+Use a local development database and a separate VAPID key pair; do not point
+the local app at the production database or reuse production VAPID keys. A
+public/private key mismatch can cause cryptographic signing errors (including
+errors mentioning a digest).
+
+1. Generate a local key pair:
+
+   ```powershell
+   yarn web-push generate-vapid-keys
+   ```
+
+2. Put the generated values in `.env.local` (keep this file out of Git), along
+   with a local-only worker token and the connection string for your local
+   database:
+
+   ```dotenv
+   NEXT_PUBLIC_VAPID_PUBLIC_KEY=<generated public key>
+   VAPID_PRIVATE_KEY=<matching generated private key>
+   VAPID_SUBJECT=mailto:local@example.invalid
+   REMINDER_WORKER_TOKEN=local-reminder-test-token
+   DATABASE_URL=<local development database connection string>
+   ```
+
+   Keep both VAPID keys from the same generated pair. Restart the dev server
+   after changing these values so the public key is included in the client.
+
+3. Start the app with `yarn dev`, sign in locally, and open `/notifications`.
+   Allow notifications in the browser, enable push notifications, and select
+   today's weekday. Set the reminder time to the next minute, save the
+   preferences, and invoke the endpoint as soon as that minute arrives. The
+   dispatcher checks the scheduled time for up to two minutes after it occurs.
+
+4. Within that two-minute window, invoke the local worker endpoint from
+   PowerShell, using the same local-only token configured above:
+
+   ```powershell
+   Invoke-RestMethod -Method Post `
+     -Uri http://localhost:3000/api/internal/reminders `
+     -Headers @{ Authorization = "Bearer local-reminder-test-token" }
+   ```
+
+   A successful send returns a `sent` count. The reminder is unique per user
+   and local date, so use a different local test user or clear that user's
+   local delivery record before testing again on the same day.
+
+If the response reports a failure, inspect the matching
+`ReminderDelivery.lastError` in the local database, using a database client
+whose connection is explicitly pointed at that local database. Confirm the
+local public key matches its private key and the browser subscription was
+created after setting that public key. Never paste private VAPID keys or worker
+tokens into issue reports.
