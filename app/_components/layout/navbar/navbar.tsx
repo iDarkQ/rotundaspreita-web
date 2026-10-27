@@ -1,3 +1,4 @@
+import { NavbarCenterSlot } from "@/app/_components/layout/navbar/navbar-center-slot";
 import { NavbarExpandItem } from "@/app/_components/layout/navbar/navbar-expand-item";
 import { NavbarLogo } from "@/app/_components/layout/navbar/navbar-logo/navbar-logo";
 import { NavbarItemsList } from "@/app/_components/layout/navbar/navbar-items-list/navbar-items-list";
@@ -11,10 +12,16 @@ export const Navbar = async () => {
 
   return (
     <NavbarManagerProvider subscription={subscription} user={user ?? undefined}>
-      <header className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent p-5 backdrop-blur-lg">
-        <NavbarLogo />
+      <header className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent px-5 py-2 backdrop-blur-lg">
+        <div className="flex flex-1 items-center">
+          <NavbarLogo />
+        </div>
 
-        <NavbarItemsList />
+        <NavbarCenterSlot />
+
+        <div className="flex flex-1 justify-end">
+          <NavbarItemsList />
+        </div>
       </header>
       <NavbarExpandItem />
     </NavbarManagerProvider>

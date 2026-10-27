@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { MdAlarm } from "react-icons/md";
+import { NAVBAR_CENTER_SLOT_ID } from "@/app/_components/layout/navbar/navbar-center-slot";
 import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 
@@ -45,9 +48,37 @@ export const TestDetailsCountdown = () => {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
+  const time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+  const slot = useSyncExternalStore(
+    () => () => {},
+    () => document.getElementById(NAVBAR_CENTER_SLOT_ID),
+    () => null,
+  );
+
+  // Below the md breakpoint the navbar logo text is hidden, so the timer
+  // moves into the navbar instead of sitting next to the study chip.
   return (
-    <Text as="p" className="text-primary">
-      {minutes}:{seconds.toString().padStart(2, "0")}
-    </Text>
+    <>
+      <div className="flex items-center justify-center gap-0.5 max-md:hidden">
+        <Text as="p" className="text-primary">
+          {time}
+        </Text>
+        <MdAlarm className="text-primary" aria-hidden="true" />
+      </div>
+      {slot &&
+        createPortal(
+          <div className="flex items-center gap-1 md:hidden">
+            <Text
+              as="p"
+              className="text-primary text-xl! font-medium tabular-nums"
+            >
+              {time}
+            </Text>
+            <MdAlarm size={20} className="text-primary" aria-hidden="true" />
+          </div>,
+          slot,
+        )}
+    </>
   );
 };

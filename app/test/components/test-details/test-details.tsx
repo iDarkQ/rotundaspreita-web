@@ -2,7 +2,6 @@ import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-
 import { Study } from "@/app/generated/prisma/browser";
 import { TestDetailsCountdown } from "@/app/test/components/test-details/test-details-countdown";
 import { TestDetailsStudy } from "@/app/test/components/test-details/test-details-study";
-import { MdAlarm } from "react-icons/md";
 
 interface Props {
   study: Study | null;
@@ -15,15 +14,12 @@ export const TestDetails = ({
   firstQuestion,
   selectedCategory,
 }: Props) => (
-  <div className="flex items-center justify-center gap-2">
+  <div className="flex items-center justify-center gap-2 max-md:hidden">
     <TestDetailsStudy
       study={study}
       firstQuestion={firstQuestion}
       selectedCategory={selectedCategory}
     />
-    <div className="flex items-center justify-center gap-0.5">
-      <TestDetailsCountdown />
-      <MdAlarm className="text-primary" />
-    </div>
+    <TestDetailsCountdown />
   </div>
 );

@@ -147,7 +147,6 @@ export const OnboardingWizard = ({ firstName, initialPreferences }: Props) => {
         return finish();
       case "done":
         router.replace(RouteNames.PANEL);
-        router.refresh();
     }
   };
 
@@ -161,7 +160,6 @@ export const OnboardingWizard = ({ firstName, initialPreferences }: Props) => {
     try {
       await deferOnboarding();
       router.replace(RouteNames.PANEL);
-      router.refresh();
     } catch {
       setError("Não foi possível guardar. Tente novamente.");
     }
