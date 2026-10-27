@@ -11,7 +11,7 @@ export const NavbarExpandItem = () => {
 
   return (
     <>
-      <div className="fixed top-0 right-0 z-10 flex h-(--navbar-height) items-center justify-center p-5">
+      <div className="fixed top-0 right-0 z-10 flex h-(--navbar-height) items-center justify-center px-5 py-2">
         <Button
           variant="text"
           aria-label={expanded ? "Fechar menu" : "Abrir menu"}

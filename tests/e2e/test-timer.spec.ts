@@ -9,7 +9,7 @@ test("the exam timer keeps running while the user moves between questions", asyn
   await page.goto(`/panel/${TEST_EXAM_STUDY_ID}`);
   await page.getByRole("link", { name: "Iniciar teste" }).click();
 
-  const timer = page.getByText(/^\d{1,2}:\d{2}$/);
+  const timer = page.getByText(/^\d{1,2}:\d{2}$/).locator("visible=true");
   await expect(timer).toBeVisible();
 
   // Each navigation re-renders the test; the clock used to restart every time.

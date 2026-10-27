@@ -15,7 +15,7 @@ export const TestDetailsStudy = ({
   selectedCategory,
 }: Props) => (
   <Chip>
-    <Text as="p" className="text-white">
+    <Text as="p" className="text-center text-white">
       Teste de {study?.title}
       {firstQuestion.category === selectedCategory
         ? ` (${selectedCategory})`
