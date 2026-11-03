@@ -7,12 +7,14 @@ interface Props {
   study: Study | null;
   firstQuestion: QuestionWithOptionsNoAnswer;
   selectedCategory?: string;
+  durationMinutes: number;
 }
 
 export const TestDetails = ({
   study,
   firstQuestion,
   selectedCategory,
+  durationMinutes,
 }: Props) => (
   <div className="flex items-center justify-center gap-2 max-md:hidden">
     <TestDetailsStudy
@@ -20,6 +22,6 @@ export const TestDetails = ({
       firstQuestion={firstQuestion}
       selectedCategory={selectedCategory}
     />
-    <TestDetailsCountdown />
+    <TestDetailsCountdown durationMinutes={durationMinutes} />
   </div>
 );

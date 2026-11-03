@@ -20,7 +20,7 @@ export const PageTestMenuCard = ({
   className,
   categories,
 }: Props) => (
-  <Card className={clsx("w-full gap-2", className && className)}>
+  <Card className={clsx("@container w-full gap-2", className && className)}>
     <PageTestMenuCardTitle />
     <PageTestMenuCardDescription />
     <PanelTestMenuCardSettings

@@ -117,11 +117,11 @@ export const searchForQuestions = async (
     studyId,
     ...(searchText
       ? {
-        content: {
-          contains: searchText,
-          mode: "insensitive",
-        },
-      }
+          content: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        }
       : {}),
   };
 

@@ -2,9 +2,14 @@ export const TEST_BASE_URL = "http://127.0.0.1:3100";
 export const TEST_JWT_SECRET = "playwright-only-secret-not-for-production";
 export const TEST_ADMIN_ID = "playwright-admin";
 export const TEST_ADMIN_EMAIL = "playwright-admin@example.test";
+export const TEST_NOTIFICATION_ADMIN_IDS = [
+  "playwright-notification-admin",
+  "playwright-notification-mobile-admin",
+] as const;
 export const TEST_PAYMENT_USER_ID = "playwright-payment-user";
 export const TEST_PAYMENT_USER_EMAIL = "playwright-payment@example.test";
 export const TEST_EXAM_ADMIN_ID = "playwright-exam-admin";
+export const TEST_LAST_TEST_ADMIN_ID = "playwright-last-test-admin";
 export const TEST_STUDY_ID = "playwright-study";
 export const TEST_EXAM_STUDY_ID = "playwright-exam-study";
 export const TEST_READINESS_USER_ID = "playwright-readiness-user";

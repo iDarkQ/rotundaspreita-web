@@ -40,9 +40,7 @@ export const PanelStatistics = async ({ defaultStudyId }: Props) => {
               readiness={readiness}
               className="lg:col-span-2"
             />
-            <PanelExamCountdown
-              countdown={readiness.examCountdown}
-            />
+            <PanelExamCountdown countdown={readiness.examCountdown} />
           </div>
           <PanelCategoryProgress
             studyId={readiness.studyId}

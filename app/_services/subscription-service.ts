@@ -17,7 +17,10 @@ export const cancelSubscription = async () => {
   const subscription = await serverFetchUserSubscription(session.id);
   if (!subscription || !subscription.stripeSubId) return;
 
-  await updateUniqueSubscriptionQuery({ id: subscription.id }, { cancelled: true })
+  await updateUniqueSubscriptionQuery(
+    { id: subscription.id },
+    { cancelled: true },
+  );
   stripe.subscriptions.update(subscription.stripeSubId, {
     cancel_at_period_end: true,
   });
@@ -28,7 +31,10 @@ export const uncancelSubscription = async () => {
 
   const subscription = await serverFetchUserSubscription(session.id);
   if (!subscription || !subscription.stripeSubId) return;
-  await updateUniqueSubscriptionQuery({ id: subscription.id }, { cancelled: false })
+  await updateUniqueSubscriptionQuery(
+    { id: subscription.id },
+    { cancelled: false },
+  );
 
   stripe.subscriptions.update(subscription.stripeSubId, {
     cancel_at_period_end: false,

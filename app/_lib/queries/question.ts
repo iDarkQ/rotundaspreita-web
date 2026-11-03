@@ -10,8 +10,7 @@ import { serverMarkAllTestResultsAsNew } from "@/app/_services/server/test-resul
 import { Difficulty } from "@/app/_types/difficulty";
 import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
 import { shuffle } from "@/app/_utils/shuffle";
-
-const testLength = Number(process.env.NEXT_PUBLIC_TEST_LENGTH ?? 30);
+import { parseTestQuestionCount } from "@/app/_utils/test-question-count";
 
 const activeOptions = { where: activeOptionsWhere };
 
@@ -59,7 +58,9 @@ export const findRandomQuestions = async (
   userId: string,
   difficulty: Difficulty,
   category?: string,
+  requestedQuestionCount?: number,
 ): Promise<QuestionWithOptionsNoAnswer[]> => {
+  const questionCount = parseTestQuestionCount(requestedQuestionCount);
   const where: Prisma.QuestionWhereInput = { studyId, deleted: false };
   if (category) where.category = category;
 
@@ -101,7 +102,7 @@ export const findRandomQuestions = async (
         idsResult = await fetchNewQuestions();
       }
 
-      if (idsResult.length < testLength) {
+      if (idsResult.length < questionCount) {
         // We filter this to prevent repeated questions
         const filteredBasicIdsResult = basicIdsResult.filter(
           (b) => !idsResult.includes(b),
@@ -109,7 +110,7 @@ export const findRandomQuestions = async (
         idsResult.push(
           ...shuffle(filteredBasicIdsResult).slice(
             0,
-            testLength - idsResult.length,
+            questionCount - idsResult.length,
           ),
         );
       }
@@ -151,13 +152,13 @@ export const findRandomQuestions = async (
       const newQuestions = await fetchNewQuestions();
       const idsResult = hardestIdsList.filter((i) => newQuestions.includes(i));
 
-      if (idsResult.length < testLength) {
+      if (idsResult.length < questionCount) {
         // We filter this to prevent repeated questions
         const filteredBasicIdsResult = basicIdsResult.filter(
           (b) => !idsResult.includes(b),
         );
         idsResult.push(
-          ...filteredBasicIdsResult.slice(0, testLength - idsResult.length),
+          ...filteredBasicIdsResult.slice(0, questionCount - idsResult.length),
         );
       }
 
@@ -181,13 +182,13 @@ export const findRandomQuestions = async (
 
       const idsResult = [...new Set(wrongTestResults.map((h) => h.questionId))];
 
-      if (idsResult.length < testLength) {
+      if (idsResult.length < questionCount) {
         // We filter this to prevent repeated questions
         const filteredBasicIdsResult = basicIdsResult.filter(
           (b) => !idsResult.includes(b),
         );
         idsResult.push(
-          ...filteredBasicIdsResult.slice(0, testLength - idsResult.length),
+          ...filteredBasicIdsResult.slice(0, questionCount - idsResult.length),
         );
       }
 
@@ -226,7 +227,7 @@ export const findRandomQuestions = async (
 
       return [...shuffle(wrong), ...shuffle(unseen), ...shuffle(correct)].slice(
         0,
-        testLength,
+        questionCount,
       );
     }
 
@@ -236,7 +237,7 @@ export const findRandomQuestions = async (
   const allIds = await fetchRandomIds();
   if (allIds.length === 0) return [];
 
-  const selectedIds = shuffle(allIds).slice(0, testLength);
+  const selectedIds = shuffle(allIds).slice(0, questionCount);
 
   const questions = await prisma.question.findMany({
     where: { id: { in: selectedIds }, deleted: false },

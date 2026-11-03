@@ -22,6 +22,10 @@ import {
 import { Difficulty } from "@/app/_types/difficulty";
 import { TestAnswers } from "@/app/_types/test-answer";
 import { RouteNames } from "@/app/_utils/route-names";
+import {
+  MAX_TEST_QUESTION_COUNT,
+  parseTestQuestionCount,
+} from "@/app/_utils/test-question-count";
 import { createId } from "@paralleldrive/cuid2";
 import { redirect } from "next/navigation";
 
@@ -86,6 +90,7 @@ export const generateTest = async (
   studyId?: string,
   difficulty?: Difficulty,
   category?: string,
+  questionCount?: number,
 ) => {
   const session = await verifySessionSubscription();
   if (!session) return [];
@@ -105,6 +110,7 @@ export const generateTest = async (
     session.id,
     finalDifficulty,
     finalCategory,
+    parseTestQuestionCount(questionCount),
   );
 
   return questions;
@@ -114,7 +120,6 @@ export const verifyTestResults = async (
   studyId: string,
   answers: TestAnswers,
 ) => {
-
   const session = await verifySessionSubscription();
   if (!session) return;
 
@@ -123,10 +128,10 @@ export const verifyTestResults = async (
 
   const ids = Object.keys(answers);
 
-  if (ids.length > 30) return;
+  if (ids.length > MAX_TEST_QUESTION_COUNT) return;
 
   const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
-  const map = new Map(questions.map(q => [q.id, q]));
+  const map = new Map(questions.map((q) => [q.id, q]));
   const orderedQuestions = ids.flatMap((id) => map.get(id) ?? []);
 
   const correctAnswers = orderedQuestions.reduce<TestAnswers>((acc, q) => {

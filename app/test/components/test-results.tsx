@@ -68,7 +68,7 @@ export const TestResults = ({ studyTitle, category, difficulty }: Props) => {
 
   return (
     <>
-      <TestResultsTestimonial finished={finished} percentage={percentage}/>
+      <TestResultsTestimonial finished={finished} percentage={percentage} />
       <Banner
         className={clsx(
           "flex w-full items-center justify-between gap-2",

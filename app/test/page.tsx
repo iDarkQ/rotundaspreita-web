@@ -7,12 +7,13 @@ import { redirect } from "next/navigation";
 import { TestFinishButton } from "@/app/test/components/test-finish-button";
 import { TestResults } from "@/app/test/components/test-results";
 import { RouteNames } from "@/app/_utils/route-names";
+import { parseTestQuestionCount } from "@/app/_utils/test-question-count";
 import { TestBlobs } from "@/app/test/components/test-blobs";
 import { TestDetails } from "@/app/test/components/test-details/test-details";
 import { LogAnalytics } from "@/app/_components/log-analytics";
 
 interface Props {
-  searchParams?: Promise<{ s?: string; c?: string; d?: string }>;
+  searchParams?: Promise<{ s?: string; c?: string; d?: string; n?: string }>;
 }
 
 export default async function Test({ searchParams }: Props) {
@@ -20,7 +21,10 @@ export default async function Test({ searchParams }: Props) {
     s: selectedStudy,
     c: selectedCategory,
     d: rawDifficulty,
+    n: rawQuestionCount,
   } = (await searchParams) ?? {};
+
+  const questionCount = parseTestQuestionCount(rawQuestionCount);
 
   const selectedDifficulty =
     rawDifficulty && rawDifficulty in Difficulty
@@ -31,6 +35,7 @@ export default async function Test({ searchParams }: Props) {
     selectedStudy,
     selectedDifficulty,
     selectedCategory,
+    questionCount,
   );
 
   if (!questions || questions.length < 1) {
@@ -54,6 +59,7 @@ export default async function Test({ searchParams }: Props) {
             study={study}
             firstQuestion={firstQuestion}
             selectedCategory={selectedCategory}
+            durationMinutes={questionCount}
           />
 
           <TestOptions />
