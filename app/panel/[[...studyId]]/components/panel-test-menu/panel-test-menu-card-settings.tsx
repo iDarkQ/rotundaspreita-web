@@ -4,6 +4,7 @@ import { PanelInitiateTestButton } from "@/app/panel/[[...studyId]]/components/p
 import { PanelSelectCategory } from "@/app/panel/[[...studyId]]/components/panel-select-category";
 import { PanelSelectStudy } from "@/app/panel/[[...studyId]]/components/panel-select-study";
 import { PanelTestMenuCardTabs } from "@/app/panel/[[...studyId]]/components/panel-test-menu/panel-test-menu-card-tabs";
+import { PanelTestQuestionCountSlider } from "@/app/panel/[[...studyId]]/components/panel-test-menu/panel-test-question-count-slider";
 import { TestMenuProvider } from "@/app/panel/[[...studyId]]/providers/test-menu";
 
 interface Props {
@@ -28,6 +29,7 @@ export const PanelTestMenuCardSettings = ({
     </div>
     <Text as="p">Escolha um modo abaixo</Text>
     <PanelTestMenuCardTabs />
+    <PanelTestQuestionCountSlider />
     <PanelInitiateTestButton />
   </TestMenuProvider>
 );

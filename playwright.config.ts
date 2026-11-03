@@ -23,7 +23,7 @@ export default defineConfig({
   testDir: "./tests/e2e",
   testMatch: "**/*.spec.ts",
   fullyParallel: false,
-  workers: 1,
+  workers: 3,
   timeout: 45_000,
   expect: {
     timeout: 10_000,
@@ -78,7 +78,6 @@ export default defineConfig({
       STRIPE_PRIVATE_KEY: "sk_test_playwright_placeholder",
       NEXT_PUBLIC_GOOGLE_CLIENT_ID:
         "playwright-test-client-id.apps.googleusercontent.com",
-      NEXT_PUBLIC_TEST_LENGTH: "30",
       NEXT_PUBLIC_POSTHOG_KEY: "",
       NEXT_PUBLIC_POSTHOG_HOST: "",
       PLAYWRIGHT_NEXT_DIST_DIR: ".next-e2e",

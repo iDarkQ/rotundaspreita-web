@@ -14,14 +14,23 @@ export const fetchTestResultsQuery = async (
 
 export const fetchLastTestResultsQuery = async (
   where: Prisma.TestResultWhereInput,
-  orderBy: Prisma.TestResultOrderByWithRelationInput,
-  take?: number,
-) =>
-  prisma.testResult.findMany({
+) => {
+  const latestResult = await prisma.testResult.findFirst({
     where: onlyActiveTestResults(where),
-    take,
-    orderBy,
+    orderBy: { createdAt: "desc" },
+    select: { testRunId: true },
   });
+
+  if (!latestResult) return [];
+
+  return prisma.testResult.findMany({
+    where: onlyActiveTestResults({
+      ...where,
+      testRunId: latestResult.testRunId,
+    }),
+    orderBy: { createdAt: "desc" },
+  });
+};
 
 export const updateManyTestsResultsQuery = async (
   where: Prisma.TestResultWhereInput,

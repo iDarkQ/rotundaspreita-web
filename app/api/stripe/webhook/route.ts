@@ -1,4 +1,8 @@
-import { serverDeleteSubscription, serverRenewSubscription, serverStartSubscription } from "@/app/_services/server/subscription-service";
+import {
+  serverDeleteSubscription,
+  serverRenewSubscription,
+  serverStartSubscription,
+} from "@/app/_services/server/subscription-service";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -45,7 +49,9 @@ export const POST = async (req: NextRequest) => {
       const invoice = event.data.object as Stripe.Invoice;
       const firstLine = invoice.lines.data[0];
 
-      const subscriptionId = firstLine.parent?.subscription_item_details?.subscription ?? invoice.parent?.subscription_details?.subscription.toString();
+      const subscriptionId =
+        firstLine.parent?.subscription_item_details?.subscription ??
+        invoice.parent?.subscription_details?.subscription.toString();
       const extendTo = firstLine.period.end;
 
       if (!subscriptionId || !extendTo) {

@@ -19,10 +19,7 @@ const formatExamDate = (examDate: string) =>
 const pluralize = (value: number, singular: string, plural: string) =>
   `${value} ${value === 1 ? singular : plural}`;
 
-export const PanelExamCountdown = ({
-  countdown,
-  className,
-}: Props) => (
+export const PanelExamCountdown = ({ countdown, className }: Props) => (
   <Card className={clsx("gap-3", className)}>
     <Text as="p">Contagem decrescente do exame</Text>
 

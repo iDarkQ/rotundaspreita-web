@@ -7,12 +7,15 @@ import { NAVBAR_CENTER_SLOT_ID } from "@/app/_components/layout/navbar/navbar-ce
 import { Text } from "@/app/_components/text";
 import { useTestManager } from "@/app/test/providers/test-manager";
 
-const TEST_DURATION_SECONDS = 60 * 30;
+interface Props {
+  durationMinutes: number;
+}
 
-export const TestDetailsCountdown = () => {
+export const TestDetailsCountdown = ({ durationMinutes }: Props) => {
   const { finished, finishTest } = useTestManager();
 
-  const [timeLeft, setTimeLeft] = useState(TEST_DURATION_SECONDS);
+  const durationSeconds = durationMinutes * 60;
+  const [timeLeft, setTimeLeft] = useState(durationSeconds);
   const endTime = useRef<number | null>(null);
   const timeUpHandled = useRef(false);
   // finishTest changes on every provider render; the ref keeps the interval
@@ -26,7 +29,7 @@ export const TestDetailsCountdown = () => {
   useEffect(() => {
     if (finished) return;
 
-    endTime.current ??= Date.now() + TEST_DURATION_SECONDS * 1000;
+    endTime.current ??= Date.now() + durationSeconds * 1000;
 
     const tick = () => {
       const remaining = Math.max(
@@ -43,7 +46,7 @@ export const TestDetailsCountdown = () => {
 
     const interval = setInterval(tick, 250);
     return () => clearInterval(interval);
-  }, [finished]);
+  }, [finished, durationSeconds]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;

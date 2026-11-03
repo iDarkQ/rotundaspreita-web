@@ -1,10 +1,8 @@
 import { Button } from "@/app/_components/button";
 import { Card } from "@/app/_components/card";
-import { Link } from "@/app/_components/link";
+import { PanelTestLink } from "@/app/panel/[[...studyId]]/components/panel-test-link";
 import { Text } from "@/app/_components/text";
-import { Tooltip } from "@/app/_components/tooltip";
 import { CategoryProgressDto } from "@/app/_lib/dtos/test-results/readiness.dto";
-import { WEAK_AREA_THRESHOLD } from "@/app/_utils/readiness";
 import clsx from "clsx";
 
 interface Props {
@@ -85,13 +83,13 @@ export const PanelCategoryProgress = ({ studyId, categories }: Props) => {
 
               {category.weak && (
                 <div className="flex items-center gap-3">
-                  <Link link={`/test?${practiceParams.toString()}`}>
+                  <PanelTestLink params={Object.fromEntries(practiceParams)}>
                     <Button variant="contained" className="py-1">
                       <Text as="span" className="text-sm text-white!">
                         Praticar esta área
                       </Text>
                     </Button>
-                  </Link>
+                  </PanelTestLink>
                 </div>
               )}
             </li>

@@ -1,5 +1,5 @@
 import { Card } from "@/app/_components/card";
-import { Link } from "@/app/_components/link";
+import { PanelTestLink } from "@/app/panel/[[...studyId]]/components/panel-test-link";
 import { ProgressBar } from "@/app/_components/progress-bar";
 import { Text } from "@/app/_components/text";
 import { Tooltip } from "@/app/_components/tooltip";
@@ -104,12 +104,12 @@ export const PanelReadinessCard = ({ readiness, className }: Props) => {
       <div className="flex flex-col items-start gap-2">
         <Text>{nextStep}</Text>
         {!unlocked && (
-          <Link
-            link={`/test?${new URLSearchParams({ s: studyId, d: "all" }).toString()}`}
+          <PanelTestLink
+            params={{ s: studyId, d: "all" }}
             className="text-primary!"
           >
             Fazer um teste
-          </Link>
+          </PanelTestLink>
         )}
       </div>
     </Card>

@@ -21,7 +21,6 @@ const testimonials = [
     message:
       "Comecei hoje a utilizar e para já estou satisfeita. Obrigada pelo vosso trabalho!",
   },
-
 ];
 
 const testimonialCopies = [0, 1] as const;

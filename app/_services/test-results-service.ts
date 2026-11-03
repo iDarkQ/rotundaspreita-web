@@ -94,11 +94,7 @@ export const fetchLastTestResults = async (): Promise<
   const session = await verifySession();
   if (!session) return;
 
-  const results = await fetchLastTestResultsQuery(
-    { userId: session.id },
-    { createdAt: "desc" },
-    30,
-  );
+  const results = await fetchLastTestResultsQuery({ userId: session.id });
   const questionsIds = results.map((r) => r.questionId);
 
   const questions = await findManyQuestionsQuery({ id: { in: questionsIds } });

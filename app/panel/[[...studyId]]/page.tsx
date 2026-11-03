@@ -46,7 +46,7 @@ export default async function Panel({ params }: Props) {
           <PanelWelcomeMessage name={user.name} />
           <PanelTitle />
         </div>
-        <div className="relative">
+        <div className="relative w-full max-w-[34.25rem]">
           {studies.length > 0 && (
             <PanelTestMenuBlock
               user={user}

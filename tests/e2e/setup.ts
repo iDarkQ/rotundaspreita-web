@@ -8,6 +8,7 @@ import {
   TEST_EXAM_ADMIN_ID,
   TEST_EXAM_QUESTIONS,
   TEST_EXAM_STUDY_ID,
+  TEST_LAST_TEST_ADMIN_ID,
   TEST_PAYMENT_USER_EMAIL,
   TEST_PAYMENT_USER_ID,
   TEST_REGISTRATION_EMAILS,
@@ -66,6 +67,7 @@ async function setupTestDatabase() {
           in: [
             TEST_ADMIN_ID,
             TEST_EXAM_ADMIN_ID,
+            TEST_LAST_TEST_ADMIN_ID,
             TEST_PAYMENT_USER_ID,
             TEST_READINESS_USER_ID,
             TEST_READINESS_EMPTY_USER_ID,
@@ -102,6 +104,16 @@ async function setupTestDatabase() {
         id: TEST_EXAM_ADMIN_ID,
         email: "playwright-exam-admin@example.test",
         name: "Administrador de Exame",
+        admin: true,
+        onboardingCompleted: true,
+      },
+    });
+
+    await prisma.user.create({
+      data: {
+        id: TEST_LAST_TEST_ADMIN_ID,
+        email: "playwright-last-test-admin@example.test",
+        name: "Administrador do Último Teste",
         admin: true,
         onboardingCompleted: true,
       },

@@ -1,7 +1,14 @@
-import { Text } from "@/app/_components/text";
+"use client";
 
-export const PageTestMenuCardTitle = () => (
-  <Text as="h2" className="font-normal!">
-    Iniciar novo teste de 30 minutos
-  </Text>
-);
+import { Text } from "@/app/_components/text";
+import { useTestQuestionCount } from "@/app/panel/[[...studyId]]/hooks/use-test-question-count";
+
+export const PageTestMenuCardTitle = () => {
+  const [questionCount] = useTestQuestionCount();
+
+  return (
+    <Text as="h2" className="font-normal!">
+      Iniciar novo teste de {questionCount} minutos
+    </Text>
+  );
+};

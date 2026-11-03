@@ -18,7 +18,10 @@ export const serverStartSubscription = async (
     expiresAt: extendTo ? new Date(extendTo * 1000) : undefined,
   });
 
-export const serverRenewSubscription = async (subId: string, extendTo: number) =>
+export const serverRenewSubscription = async (
+  subId: string,
+  extendTo: number,
+) =>
   updateManySubscriptionQuery(
     { stripeSubId: subId },
     {
@@ -26,9 +29,10 @@ export const serverRenewSubscription = async (subId: string, extendTo: number) =
     },
   );
 
-export const serverDeleteSubscription = async (subId: string) => deleteManySubscriptionQuery({
-  stripeSubId: subId,
-})
+export const serverDeleteSubscription = async (subId: string) =>
+  deleteManySubscriptionQuery({
+    stripeSubId: subId,
+  });
 
 export const serverFetchUserSubscription = async (userId: string) =>
   fetchSubscriptionQuery({ userId });
