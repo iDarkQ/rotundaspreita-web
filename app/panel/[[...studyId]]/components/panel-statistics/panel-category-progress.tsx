@@ -1,4 +1,3 @@
-import { Button } from "@/app/_components/button";
 import { Card } from "@/app/_components/card";
 import { PanelTestLink } from "@/app/panel/[[...studyId]]/components/panel-test-link";
 import { Text } from "@/app/_components/text";
@@ -83,12 +82,13 @@ export const PanelCategoryProgress = ({ studyId, categories }: Props) => {
 
               {category.weak && (
                 <div className="flex items-center gap-3">
-                  <PanelTestLink params={Object.fromEntries(practiceParams)}>
-                    <Button variant="contained" className="py-1">
-                      <Text as="span" className="text-sm text-white!">
-                        Praticar esta área
-                      </Text>
-                    </Button>
+                  <PanelTestLink
+                    params={Object.fromEntries(practiceParams)}
+                    className="button button-contained py-1 no-underline!"
+                  >
+                    <Text as="span" className="text-sm text-white!">
+                      Praticar esta área
+                    </Text>
                   </PanelTestLink>
                 </div>
               )}

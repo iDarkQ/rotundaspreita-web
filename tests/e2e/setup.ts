@@ -9,6 +9,7 @@ import {
   TEST_EXAM_QUESTIONS,
   TEST_EXAM_STUDY_ID,
   TEST_LAST_TEST_ADMIN_ID,
+  TEST_NOTIFICATION_ADMIN_IDS,
   TEST_PAYMENT_USER_EMAIL,
   TEST_PAYMENT_USER_ID,
   TEST_REGISTRATION_EMAILS,
@@ -68,6 +69,7 @@ async function setupTestDatabase() {
             TEST_ADMIN_ID,
             TEST_EXAM_ADMIN_ID,
             TEST_LAST_TEST_ADMIN_ID,
+            ...TEST_NOTIFICATION_ADMIN_IDS,
             TEST_PAYMENT_USER_ID,
             TEST_READINESS_USER_ID,
             TEST_READINESS_EMPTY_USER_ID,
@@ -87,6 +89,16 @@ async function setupTestDatabase() {
         admin: true,
         onboardingCompleted: true,
       },
+    });
+
+    await prisma.user.createMany({
+      data: TEST_NOTIFICATION_ADMIN_IDS.map((id, index) => ({
+        id,
+        email: `playwright-notification-${index}@example.test`,
+        name: "Administrador de Notificações",
+        admin: true,
+        onboardingCompleted: true,
+      })),
     });
 
     await prisma.user.create({

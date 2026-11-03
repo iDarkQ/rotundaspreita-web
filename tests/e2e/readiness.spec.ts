@@ -13,6 +13,7 @@ test("panel shows the readiness score, countdown and explored areas", async ({
 }) => {
   await authenticateUser(page, TEST_READINESS_USER_ID);
   await page.goto(panelUrl);
+  await page.waitForLoadState("networkidle");
 
   // coverage 71% x 0.4 + accuracy 50% x 0.4 + consistency 25% x 0.2 = 53
   await expect(page.locator("main")).toContainText("53/100");
@@ -41,7 +42,7 @@ test("practising a weak area starts a test in that category", async ({
   page,
 }) => {
   await authenticateUser(page, TEST_READINESS_USER_ID);
-  await page.goto(panelUrl);
+  await page.goto(panelUrl, { waitUntil: "networkidle" });
 
   const practiceLink = page
     .getByRole("region", { name: "Áreas exploradas" })

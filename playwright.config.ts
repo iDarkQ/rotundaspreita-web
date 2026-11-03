@@ -23,7 +23,7 @@ export default defineConfig({
   testDir: "./tests/e2e",
   testMatch: "**/*.spec.ts",
   fullyParallel: false,
-  workers: 3,
+  workers: 2,
   timeout: 45_000,
   expect: {
     timeout: 10_000,

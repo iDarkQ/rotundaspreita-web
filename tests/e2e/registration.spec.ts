@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("visitor can correct an invalid email and register from the navbar", async ({
   page,
 }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "networkidle" });
 
   if (testInfo.project.name === "mobile-chromium") {
     await page.getByRole("button", { name: "Abrir menu" }).click();
@@ -14,6 +14,7 @@ test("visitor can correct an invalid email and register from the navbar", async 
     .filter({ hasText: /^Entrar$/, visible: true })
     .click();
   await expect(page).toHaveURL(/\/login$/);
+  await page.waitForLoadState("networkidle");
   await page.getByRole("link", { name: "Criar conta com email" }).click();
   await expect(page).toHaveURL(/\/register$/);
 
