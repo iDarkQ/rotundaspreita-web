@@ -14,6 +14,15 @@ export const updateUserQuery = async (
   data: Prisma.UserUpdateInput,
 ) => prisma.user.update({ where, data });
 
+export const setPasswordIfUnsetQuery = async (
+  userId: string,
+  passwordHash: string,
+) =>
+  prisma.user.updateMany({
+    where: { id: userId, googleId: { not: null }, passwordHash: null },
+    data: { passwordHash },
+  });
+
 export const linkGoogleAccountQuery = async (
   userId: string,
   googleId: string,

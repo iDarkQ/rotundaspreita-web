@@ -8,6 +8,29 @@ export const TEST_NOTIFICATION_ADMIN_IDS = [
 ] as const;
 export const TEST_PAYMENT_USER_ID = "playwright-payment-user";
 export const TEST_PAYMENT_USER_EMAIL = "playwright-payment@example.test";
+export const TEST_PASSWORD_USER_PASSWORD = "palavra-passe-atual";
+export const TEST_PASSWORD_USERS = [
+  {
+    id: "playwright-password-desktop-user",
+    email: "playwright-password-desktop@example.test",
+  },
+  {
+    id: "playwright-password-mobile-user",
+    email: "playwright-password-mobile@example.test",
+  },
+] as const;
+export const TEST_GOOGLE_PASSWORD_USERS = [
+  {
+    id: "playwright-google-password-desktop-user",
+    email: "playwright-google-password-desktop@example.test",
+    googleId: "playwright-google-desktop",
+  },
+  {
+    id: "playwright-google-password-mobile-user",
+    email: "playwright-google-password-mobile@example.test",
+    googleId: "playwright-google-mobile",
+  },
+] as const;
 export const TEST_EXAM_ADMIN_ID = "playwright-exam-admin";
 export const TEST_LAST_TEST_ADMIN_ID = "playwright-last-test-admin";
 export const TEST_STUDY_ID = "playwright-study";

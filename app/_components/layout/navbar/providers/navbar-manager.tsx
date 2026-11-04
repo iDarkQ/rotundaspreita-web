@@ -1,6 +1,6 @@
 "use client";
 
-import { Subscription, User } from "@/app/generated/prisma/browser";
+import { Subscription } from "@/app/generated/prisma/browser";
 import {
   createContext,
   Dispatch,
@@ -12,16 +12,27 @@ import {
 } from "react";
 
 interface NavbarManagerContextProps {
-  user?: User;
+  user?: NavbarUser;
+  hasPassword: boolean;
+  setHasPassword: Dispatch<SetStateAction<boolean>>;
   subscription: Subscription | null;
   setSubscription: Dispatch<SetStateAction<Subscription | null>>;
   expanded: boolean;
   setExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
+export interface NavbarUser {
+  id: string;
+  email: string;
+  name: string;
+  admin: boolean;
+  isGoogleAccount: boolean;
+  hasPassword: boolean;
+}
+
 interface NavbarManagerProviderProps {
   subscription: Subscription | null;
-  user?: User;
+  user?: NavbarUser;
   children: ReactNode;
 }
 
@@ -36,15 +47,22 @@ export const NavbarManagerProvider = ({
 }: NavbarManagerProviderProps) => {
   const [expanded, setExpanded] = useState(false);
   const [subscription, setSubscription] = useState(baseSubscription);
+  const [hasPassword, setHasPassword] = useState(user?.hasPassword ?? false);
 
   useEffect(() => {
     setSubscription(baseSubscription);
   }, [baseSubscription]);
 
+  useEffect(() => {
+    setHasPassword(user?.hasPassword ?? false);
+  }, [user?.hasPassword]);
+
   return (
     <NavbarManagerContext.Provider
       value={{
         user,
+        hasPassword,
+        setHasPassword,
         subscription,
         setSubscription,
         expanded,
