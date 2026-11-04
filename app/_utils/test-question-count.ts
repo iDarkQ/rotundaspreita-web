@@ -1,4 +1,4 @@
-export const TEST_QUESTION_COUNT_OPTIONS = [10, 20, 30, 50, 100] as const;
+export const TEST_QUESTION_COUNT_OPTIONS = [10, 20, 30, 50] as const;
 
 export type TestQuestionCount = (typeof TEST_QUESTION_COUNT_OPTIONS)[number];
 

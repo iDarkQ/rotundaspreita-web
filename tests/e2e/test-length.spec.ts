@@ -28,7 +28,7 @@ test("the panel remembers the chosen test length and the timer follows it", asyn
   const settingsPanel = page.getByTestId("test-question-count-panel");
   const panelBounds = await settingsPanel.boundingBox();
   const finalStopBounds = await page
-    .getByTestId("test-question-count-stop-100")
+    .getByTestId("test-question-count-stop-50")
     .boundingBox();
   expect(panelBounds).not.toBeNull();
   expect(finalStopBounds).not.toBeNull();
@@ -43,7 +43,7 @@ test("the panel remembers the chosen test length and the timer follows it", asyn
   expect((await startLink.boundingBox())?.width).toBe(collapsedWidth);
 
   await expect(slider).toHaveAttribute("min", "0");
-  await expect(slider).toHaveAttribute("max", "4");
+  await expect(slider).toHaveAttribute("max", "3");
   await expect(slider).toHaveAttribute(
     "aria-valuetext",
     "30 perguntas, 30 minutos",
@@ -53,12 +53,12 @@ test("the panel remembers the chosen test length and the timer follows it", asyn
     .getByTestId("test-question-count-slider")
     .boundingBox();
   expect(sliderBounds).not.toBeNull();
-  for (const [index, questionCount] of [10, 20, 30, 50, 100].entries()) {
+  for (const [index, questionCount] of [10, 20, 30, 50].entries()) {
     const stop = await page
       .getByTestId(`test-question-count-stop-${questionCount}`)
       .boundingBox();
     expect(stop).not.toBeNull();
-    const expectedCenter = sliderBounds!.x + (sliderBounds!.width * index) / 4;
+    const expectedCenter = sliderBounds!.x + (sliderBounds!.width * index) / 3;
     expect(Math.abs(stop!.x - expectedCenter)).toBeLessThanOrEqual(1);
   }
 
@@ -84,9 +84,7 @@ test("the panel remembers the chosen test length and the timer follows it", asyn
   await expect(timer(page)).toHaveText(/^(10:00|9:5\d)$/);
 });
 
-test("choosing 100 questions does not widen the test menu", async ({
-  page,
-}) => {
+test("choosing 50 questions does not widen the test menu", async ({ page }) => {
   await authenticateUser(page, TEST_EXAM_ADMIN_ID);
   await page.goto(panelUrl);
 
@@ -95,24 +93,24 @@ test("choosing 100 questions does not widen the test menu", async ({
   await page.getByRole("button", { name: "Definições do teste" }).click();
 
   const slider = page.getByRole("slider", { name: "Número de perguntas" });
-  await slider.fill("3");
+  await slider.fill("2");
   await expect(
-    page.getByRole("heading", { name: "Iniciar novo teste de 50 minutos" }),
+    page.getByRole("heading", { name: "Iniciar novo teste de 30 minutos" }),
   ).toBeVisible();
-  await slider.fill("4");
+  await slider.fill("3");
   await expect(slider).toHaveAttribute(
     "aria-valuetext",
-    "100 perguntas, 100 minutos",
+    "50 perguntas, 50 minutos",
   );
-  const hundredMinuteHeading = page.getByRole("heading", {
-    name: "Iniciar novo teste de 100 minutos",
+  const fiftyMinuteHeading = page.getByRole("heading", {
+    name: "Iniciar novo teste de 50 minutos",
   });
-  await expect(hundredMinuteHeading).toBeVisible();
+  await expect(fiftyMinuteHeading).toBeVisible();
   expect((await startLink.boundingBox())?.width).toBe(collapsedWidth);
   await expect(page.getByTestId("test-question-count-thumb")).toHaveClass(
     /transition-\[left\]/,
   );
-  await expect(page.getByTestId("test-question-count-tick")).toHaveCount(5);
+  await expect(page.getByTestId("test-question-count-tick")).toHaveCount(4);
 });
 
 test("the last-test question list shows every question from the latest run", async ({
@@ -202,7 +200,7 @@ test("the server ignores test lengths outside the allowed options", async ({
 }) => {
   await authenticateUser(page, TEST_EXAM_ADMIN_ID);
 
-  for (const length of ["7", "9999", "30.5", "1e2", "0"]) {
+  for (const length of ["7", "9999", "30.5", "1e2", "0", "100"]) {
     await page.goto(`/test?s=${TEST_EXAM_STUDY_ID}&d=all&n=${length}`);
     await expect(timer(page)).toHaveText(/^(30:00|29:5\d)$/);
   }

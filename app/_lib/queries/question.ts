@@ -53,12 +53,27 @@ export const findQuestionQuery = async (where: Prisma.QuestionWhereInput) =>
 export const countQuestionsQuery = async (where: Prisma.QuestionWhereInput) =>
   prisma.question.count({ where: { ...where, deleted: false } });
 
+export const findFreeTrialQuestionIds = async (
+  studyId: string,
+  count: number,
+  category?: string,
+): Promise<string[]> =>
+  (
+    await prisma.question.findMany({
+      where: { studyId, deleted: false, ...(category ? { category } : {}) },
+      select: { id: true },
+      orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+      take: count,
+    })
+  ).map((q) => q.id);
+
 export const findRandomQuestions = async (
   studyId: string,
   userId: string,
   difficulty: Difficulty,
   category?: string,
   requestedQuestionCount?: number,
+  freeTrial = false,
 ): Promise<QuestionWithOptionsNoAnswer[]> => {
   const questionCount = parseTestQuestionCount(requestedQuestionCount);
   const where: Prisma.QuestionWhereInput = { studyId, deleted: false };
@@ -234,7 +249,10 @@ export const findRandomQuestions = async (
     return basicIdsResult;
   };
 
-  const allIds = await fetchRandomIds();
+  // Free trials always get the same oldest questions so extra accounts expose nothing new.
+  const allIds = freeTrial
+    ? await findFreeTrialQuestionIds(studyId, questionCount, category)
+    : await fetchRandomIds();
   if (allIds.length === 0) return [];
 
   const selectedIds = shuffle(allIds).slice(0, questionCount);

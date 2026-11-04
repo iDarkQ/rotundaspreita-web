@@ -8,6 +8,11 @@ import {
   TEST_EXAM_ADMIN_ID,
   TEST_EXAM_QUESTIONS,
   TEST_EXAM_STUDY_ID,
+  TEST_FREE_QUESTION_TOTAL,
+  TEST_FREE_STUDY_ID,
+  TEST_FREE_USER_ID,
+  freeQuestionCategory,
+  freeQuestionId,
   TEST_LAST_TEST_ADMIN_ID,
   TEST_NOTIFICATION_ADMIN_IDS,
   TEST_PAYMENT_USER_EMAIL,
@@ -58,7 +63,12 @@ async function setupTestDatabase() {
     await prisma.study.deleteMany({
       where: {
         id: {
-          in: [TEST_STUDY_ID, TEST_EXAM_STUDY_ID, TEST_READINESS_STUDY_ID],
+          in: [
+            TEST_STUDY_ID,
+            TEST_EXAM_STUDY_ID,
+            TEST_READINESS_STUDY_ID,
+            TEST_FREE_STUDY_ID,
+          ],
         },
       },
     });
@@ -73,6 +83,7 @@ async function setupTestDatabase() {
             TEST_PAYMENT_USER_ID,
             TEST_READINESS_USER_ID,
             TEST_READINESS_EMPTY_USER_ID,
+            TEST_FREE_USER_ID,
           ],
         },
       },
@@ -127,6 +138,15 @@ async function setupTestDatabase() {
         email: "playwright-last-test-admin@example.test",
         name: "Administrador do Último Teste",
         admin: true,
+        onboardingCompleted: true,
+      },
+    });
+
+    await prisma.user.create({
+      data: {
+        id: TEST_FREE_USER_ID,
+        email: "playwright-free-user@example.test",
+        name: "Utilizador Gratuito",
         onboardingCompleted: true,
       },
     });
@@ -218,9 +238,51 @@ async function setupTestDatabase() {
     });
 
     await seedReadinessData(prisma);
+    await seedFreeTrialStudy(prisma);
   } finally {
     await prisma.$disconnect();
   }
+}
+
+// Created last so tests relying on the first study keep resolving to the others.
+async function seedFreeTrialStudy(prisma: PrismaClient) {
+  const freeQuestionsStart = Date.parse("2024-01-01T00:00:00.000Z");
+
+  await prisma.study.create({
+    data: {
+      id: TEST_FREE_STUDY_ID,
+      title: "Estudo Gratuito de Teste",
+      questions: {
+        create: Array.from({ length: TEST_FREE_QUESTION_TOTAL }, (_, index) => {
+          const position = index + 1;
+          const id = freeQuestionId(position);
+
+          return {
+            id,
+            content: `Pergunta gratuita ${position}`,
+            category: freeQuestionCategory(position),
+            createdAt: new Date(freeQuestionsStart + position * 60_000),
+            options: {
+              create: [
+                {
+                  id: `${id}-option-a`,
+                  content: "Resposta correta",
+                  letter: "A" as const,
+                  answer: true,
+                },
+                {
+                  id: `${id}-option-b`,
+                  content: "Resposta incorreta",
+                  letter: "B" as const,
+                  answer: false,
+                },
+              ],
+            },
+          };
+        }),
+      },
+    },
+  });
 }
 
 async function seedReadinessData(prisma: PrismaClient) {

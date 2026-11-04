@@ -6,13 +6,11 @@ import {
   TEST_EXAM_STUDY_ID,
 } from "./test-constants";
 
-const getExamQuestion = (content: string) => {
-  const question = TEST_EXAM_QUESTIONS.find(
-    (candidate) => candidate.content === content,
-  );
+const getExamQuestion = (id: string | null) => {
+  const question = TEST_EXAM_QUESTIONS.find((candidate) => candidate.id === id);
 
   if (!question) {
-    throw new Error(`Unexpected test exam question: ${content}`);
+    throw new Error(`Unexpected test exam question: ${id}`);
   }
 
   return question;
@@ -28,34 +26,51 @@ test("admin navigates an exam, confirms finishing, and sees the results", async 
   await page.goto(`/panel/${TEST_EXAM_STUDY_ID}`);
   await page.getByRole("link", { name: "Iniciar teste" }).click();
 
-  const questionHeading = page.getByRole("heading", {
-    level: 3,
-    name: /^Pergunta .+ do exame de teste\.$/,
-  });
+  const questionHeading = page.getByTestId("test-question");
+  const currentQuestionId = () =>
+    questionHeading.getAttribute("data-entity-id");
+  const answer = (optionId: string) =>
+    page.locator(`[data-entity-id="${optionId}"]`).click();
   await expect(questionHeading).toBeVisible();
+  await expect(questionHeading).toHaveAttribute("data-entity-id", /.+/);
 
-  const firstQuestionText = (await questionHeading.innerText()).trim();
-  const firstQuestion = getExamQuestion(firstQuestionText);
-  await page.getByText(firstQuestion.correctAnswer, { exact: true }).click();
+  const firstQuestion = getExamQuestion(await currentQuestionId());
+  await answer(`${firstQuestion.id}-option-a`);
 
-  await expect(questionHeading).not.toHaveText(firstQuestionText);
-  const secondQuestionText = (await questionHeading.innerText()).trim();
-  const secondQuestion = getExamQuestion(secondQuestionText);
-
-  await page.getByRole("button", { name: "Pergunta anterior" }).click();
-  await expect(questionHeading).toHaveText(firstQuestionText);
-  await page.getByRole("button", { name: "Próxima pergunta" }).click();
-  await expect(questionHeading).toHaveText(secondQuestionText);
-
-  await page.getByText(secondQuestion.incorrectAnswer, { exact: true }).click();
-  await expect(questionHeading).not.toHaveText(secondQuestionText);
-  const thirdQuestionText = (await questionHeading.innerText()).trim();
-  getExamQuestion(thirdQuestionText);
+  await expect(questionHeading).not.toHaveAttribute(
+    "data-entity-id",
+    firstQuestion.id,
+  );
+  const secondQuestion = getExamQuestion(await currentQuestionId());
 
   await page.getByRole("button", { name: "Pergunta anterior" }).click();
-  await expect(questionHeading).toHaveText(secondQuestionText);
+  await expect(questionHeading).toHaveAttribute(
+    "data-entity-id",
+    firstQuestion.id,
+  );
   await page.getByRole("button", { name: "Próxima pergunta" }).click();
-  await expect(questionHeading).toHaveText(thirdQuestionText);
+  await expect(questionHeading).toHaveAttribute(
+    "data-entity-id",
+    secondQuestion.id,
+  );
+
+  await answer(`${secondQuestion.id}-option-b`);
+  await expect(questionHeading).not.toHaveAttribute(
+    "data-entity-id",
+    secondQuestion.id,
+  );
+  const thirdQuestion = getExamQuestion(await currentQuestionId());
+
+  await page.getByRole("button", { name: "Pergunta anterior" }).click();
+  await expect(questionHeading).toHaveAttribute(
+    "data-entity-id",
+    secondQuestion.id,
+  );
+  await page.getByRole("button", { name: "Próxima pergunta" }).click();
+  await expect(questionHeading).toHaveAttribute(
+    "data-entity-id",
+    thirdQuestion.id,
+  );
 
   await page.getByRole("button", { name: "Finalizar Teste" }).click();
   const confirmation = page.getByRole("dialog");

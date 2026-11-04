@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  findFreeTrialQuestionIds,
   findManyQuestionsQuery,
   findRandomQuestions,
 } from "@/app/_lib/queries/question";
@@ -16,8 +17,8 @@ import { serverCreateTestResults } from "@/app/_services/server/test-results-ser
 import { serverBeginFreeTest } from "@/app/_services/server/user-service";
 import {
   verifySession,
+  verifyAccess,
   verifyAdminPermissions,
-  verifySessionSubscription,
 } from "@/app/_services/user-service";
 import { Difficulty } from "@/app/_types/difficulty";
 import { TestAnswers } from "@/app/_types/test-answer";
@@ -86,14 +87,28 @@ export const fetchAllStudyCategories = async (studyId: string) => {
   return [...categories];
 };
 
+const fetchFreeTrialPoolIds = async (studyId: string) => {
+  const categories = await fetchAllStudyCategories(studyId);
+  const pools = await Promise.all([
+    findFreeTrialQuestionIds(studyId, MAX_TEST_QUESTION_COUNT),
+    ...categories.map((category) =>
+      findFreeTrialQuestionIds(studyId, MAX_TEST_QUESTION_COUNT, category),
+    ),
+  ]);
+
+  return new Set(pools.flat());
+};
+
 export const generateTest = async (
   studyId?: string,
   difficulty?: Difficulty,
   category?: string,
   questionCount?: number,
 ) => {
-  const session = await verifySessionSubscription();
-  if (!session) return [];
+  const access = await verifyAccess();
+  if (!access) return [];
+
+  const { session, freeTrial } = access;
 
   const study = await fetchFirstStudyQuery({ id: studyId });
   const finalDifficulty = difficulty ?? Difficulty.all;
@@ -111,6 +126,7 @@ export const generateTest = async (
     finalDifficulty,
     finalCategory,
     parseTestQuestionCount(questionCount),
+    freeTrial,
   );
 
   return questions;
@@ -120,15 +136,22 @@ export const verifyTestResults = async (
   studyId: string,
   answers: TestAnswers,
 ) => {
-  const session = await verifySessionSubscription();
-  if (!session) return;
+  const access = await verifyAccess();
+  if (!access) return;
+
+  const { session, freeTrial } = access;
 
   const study = await fetchStudyById(studyId);
   if (!study) return;
 
-  const ids = Object.keys(answers);
+  let ids = Object.keys(answers);
 
   if (ids.length > MAX_TEST_QUESTION_COUNT) return;
+
+  if (freeTrial) {
+    const pool = await fetchFreeTrialPoolIds(study.id);
+    ids = ids.filter((id) => pool.has(id));
+  }
 
   const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
   const map = new Map(questions.map((q) => [q.id, q]));
