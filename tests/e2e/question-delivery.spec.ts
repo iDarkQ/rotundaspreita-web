@@ -59,7 +59,7 @@ test("a question that cannot be loaded shows a message", async ({ page }) => {
 
   await page.goto(`/test?s=${TEST_FREE_STUDY_ID}&d=all&n=10`);
 
-  const loadError = page.getByText("N�o foi poss�vel carregar a pergunta");
+  const loadError = page.getByText("Não foi possível carregar a pergunta");
   await expect(page.getByTestId("test-question")).toHaveAttribute(
     "data-entity-id",
     /.+/,
@@ -67,7 +67,7 @@ test("a question that cannot be loaded shows a message", async ({ page }) => {
   await expect(loadError).toHaveCount(0);
 
   await expect(async () => {
-    await page.getByRole("button", { name: "Pr�xima pergunta" }).click();
+    await page.getByRole("button", { name: "Próxima pergunta" }).click();
     await expect(loadError).toBeVisible({ timeout: 2_000 });
   }).toPass({ timeout: 20_000 });
 });
