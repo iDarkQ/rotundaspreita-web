@@ -53,13 +53,28 @@ export const findQuestionQuery = async (where: Prisma.QuestionWhereInput) =>
 export const countQuestionsQuery = async (where: Prisma.QuestionWhereInput) =>
   prisma.question.count({ where: { ...where, deleted: false } });
 
-export const findRandomQuestions = async (
+export const findFreeTrialQuestionIds = async (
+  studyId: string,
+  count: number,
+  category?: string,
+): Promise<string[]> =>
+  (
+    await prisma.question.findMany({
+      where: { studyId, deleted: false, ...(category ? { category } : {}) },
+      select: { id: true },
+      orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+      take: count,
+    })
+  ).map((q) => q.id);
+
+export const findRandomQuestionIds = async (
   studyId: string,
   userId: string,
   difficulty: Difficulty,
   category?: string,
   requestedQuestionCount?: number,
-): Promise<QuestionWithOptionsNoAnswer[]> => {
+  freeTrial = false,
+): Promise<string[]> => {
   const questionCount = parseTestQuestionCount(requestedQuestionCount);
   const where: Prisma.QuestionWhereInput = { studyId, deleted: false };
   if (category) where.category = category;
@@ -234,13 +249,21 @@ export const findRandomQuestions = async (
     return basicIdsResult;
   };
 
-  const allIds = await fetchRandomIds();
+  // Free trials always get the same oldest questions so extra accounts expose nothing new.
+  const allIds = freeTrial
+    ? await findFreeTrialQuestionIds(studyId, questionCount, category)
+    : await fetchRandomIds();
   if (allIds.length === 0) return [];
 
-  const selectedIds = shuffle(allIds).slice(0, questionCount);
+  return shuffle(allIds).slice(0, questionCount);
+};
 
-  const questions = await prisma.question.findMany({
-    where: { id: { in: selectedIds }, deleted: false },
+export const findQuestionWithoutAnswer = async (
+  id: string,
+  studyId: string,
+): Promise<QuestionWithOptionsNoAnswer | null> =>
+  prisma.question.findFirst({
+    where: { id, studyId, deleted: false },
     include: {
       options: {
         where: activeOptionsWhere,
@@ -248,11 +271,3 @@ export const findRandomQuestions = async (
       },
     },
   });
-
-  const questionsById = new Map(questions.map((q) => [q.id, q]));
-  const ordered = selectedIds
-    .map((id) => questionsById.get(id))
-    .filter(Boolean) as QuestionWithOptionsNoAnswer[];
-
-  return ordered;
-};

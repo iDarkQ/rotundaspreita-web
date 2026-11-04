@@ -15,6 +15,14 @@ export const TEST_EXAM_STUDY_ID = "playwright-exam-study";
 export const TEST_READINESS_USER_ID = "playwright-readiness-user";
 export const TEST_READINESS_EMPTY_USER_ID = "playwright-readiness-empty-user";
 export const TEST_READINESS_STUDY_ID = "playwright-readiness-study";
+export const TEST_FREE_USER_ID = "playwright-free-user";
+export const TEST_FREE_STUDY_ID = "playwright-free-study";
+export const TEST_FREE_QUESTION_TOTAL = 60;
+export const freeQuestionId = (position: number) =>
+  `playwright-free-question-${String(position).padStart(2, "0")}`;
+// Odd positions belong to "Livre A" and even positions to "Livre B".
+export const freeQuestionCategory = (position: number) =>
+  position % 2 === 1 ? "Livre A" : "Livre B";
 
 // Mecânica is answered wrong, Sinalização right, Legislação is never seen.
 export const TEST_READINESS_CATEGORIES = [

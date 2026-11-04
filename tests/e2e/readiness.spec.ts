@@ -56,9 +56,10 @@ test("practising a weak area starts a test in that category", async ({
   await practiceLink.click();
 
   await expect(page).toHaveURL(/\/test\?/);
-  await expect(
-    page.getByRole("heading", { level: 3, name: /de Mecânica$/ }),
-  ).toBeVisible();
+  await expect(page.getByTestId("test-question")).toHaveAttribute(
+    "data-entity-id",
+    /^playwright-readiness-Mecânica-\d+$/,
+  );
 });
 
 test("readiness score explains its coverage in a tooltip", async ({ page }) => {

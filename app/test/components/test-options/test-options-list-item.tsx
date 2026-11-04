@@ -15,6 +15,8 @@ export const TestOptionsListItem = ({ option }: Props) => {
       key={option.id}
       option={option.letter}
       label={option.content}
+      canvasLabel
+      labelEntityId={option.id}
       selected={selected}
       selectable={!finished}
       state={getAnswerOptionState(option)}

@@ -31,23 +31,27 @@ export default async function Test({ searchParams }: Props) {
       ? Difficulty[rawDifficulty as keyof typeof Difficulty]
       : undefined;
 
-  const questions = await generateTest(
+  const startedTest = await generateTest(
     selectedStudy,
     selectedDifficulty,
     selectedCategory,
     questionCount,
   );
 
-  if (!questions || questions.length < 1) {
+  if (!startedTest) {
     redirect(RouteNames.PANEL);
   }
 
-  const firstQuestion = questions[0];
-  const study = await fetchStudyById(firstQuestion.studyId);
+  const { token, questionIds, firstQuestion } = startedTest;
+  const study = await fetchStudyById(startedTest.studyId);
 
   return (
     <>
-      <TestManagerProvider questions={questions}>
+      <TestManagerProvider
+        token={token}
+        questionIds={questionIds}
+        firstQuestion={firstQuestion}
+      >
         <Section>
           <TestBlobs />
           <TestResults

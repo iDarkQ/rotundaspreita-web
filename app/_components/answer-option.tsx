@@ -1,6 +1,7 @@
 "use client";
 
 import { Divider } from "@/app/_components/divider";
+import { CanvasText } from "@/app/_components/canvas-text";
 import { Input } from "@/app/_components/input";
 import { RadioButton } from "@/app/_components/radio-button";
 import { Text } from "@/app/_components/text";
@@ -21,6 +22,8 @@ interface Props {
   editable?: boolean;
   className?: string;
   labelClassName?: string;
+  canvasLabel?: boolean;
+  labelEntityId?: string;
   state?: "correct" | "wrong";
 }
 
@@ -35,6 +38,8 @@ export const AnswerOption = ({
   state,
   className,
   labelClassName,
+  canvasLabel = false,
+  labelEntityId,
   value,
   editable = false,
   selectable = true,
@@ -63,6 +68,16 @@ export const AnswerOption = ({
         defaultValue={defaultValue}
         value={value}
         placeholder="Clique e digite para escrever a resposta..."
+      />
+    ) : canvasLabel ? (
+      <CanvasText
+        text={label}
+        testId="test-option"
+        entityId={labelEntityId}
+        className={clsx(
+          "text-neutral min-w-0 flex-1 text-base",
+          labelClassName && labelClassName,
+        )}
       />
     ) : (
       <Label

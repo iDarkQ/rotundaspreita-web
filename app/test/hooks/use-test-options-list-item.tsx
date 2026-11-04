@@ -9,14 +9,14 @@ export const useTestOptionsListItem = ({ option }: Props) => {
   const {
     answers,
     setAnswers,
-    questions,
+    questionIds,
     finished,
     correctAnswers,
     selectedPage,
     updateSelectedQuestion,
   } = useTestManager();
 
-  const currentIndex = questions.findIndex((q) => q.id === selectedPage);
+  const currentIndex = questionIds.indexOf(selectedPage);
   const currentPage = currentIndex === -1 ? 0 : currentIndex + 1;
 
   const getAnswerOptionState = (option: OptionNoAnswer) => {
@@ -41,10 +41,9 @@ export const useTestOptionsListItem = ({ option }: Props) => {
 
   const handleAnswerOptionClick = (optionId: string) => {
     if (finished) return;
-    if (currentPage < questions.length && !answers[selectedPage]) {
+    if (currentPage < questionIds.length && !answers[selectedPage]) {
       setTimeout(() => {
-        const nextQuestionId = questions[currentIndex + 1];
-        updateSelectedQuestion(nextQuestionId.id);
+        updateSelectedQuestion(questionIds[currentIndex + 1]);
       }, 500);
     }
 

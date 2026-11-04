@@ -342,11 +342,17 @@ export const verifyOnboardingComplete = cache(async () => {
 });
 
 export const verifySessionSubscription = cache(async () => {
+  const access = await verifyAccess();
+
+  return access?.session;
+});
+
+export const verifyAccess = cache(async () => {
   const session = await verifySession();
   if (!session) return;
 
   if (session.admin) {
-    return session;
+    return { session, freeTrial: false };
   }
 
   const subscription = await serverFetchUserSubscription(session.id);
@@ -357,8 +363,12 @@ export const verifySessionSubscription = cache(async () => {
       .add(GRACE_PERIOD_DAYS, "day")
       .isAfter(dayjs());
 
-  if (hasValidSubscription || !session.usedFreeTest) {
-    return session;
+  if (hasValidSubscription) {
+    return { session, freeTrial: false };
+  }
+
+  if (!session.usedFreeTest) {
+    return { session, freeTrial: true };
   }
 
   return;

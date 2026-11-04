@@ -1,6 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { authenticateAdmin } from "./auth";
-import { TEST_CORRECT_ANSWER, TEST_QUESTION } from "./test-constants";
+import {
+  TEST_CORRECT_ANSWER,
+  TEST_QUESTION,
+  TEST_QUESTION_ID,
+} from "./test-constants";
 
 test("login form reports invalid credentials accessibly", async ({ page }) => {
   await page.goto("/login");
@@ -25,8 +29,14 @@ test("admin starts a test, answers a question, and finishes it", async ({
   await page.goto("/panel");
 
   await page.getByRole("link", { name: "Iniciar teste" }).click();
-  await expect(page.getByText(TEST_QUESTION)).toBeVisible();
-  await page.getByText(TEST_CORRECT_ANSWER).click();
+  await expect(page.getByTestId("test-question")).toHaveAttribute(
+    "data-entity-id",
+    TEST_QUESTION_ID,
+  );
+  // Question and option text is drawn on a canvas, never exposed as DOM text.
+  await expect(page.getByText(TEST_QUESTION)).toHaveCount(0);
+  await expect(page.getByText(TEST_CORRECT_ANSWER)).toHaveCount(0);
+  await page.locator('[data-entity-id="playwright-option-a"]').click();
   await page.getByRole("button", { name: "Finalizar Teste" }).click();
   await expect(
     page.getByRole("button", { name: "Faça Outro Teste" }),
