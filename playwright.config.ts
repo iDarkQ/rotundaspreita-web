@@ -82,6 +82,7 @@ export default defineConfig({
       NEXT_PUBLIC_POSTHOG_HOST: "",
       PLAYWRIGHT_NEXT_DIST_DIR: ".next-e2e",
       PLAYWRIGHT_STRIPE_MOCK: "true",
+      TEST_QUESTION_FETCH_LIMIT: "10000",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },

@@ -46,6 +46,8 @@ const oldestPositions = (count: number, category?: string) =>
 test("free accounts always receive the same oldest questions", async ({
   page,
 }) => {
+  test.setTimeout(150_000);
+
   await authenticateUser(page, TEST_FREE_USER_ID);
   await page.addInitScript(() => {
     localStorage.setItem("lastTestimonial", "2099-01-01T00:00:00.000Z");

@@ -1,9 +1,9 @@
 "use server";
 
 import {
-  findFreeTrialQuestionIds,
   findManyQuestionsQuery,
-  findRandomQuestions,
+  findQuestionWithoutAnswer,
+  findRandomQuestionIds,
 } from "@/app/_lib/queries/question";
 import {
   createStudyQuery,
@@ -14,6 +14,9 @@ import {
   updateStudyQuery,
 } from "@/app/_lib/queries/study";
 import { serverCreateTestResults } from "@/app/_services/server/test-results-service";
+import { consumeTestQuestionFetch } from "@/app/_lib/test-question-rate-limit";
+import { readTestRun, signTestRun } from "@/app/_lib/test-run-token";
+import { FetchedTestQuestion, StartedTest } from "@/app/_types/started-test";
 import { serverBeginFreeTest } from "@/app/_services/server/user-service";
 import {
   verifySession,
@@ -23,10 +26,7 @@ import {
 import { Difficulty } from "@/app/_types/difficulty";
 import { TestAnswers } from "@/app/_types/test-answer";
 import { RouteNames } from "@/app/_utils/route-names";
-import {
-  MAX_TEST_QUESTION_COUNT,
-  parseTestQuestionCount,
-} from "@/app/_utils/test-question-count";
+import { parseTestQuestionCount } from "@/app/_utils/test-question-count";
 import { createId } from "@paralleldrive/cuid2";
 import { redirect } from "next/navigation";
 
@@ -87,73 +87,90 @@ export const fetchAllStudyCategories = async (studyId: string) => {
   return [...categories];
 };
 
-const fetchFreeTrialPoolIds = async (studyId: string) => {
-  const categories = await fetchAllStudyCategories(studyId);
-  const pools = await Promise.all([
-    findFreeTrialQuestionIds(studyId, MAX_TEST_QUESTION_COUNT),
-    ...categories.map((category) =>
-      findFreeTrialQuestionIds(studyId, MAX_TEST_QUESTION_COUNT, category),
-    ),
-  ]);
-
-  return new Set(pools.flat());
-};
-
 export const generateTest = async (
   studyId?: string,
   difficulty?: Difficulty,
   category?: string,
   questionCount?: number,
-) => {
-  const access = await verifyAccess();
-  if (!access) return [];
-
-  const { session, freeTrial } = access;
-
-  const study = await fetchFirstStudyQuery({ id: studyId });
-  const finalDifficulty = difficulty ?? Difficulty.all;
-
-  if (!study) {
-    return [];
-  }
-
-  const categories = await fetchAllStudyCategories(study.id);
-  const finalCategory = categories.find((c) => c === category);
-
-  const questions = await findRandomQuestions(
-    study.id,
-    session.id,
-    finalDifficulty,
-    finalCategory,
-    parseTestQuestionCount(questionCount),
-    freeTrial,
-  );
-
-  return questions;
-};
-
-export const verifyTestResults = async (
-  studyId: string,
-  answers: TestAnswers,
-) => {
+): Promise<StartedTest | undefined> => {
   const access = await verifyAccess();
   if (!access) return;
 
   const { session, freeTrial } = access;
 
-  const study = await fetchStudyById(studyId);
+  const study = await fetchFirstStudyQuery({ id: studyId });
   if (!study) return;
 
-  let ids = Object.keys(answers);
+  const categories = await fetchAllStudyCategories(study.id);
+  const finalCategory = categories.find((c) => c === category);
 
-  if (ids.length > MAX_TEST_QUESTION_COUNT) return;
+  const questionIds = await findRandomQuestionIds(
+    study.id,
+    session.id,
+    difficulty ?? Difficulty.all,
+    finalCategory,
+    parseTestQuestionCount(questionCount),
+    freeTrial,
+  );
+  if (questionIds.length === 0) return;
 
-  if (freeTrial) {
-    const pool = await fetchFreeTrialPoolIds(study.id);
-    ids = ids.filter((id) => pool.has(id));
+  const firstQuestion = await findQuestionWithoutAnswer(
+    questionIds[0],
+    study.id,
+  );
+  if (!firstQuestion) return;
+
+  const token = signTestRun({
+    userId: session.id,
+    studyId: study.id,
+    questionIds,
+  });
+
+  return { token, studyId: study.id, questionIds, firstQuestion };
+};
+
+export const fetchTestQuestion = async (
+  token: string,
+  questionId: string,
+): Promise<FetchedTestQuestion> => {
+  const access = await verifyAccess();
+  if (!access) return { failure: "no-access" };
+
+  const run = readTestRun(token, access.session.id);
+  if (!run) return { failure: "invalid-run" };
+  if (!run.questionIds.includes(questionId)) return { failure: "not-issued" };
+
+  if (!(await consumeTestQuestionFetch(access.session.id))) {
+    return { failure: "limited" };
   }
 
-  const questions = await findManyQuestionsQuery({ id: { in: ids }, studyId });
+  const question = await findQuestionWithoutAnswer(questionId, run.studyId);
+
+  return question ? { question } : { failure: "not-found" };
+};
+
+export const verifyTestResults = async (
+  token: string,
+  answers: TestAnswers,
+) => {
+  const access = await verifyAccess();
+  if (!access) return;
+
+  const { session } = access;
+
+  const run = readTestRun(token, session.id);
+  if (!run) return;
+
+  const study = await fetchStudyById(run.studyId);
+  if (!study) return;
+
+  const issuedIds = new Set(run.questionIds);
+  const ids = Object.keys(answers).filter((id) => issuedIds.has(id));
+
+  const questions = await findManyQuestionsQuery({
+    id: { in: ids },
+    studyId: study.id,
+  });
   const map = new Map(questions.map((q) => [q.id, q]));
   const orderedQuestions = ids.flatMap((id) => map.get(id) ?? []);
 

@@ -4,6 +4,10 @@ import { verifyTestResults } from "@/app/_services/study-service";
 import { QuestionWithOptionsNoAnswer } from "@/app/_types/question-with-options-no-answer";
 import { TestAnswers } from "@/app/_types/test-answer";
 import {
+  TestQuestionLoadError,
+  useTestQuestions,
+} from "@/app/test/hooks/use-test-questions";
+import {
   createContext,
   Dispatch,
   ReactNode,
@@ -13,7 +17,9 @@ import {
 } from "react";
 
 interface TestManagerContextProps {
-  questions: QuestionWithOptionsNoAnswer[];
+  questionIds: string[];
+  currentQuestion?: QuestionWithOptionsNoAnswer;
+  loadError?: TestQuestionLoadError;
   answers: TestAnswers;
   setAnswers: Dispatch<SetStateAction<TestAnswers>>;
   finishTest: () => Promise<void>;
@@ -26,7 +32,9 @@ interface TestManagerContextProps {
 }
 
 interface TestManagerProviderProps {
-  questions: QuestionWithOptionsNoAnswer[];
+  token: string;
+  questionIds: string[];
+  firstQuestion: QuestionWithOptionsNoAnswer;
 
   children: ReactNode;
 }
@@ -37,25 +45,31 @@ const TestManagerContext = createContext<TestManagerContextProps | undefined>(
 
 export const TestManagerProvider = ({
   children,
-  questions,
+  token,
+  questionIds,
+  firstQuestion,
 }: TestManagerProviderProps) => {
   const [finished, setFinished] = useState(false);
   const [answers, setAnswers] = useState<TestAnswers>(
-    questions.reduce((acc, q) => {
-      acc[q.id] = null;
+    questionIds.reduce((acc, id) => {
+      acc[id] = null;
       return acc;
     }, {} as TestAnswers),
   );
-  const [selectedPage, setSelectedPage] = useState<string>(questions[0].id);
+  const [selectedPage, setSelectedPage] = useState<string>(questionIds[0]);
   const [correctAnswers, setCorrectAnswers] = useState<TestAnswers>({});
+  const { currentQuestion, loadError } = useTestQuestions({
+    token,
+    questionIds,
+    initialQuestion: firstQuestion,
+    selectedPage,
+  });
 
   const finishTest = async () => {
-    if (!questions) return;
-
-    const results = await verifyTestResults(questions[0].studyId, answers);
+    const results = await verifyTestResults(token, answers);
 
     setCorrectAnswers(results ?? {});
-    updateSelectedQuestion(questions[0].id);
+    updateSelectedQuestion(questionIds[0]);
     setFinished(true);
   };
 
@@ -70,7 +84,9 @@ export const TestManagerProvider = ({
   return (
     <TestManagerContext.Provider
       value={{
-        questions,
+        questionIds,
+        currentQuestion,
+        loadError,
         answers,
         setAnswers,
         finishTest,
