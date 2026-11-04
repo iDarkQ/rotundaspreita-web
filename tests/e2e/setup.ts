@@ -1,4 +1,5 @@
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 import { PrismaClient } from "../../app/generated/prisma/client";
 import { execSync } from "node:child_process";
 import {
@@ -11,12 +12,15 @@ import {
   TEST_FREE_QUESTION_TOTAL,
   TEST_FREE_STUDY_ID,
   TEST_FREE_USER_ID,
+  TEST_GOOGLE_PASSWORD_USERS,
   freeQuestionCategory,
   freeQuestionId,
   TEST_LAST_TEST_ADMIN_ID,
   TEST_NOTIFICATION_ADMIN_IDS,
   TEST_PAYMENT_USER_EMAIL,
   TEST_PAYMENT_USER_ID,
+  TEST_PASSWORD_USER_PASSWORD,
+  TEST_PASSWORD_USERS,
   TEST_REGISTRATION_EMAILS,
   TEST_QUESTION,
   TEST_READINESS_CATEGORIES,
@@ -80,6 +84,8 @@ async function setupTestDatabase() {
             TEST_EXAM_ADMIN_ID,
             TEST_LAST_TEST_ADMIN_ID,
             ...TEST_NOTIFICATION_ADMIN_IDS,
+            ...TEST_PASSWORD_USERS.map(({ id }) => id),
+            ...TEST_GOOGLE_PASSWORD_USERS.map(({ id }) => id),
             TEST_PAYMENT_USER_ID,
             TEST_READINESS_USER_ID,
             TEST_READINESS_EMPTY_USER_ID,
@@ -108,6 +114,28 @@ async function setupTestDatabase() {
         email: `playwright-notification-${index}@example.test`,
         name: "Administrador de Notificações",
         admin: true,
+        onboardingCompleted: true,
+      })),
+    });
+
+    await prisma.user.createMany({
+      data: TEST_PASSWORD_USERS.map(({ id, email }) => ({
+        id,
+        email,
+        name: "Utilizador de Palavra-passe",
+        passwordHash: bcrypt.hashSync(TEST_PASSWORD_USER_PASSWORD, 4),
+        usedFreeTest: true,
+        onboardingCompleted: true,
+      })),
+    });
+
+    await prisma.user.createMany({
+      data: TEST_GOOGLE_PASSWORD_USERS.map(({ id, email, googleId }) => ({
+        id,
+        email,
+        googleId,
+        name: "Utilizador Google",
+        usedFreeTest: true,
         onboardingCompleted: true,
       })),
     });

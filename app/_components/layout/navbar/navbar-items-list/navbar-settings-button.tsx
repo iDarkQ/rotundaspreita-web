@@ -7,7 +7,7 @@ interface Props {
 
 export const NavbarSettingsButton = ({ onClick }: Props) => (
   <nav>
-    <Button variant="text" onClick={onClick}>
+    <Button variant="text" aria-label="Definições do perfil" onClick={onClick}>
       <MdSettings size={30} className="text-primary" />
     </Button>
   </nav>

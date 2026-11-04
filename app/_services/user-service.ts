@@ -6,7 +6,11 @@ const MIN_PASSWORD_LENGTH = 8;
 import { fetchLoggedUser } from "@/app/_server/fetch-logged-user";
 import { USER_REGISTRATION_STATUS } from "@/app/_constants/user-registration-status";
 import { USER_LOGIN_STATUS } from "@/app/_constants/user-login-status";
-import { createUserQuery } from "@/app/_lib/queries/user";
+import {
+  createUserQuery,
+  setPasswordIfUnsetQuery,
+  updateUserQuery,
+} from "@/app/_lib/queries/user";
 import { Prisma, User } from "@/app/generated/prisma/client";
 import { TokenResponse } from "@react-oauth/google";
 import jwt from "jsonwebtoken";
@@ -29,6 +33,14 @@ import {
 import { serverFetchUserSubscription } from "@/app/_services/server/subscription-service";
 import { serverCreateDeviceSession } from "@/app/_services/server/device-session-service";
 import { RouteNames } from "@/app/_utils/route-names";
+import {
+  CHANGE_PASSWORD_STATUS,
+  ChangePasswordStatus,
+} from "@/app/_constants/change-password-status";
+import {
+  SET_PASSWORD_STATUS,
+  SetPasswordStatus,
+} from "@/app/_constants/set-password-status";
 
 const defaultAdmins = process.env.DEFAULT_ADMINS;
 const secret = process.env.JWT_SECRET;
@@ -38,6 +50,11 @@ interface RegisterCredentialsInput {
   password: string;
   name: string;
   lastName: string;
+}
+
+interface ChangePasswordInput {
+  currentPassword: string;
+  newPassword: string;
 }
 
 interface LoginCredentialsInput {
@@ -287,6 +304,72 @@ export const loginUserWithCredentials = async ({
   );
 
   return { status: USER_LOGIN_STATUS.SUCCESS, secret: signedUser };
+};
+
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+}: ChangePasswordInput): Promise<ChangePasswordStatus> => {
+  const requestMetadata = await getRequestMetadata();
+  if (!requestMetadata) return CHANGE_PASSWORD_STATUS.FAILED;
+
+  const user = await fetchLoggedUser();
+  if (!user) return CHANGE_PASSWORD_STATUS.FAILED;
+  if (!user.passwordHash) return CHANGE_PASSWORD_STATUS.NO_PASSWORD_SET;
+
+  const trimmedCurrentPassword = currentPassword.trim();
+  const trimmedNewPassword = newPassword.trim();
+
+  if (!trimmedCurrentPassword) {
+    return CHANGE_PASSWORD_STATUS.INVALID_CURRENT_PASSWORD;
+  }
+  if (trimmedNewPassword.length < MIN_PASSWORD_LENGTH) {
+    return CHANGE_PASSWORD_STATUS.INVALID_NEW_PASSWORD;
+  }
+
+  // Shares the login limiter so the current password cannot be brute-forced from here.
+  const rateLimitResult = await serverConsumeLoginAttempt(
+    user.email,
+    requestMetadata.ipAddress,
+  );
+  if (rateLimitResult === "limited") return CHANGE_PASSWORD_STATUS.RATE_LIMITED;
+  if (rateLimitResult !== "allowed") return CHANGE_PASSWORD_STATUS.FAILED;
+
+  const validPassword = await serverVerifyPassword(
+    trimmedCurrentPassword,
+    user.passwordHash,
+  );
+  if (!validPassword) return CHANGE_PASSWORD_STATUS.INVALID_CURRENT_PASSWORD;
+
+  await updateUserQuery(
+    { id: user.id },
+    { passwordHash: await serverHashPassword(trimmedNewPassword) },
+  );
+
+  return CHANGE_PASSWORD_STATUS.SUCCESS;
+};
+
+export const setAccountPassword = async (
+  newPassword: string,
+): Promise<SetPasswordStatus> => {
+  const user = await fetchLoggedUser();
+  if (!user) return SET_PASSWORD_STATUS.FAILED;
+  if (!user.googleId) return SET_PASSWORD_STATUS.GOOGLE_ACCOUNT_REQUIRED;
+  if (user.passwordHash) return SET_PASSWORD_STATUS.ALREADY_SET;
+
+  const trimmedPassword = newPassword.trim();
+  if (trimmedPassword.length < MIN_PASSWORD_LENGTH) {
+    return SET_PASSWORD_STATUS.INVALID_NEW_PASSWORD;
+  }
+
+  const result = await setPasswordIfUnsetQuery(
+    user.id,
+    await serverHashPassword(trimmedPassword),
+  );
+
+  return result.count === 1
+    ? SET_PASSWORD_STATUS.SUCCESS
+    : SET_PASSWORD_STATUS.ALREADY_SET;
 };
 
 export const authenticate = async (jwtToken: string) => {

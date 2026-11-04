@@ -11,7 +11,21 @@ export const Navbar = async () => {
   const subscription = user ? await fetchLoggedUserSubscription() : null;
 
   return (
-    <NavbarManagerProvider subscription={subscription} user={user ?? undefined}>
+    <NavbarManagerProvider
+      subscription={subscription}
+      user={
+        user
+          ? {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              admin: user.admin,
+              isGoogleAccount: user.googleId !== null,
+              hasPassword: user.passwordHash !== null,
+            }
+          : undefined
+      }
+    >
       <header className="fixed z-10 flex h-(--navbar-height) w-full flex-row justify-between bg-transparent px-5 py-2 backdrop-blur-lg">
         <div className="flex flex-1 items-center">
           <NavbarLogo />
